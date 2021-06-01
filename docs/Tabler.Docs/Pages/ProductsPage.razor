@@ -111,7 +111,7 @@ else
         message = string.Empty;
 
         var component = new RenderComponent<ProductEdit>().Set(e => e.ProductId, ProductId);
-        var result = await ModalService.ShowAsync("This is a Title", component, new ModalOptions { Size = ModalSize.Large });
+        var result = await ModalService.ShowAsync("Edición de producto", component, new ModalOptions { Size = ModalSize.Large });
 
         if (result.Cancelled)
         {

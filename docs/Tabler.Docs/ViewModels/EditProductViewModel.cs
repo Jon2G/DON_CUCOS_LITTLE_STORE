@@ -24,6 +24,7 @@ namespace Tabler.Docs.ViewModels
             try
             {
                 IsLoading = true;
+                IsLoading = true;
                 await Task.Delay(1000);
                 Product = await Product.GetById(Product.Id);
             }

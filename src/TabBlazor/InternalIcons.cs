@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TabBlazor
 {
-    internal static class InternalIcons
+    public static class InternalIcons
     {
         public static string X { get => @"<path stroke='none' d='M0 0h24v24H0z' fill='none' /><line x1='18' y1='6' x2='6' y2='18' /><line x1='6' y1='6' x2='18' y2='18' /> "; }
         public static string Arrow_right { get => @"<path stroke='none' d='M0 0h24v24H0z' fill='none' /><line x1='5' y1='12' x2='19' y2='12' /><line x1='13' y1='18' x2='19' y2='12' /><line x1='13' y1='6' x2='19' y2='12' /> "; }

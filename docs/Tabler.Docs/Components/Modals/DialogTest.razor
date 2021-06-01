@@ -1,30 +1,41 @@
 ﻿<div class="text-center">
     <Icon class="icon-lg" TextColor="TablerColor.Red" Elements="@DemoIcons.Alert_triangle" />
 
-    <h3>Are you sure?</h3>
-    <p class="text-muted">Are you sure you want to create this report?<br>
-    What you've done cannot be reverted.</p>
+    <h3>@Title</h3>
+    <p class="text-muted">
+        @Line1<br>
+        @Line2
+    </p>
 
     <div class="modal-footer">
         <div class="w-100">
             <div class="row">
                 <div class="col">
                     <Button BackgroundColor="TablerColor.Default" class="btn btn-white w-100" OnClick="@(() => ModalService.Close())">
-                        Cancel
+                        @Cancel
                     </Button>
                 </div>
                 <div class="col">
                     <Button BackgroundColor="TablerColor.Danger" class="btn btn-white w-100" OnClick="@(() => ModalService.Close(ModalResult.Ok()))">
-                        Create 
+                        @Accept
                     </Button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+@inject IModalService ModalService
 @code {
-    @inject IModalService ModalService
+    [Parameter]   public string Title { get; set; } = "¡Alerta!";
+
+    [Parameter]   public string Line1 { get; set; }
+    [Parameter]   public string Line2 { get; set; }
+
+    [Parameter]  public string Cancel { get; set; } = "CANCELAR";
+    [Parameter]   public string Accept { get; set; } = "OK";
+
+
+
 
 
 }
