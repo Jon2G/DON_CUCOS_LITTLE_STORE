@@ -1,0 +1,78 @@
+﻿@page "/dashboard"
+@using Tabler.Docs.Components.Modals
+
+<PageTitle>Dashboard</PageTitle>
+<PagePretitle>
+    Blazor
+    <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
+    Tabler
+</PagePretitle>
+
+
+<Button @onclick="ShowModal" BackgroundColor="TablerColor.Primary">Show Modal</Button>
+<div>@message</div>
+
+
+@code {
+    [Inject] IModalService ModalService { get; set; }
+    private string message;
+    protected async Task ShowModal()
+    {
+        message = string.Empty;
+
+        var component = new RenderComponent<TestModalContent>().Set(e => e.ReportName, "Report Name");
+        var result = await ModalService.ShowAsync("This is a Title", component, new ModalOptions { Size = ModalSize.Large });
+
+        if (result.Cancelled)
+        {
+            message = "Modal was cancelled!";
+        }
+        else
+        {
+            message = "Modal as ok!";
+        }
+
+    }
+
+}
+
+
+
+<Row class="mt-1 row-deck row-cards">
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.SmallSales />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.SmallOrders />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.SmallLikes />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.SmallMembers />
+    </RowCol>
+
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.StatisticsMedium />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.StatisticsChart />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.StatisticsLineChart />
+    </RowCol>
+    <RowCol Sm="12" Md="6" Lg="3">
+        <Tabler.Docs.Components.Snippets.Statistics.StatisticsMedium />
+    </RowCol>
+
+    <RowCol Sm="12" Lg="6">
+        <Tabler.Docs.Components.Snippets.Tables.CustomerList />
+    </RowCol>
+
+    <RowCol Sm="12" Lg="6">
+        <Tabler.Docs.Components.Snippets.Tables.Orders />
+    </RowCol>
+
+
+</Row>
+

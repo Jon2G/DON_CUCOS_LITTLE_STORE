@@ -1,0 +1,20 @@
+﻿@implements IDisposable
+@inject TabBlazor.Services.IModalService ModalService
+@namespace TabBlazor
+
+@foreach (var modalModel in ModalService.Modals.Reverse())
+{
+    <TabBlazor.Components.Modals.ModalView @key="modalModel"  ModalModel="modalModel" />
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        ModalService.OnChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ModalService.OnChanged -= StateHasChanged;
+    }
+}

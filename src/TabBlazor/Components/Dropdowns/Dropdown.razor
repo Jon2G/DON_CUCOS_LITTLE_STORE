@@ -1,0 +1,22 @@
+﻿@inherits TablerBaseComponent
+@namespace TabBlazor
+<ClickOutside OnClickOutside="OnClickOutside">
+    <HtmlElement Tag="div"
+                 class="@ClassNames"
+                 @onclick="OnDropdownClick"
+                 @attributes="@UnmatchedParameters"
+                 style="@GetSyle()">
+
+
+        @ChildContent
+
+        @if (isExpanded)
+        {
+            <div @onclick:stopPropagation="!CloseOnClick">
+                @DropdownTemplate
+            </div>
+
+        }
+    </HtmlElement>
+
+</ClickOutside>

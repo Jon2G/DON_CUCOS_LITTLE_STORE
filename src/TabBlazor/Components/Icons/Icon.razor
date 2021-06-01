@@ -1,0 +1,20 @@
+﻿@namespace TabBlazor
+@inherits TablerBaseComponent
+<svg xmlns="http://www.w3.org/2000/svg"
+     class="@ClassNames"
+     color="@Color"
+     width="@Size"
+     height="@Size"
+     viewBox="0 0 24 24"
+     stroke-width="@StrokeWidth"
+     stroke="currentColor"
+     fill="none"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     @onclick="OnClick"
+     @attributes="UnmatchedParameters">
+    @if (Elements != null)
+    {
+        @((MarkupString)Elements)
+    }
+</svg>
