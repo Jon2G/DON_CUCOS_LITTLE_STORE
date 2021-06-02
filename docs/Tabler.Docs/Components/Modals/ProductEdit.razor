@@ -11,7 +11,7 @@
                     <div class="mb-3">
                         <label class="form-label">Código de producto*:</label>
                         <div style="display: flex">
-                            <input type="text" class="form-control" style="margin-right: 5px;" @bind="Model.Product.Codigo">
+                            <input type="text" class="form-control" style="margin-right: 5px;" @bind="Model.Product.Code">
                             <Button BackgroundColor="TablerColor.Info" OnClick="FindProduct">
                                 <Icon class="icon" Elements="@DemoIcons.Search" />
                             </Button>
@@ -21,33 +21,43 @@
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Nombre*:</label>
-                        <input type="text" class="form-control" @bind="Model.Product.Nombre" />
+                        <input type="text" class="form-control" @bind="Model.Product.Name" />
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Precio*:</label>
-                        <input type="text" class="form-control" @bind="Model.Product.Precio">
+                        <input type="text" class="form-control" @bind="Model.Product.Price">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Unidad*:</label>
-                        <input type="text" class="form-control" @bind="Model.Product.Unidad">
+                        <input type="text" class="form-control" @bind="Model.Product.Unit">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Proveedor*:</label>
-                        <input type="text" class="form-control" @bind="Model.Product.Proveedor">
+
+                        <div style="display: flex">
+                    
+                            <Select Items="Model.Suppliers" @bind-SelectedValue="@Model.Product.Supplier"
+                                    TextExpression="e=> e.Name" ValueExpression="e=>e" Clearable />
+
+                            <Button BackgroundColor="TablerColor.Green" OnClick="AddSupplier">
+                                <Icon class="icon" Elements="@InternalIcons.Circle_plus"/>
+                            </Button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <label class="form-label">Existencia inicial*:</label>
-                        <input type="text" class="form-control" @bind="Model.Product.Existencia">
+                        <input type="text" class="form-control" @bind="Model.Product.Stock">
                     </div>
                 </div>
 
@@ -59,7 +69,7 @@
         <div class="mb-3">
             <label class="form-label">Imagen*:</label>
             <div class="card" style="margin: 5px;">
-                <img src="@Model.Product.Imagen" alt="@Model.Product.Nombre" style="height: 200px;">
+                <img src="@Model.Product.Picture" alt="@Model.Product.Name" style="height: 200px;">
                 <InputFile OnChange="OnInputFileChange" multiple />
             </div>
         </div>
@@ -71,27 +81,25 @@
         <div class="col-lg-4">
             <div class="mb-3">
                 <label class="form-label">Mínimo*:</label>
-                <input type="text" class="form-control" @bind="Model.Product.Minimo">
+                <input type="text" class="form-control" @bind="Model.Product.Minimum">
             </div>
         </div>
         <div class="col-lg-4">
             <div class="mb-3">
                 <label class="form-label">Máximo*:</label>
-                <input type="text" class="form-control" @bind="Model.Product.Maximo">
+                <input type="text" class="form-control" @bind="Model.Product.Maximum">
             </div>
         </div>
         <div class="col-lg-4">
             <div class="mb-3">
                 <label class="form-label">Linea*:</label>
                 <div style="display: flex">
-                    <select class="form-select" style="margin-right: 5px;" @bind="Model.Product.Clasificacion">
-                        @foreach (Category category in Model.Categories)
-                        {
-                            <option value="@category.Id">@category.Descripcion</option>
-                        }
-                    </select>
+                    
+                    <Select Items="Model.Categories" @bind-SelectedValue="@Model.Product.Category"
+                            TextExpression="e=> e.Descripcion" ValueExpression="e=>e" Clearable />
+
                     <Button BackgroundColor="TablerColor.Green" OnClick="AddCategory">
-                        <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
+                        <Icon class="icon" Elements="@InternalIcons.Circle_plus"/>
                     </Button>
                 </div>
             </div>
@@ -101,7 +109,7 @@
     <div class="col-lg-12">
         <div>
             <label class="form-label">Descripción*:</label>
-            <textarea class="form-control" rows="3" @bind="Model.Product.Descripcion"></textarea>
+            <textarea class="form-control" rows="3" @bind="Model.Product.Description"></textarea>
         </div>
     </div>
 
@@ -156,13 +164,21 @@
 
     private async Task FindProduct()
     {
+        var result = await ModalService.ShowAsync($"Busqueda de productos",
+            new RenderComponent<ProductFinder>(),
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true, Size = ModalSize.Large });
 
+        if (!result.Cancelled)
+        {
+            await Model.RequestLoad(result.Data?.ToString());
+            StateHasChanged();
+        }
     }
     private async Task AddCategory()
     {
         var result = await ModalService.ShowAsync($"Alta de categoría",
             new RenderComponent<CategoryAdd>(),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = false });
 
         if (!result.Cancelled)
         {
@@ -171,14 +187,63 @@
             //ModalService.Close(ModalResult.Ok());
         }
     }
+
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+               new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+               new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
     private async Task Confirm()
     {
-        var result = await ModalService.ShowAsync($"Editar: {Model.Product.Nombre}",
+        var result = await ModalService.ShowAsync($"Editar: {Model.Product.Name}",
             new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Editar este artículo?"),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true });
 
         if (!result.Cancelled)
         {
+            Model.Product.Description = Model.Product.Description?.Trim() ?? string.Empty;
+
+            Model.Product.Code = Model.Product.Code?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(Model.Product.Code))
+            {
+                await Error("El código de producto no puede estar vacio");
+                return;
+            }
+
+            Model.Product.Name = Model.Product.Name?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(Model.Product.Name))
+            {
+                await Error("El nombre no puede estar vacio");
+                return;
+            }
+
+
+            if (Model.Product.Category is null)
+            {
+                await Error("La categoría no puede estar vacia");
+                return;
+            }
+
+            Model.Product.Unit = Model.Product.Unit?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(Model.Product.Unit))
+            {
+                await Error("La unidad no puede estar vacia");
+                return;
+            }
+            if (Model.Product.Supplier is null)
+            {
+                await Error("El Proveedor no puede estar vacio");
+                return;
+            }
+
+            if (Model.Product.Minimum > Model.Product.Maximum || Model.Product.Minimum == Model.Product.Maximum)
+            {
+                await Error("El minimo debe ser menor que el máximo");
+                return;
+            }
+
+            Model.Product.Save();
             ModalService.Close(ModalResult.Ok());
         }
     }
@@ -202,7 +267,7 @@
             var file = selectedFiles.First();
             using (Stream stream = file.OpenReadStream())
             {
-                Model.Product.Imagen = await stream.ToImageString();
+                Model.Product.Picture = await stream.ToImageString();
             }
         }
         this.StateHasChanged();

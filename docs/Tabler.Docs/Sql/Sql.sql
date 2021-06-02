@@ -12,7 +12,7 @@ GO
 USE [master]
 GO
 /****** Object:  Database [DON_CUCO]    Script Date: 6/1/2021 8:31:01 PM ******/
-DROP DATABASE IF EXISTS [DON_CUCO] 
+DROP DATABASE [DON_CUCO] 
 GO
 CREATE DATABASE DON_CUCO
 GO

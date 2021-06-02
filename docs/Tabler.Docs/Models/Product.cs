@@ -17,38 +17,25 @@ using Tabler.Docs.Data;
 
 namespace Tabler.Docs.Models
 {
-    public class Producto : ModelBase
+    public class Product
     {
         public int Id { get; set; }
-        public string Codigo { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public string Clasificacion { get; set; }
-        public string Unidad { get; set; }
-        private string _Imagen;
-        public string Imagen { get => _Imagen; set { _Imagen = value; OnPropertyChanged(); } }
-        public string Proveedor { get; set; }
-        public float Existencia { get; set; }
-        public float Minimo { get; set; }
-        public float Maximo { get; set; }
-        public float Precio { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Category Category { get; set; }
+        public Supplier Supplier { get; set; }
+        public string Unit { get; set; }
+        public string Picture { get; set; }
 
-        public Producto() { }
-        public Producto(int Id, string Codigo, string Nombre, string Descripcion, string Clasificacion, string Unidad, string Imagen, string Proveedor, float Existencia, float Minimo, float Maximo, float Precio)
-        {
-            this.Id = Id;
-            this.Codigo = Codigo;
-            this.Nombre = Nombre;
-            this.Descripcion = Descripcion;
-            this.Clasificacion = Clasificacion;
-            this.Unidad = Unidad;
-            this.Imagen = Imagen;
-            this.Proveedor = Proveedor;
-            this.Existencia = Existencia;
-            this.Minimo = Minimo;
-            this.Maximo = Maximo;
-            this.Precio = Precio;
-        }
+
+        public float Stock { get; set; }
+        public float Minimum { get; set; }
+        public float Maximum { get; set; }
+        public float Price { get; set; }
+        public bool Disabled { get; set; }
+
+        public Product() { }
 
         public static List<string> ListarProvedores()
         {
@@ -64,11 +51,11 @@ namespace Tabler.Docs.Models
         /// </summary>
         /// <param name="Codigo">El código del prodcuto que se desea obtener</param>
         /// <returns>Se regresa un producto con sus datos cargados</returns>
-        public static async Task<Producto> Obtener(string Codigo)
+        public static async Task<Product> Obtener(string Codigo)
         {
-            if (string.IsNullOrEmpty(Codigo)) { return await Task.FromResult(new Producto()); }
+            if (string.IsNullOrEmpty(Codigo)) { return await Task.FromResult(new Product()); }
             await Task.Yield();
-            Producto producto = null;
+            Product producto = null;
             if (SQLHelper.IsInjection(Codigo))
             {
                 CustomMessageBox.Show("Intento de modificación invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
@@ -78,110 +65,58 @@ namespace Tabler.Docs.Models
             {
                 if (leector.Read())
                 {
-                    int Id = Convert.ToInt32(leector["ID"]);
-                    string codigo = Convert.ToString(leector["CODIGO"]);
-                    string nombre = Convert.ToString(leector["NOMBRE"]);
-                    string descripcion = Convert.ToString(leector["DESCRIPCION"]);
-                    string clasificacion = Convert.ToString(leector["CLASIFICACION"]);
-                    string unidad = Convert.ToString(leector["UNIDAD"]);
-                    string imagen = (string)leector["IMAGEN"];
-                    string proveedor = Convert.ToString(leector["PROVEDOR"]);
-                    float existencia = Convert.ToSingle(leector["EXISTENCIA"]);
-                    float minimo = Convert.ToSingle(leector["MINIMO"]);
-                    float maximo = Convert.ToSingle(leector["MAXIMO"]);
-                    float precio = Convert.ToSingle(leector["PRECIO"]);
-                    producto = new Producto(Id, codigo, nombre, descripcion, clasificacion, unidad, imagen, proveedor, existencia, minimo, maximo, precio);
+                    producto = new Product()
+                    {
+                        Id = Convert.ToInt32(leector["ID"]),
+                        Code = Convert.ToString(leector["CODIGO"]),
+                        Name = Convert.ToString(leector["NOMBRE"]),
+                        Description = Convert.ToString(leector["DESCRIPCION"]),
+                        Category = Category.GetById(Convert.ToInt32(leector[0])),
+                        Unit = Convert.ToString(leector["UNIDAD"]),
+                        Picture = leector["IMAGEN"].ToString(),
+                        Supplier = Supplier.GetById(Convert.ToInt32(leector[1])),
+                        Stock = Convert.ToSingle(leector["EXISTENCIA"]),
+                        Minimum = Convert.ToSingle(leector["MINIMO"]),
+                        Maximum = Convert.ToSingle(leector["MAXIMO"]),
+                        Price = Convert.ToSingle(leector["PRECIO"])
+                    };
                 }
             }
             return producto;
         }
 
-        public bool Validar()
+     
+
+        public static async Task<List<Product>> GetByCategory(Category Category)
         {
-            this.Descripcion = Descripcion?.Trim() ?? string.Empty;
-
-            this.Codigo = this.Codigo?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(this.Codigo))
-            {
-                CustomMessageBox.Show("El código de producto no puede estar vacio", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-
-            this.Nombre = Nombre?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(this.Nombre))
-            {
-                CustomMessageBox.Show("El nombre no puede estar vacio", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-
-            this.Clasificacion = Clasificacion?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(this.Clasificacion))
-            {
-                CustomMessageBox.Show("La categoría no puede estar vacia", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-
-            this.Unidad = Unidad?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(this.Unidad))
-            {
-                CustomMessageBox.Show("La unidad no puede estar vacia", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-
-            this.Proveedor = Proveedor?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(this.Proveedor))
-            {
-                CustomMessageBox.Show("El Proveedor no puede estar vacio", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-
-            if (Minimo > Maximo || Minimo == Maximo)
-            {
-                CustomMessageBox.Show("El minimo debe ser menor que el máximo", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-            return true;
-        }
-
-        public static async Task<List<Producto>> GetByCategory(Category Category)
-        {
-            List<Producto> productos = new List<Producto>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS_BY_CATEGORY", CommandType.StoredProcedure,0,
+            List<Product> productos = new List<Product>();
+            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS_BY_CATEGORY", CommandType.StoredProcedure, 0,
                 new SqlParameter("CATEGORY_ID", Category.Id)))
             {
                 productos.Add(await Obtener(codigo));
             }
             return productos;
         }
-        public static Task<List<Producto>> GetByCategory(string CategoryName)
+        public static Task<List<Product>> GetByCategory(string CategoryName)
         {
             Category category = Category.GetByName(CategoryName);
             return GetByCategory(category);
         }
-        public static async Task<List<Producto>> Listar()
+        public static async Task<List<Product>> GetAll()
         {
-            List<Producto> productos = new List<Producto>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS",CommandType.StoredProcedure))
+            List<Product> productos = new List<Product>();
+            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS", CommandType.StoredProcedure))
             {
                 productos.Add(await Obtener(codigo));
             }
             return productos;
         }
 
-        public static async Task<List<Producto>> Buscar(string Categoria, string Busqueda)
+        public static async Task<List<Product>> Search(string Search)
         {
-            //List<Producto> productos = new List<Producto>();
-            //if (SQLHelper.IsInjection(Categoria, Busqueda))
-            //{
-            //    return productos;
-            //}
-
-            //return AppData.SQL.Lista<string
-            //    >("SELECT CODIGO FROM PRODUCTOS WHERE (CLASIFICACION = '" + Categoria + "' OR '" + Categoria + "'='') AND OCULTO=0 AND NOMBRE LIKE '%" + Busqueda + "%'  ORDER BY NOMBRE")
-            //    .Select(x => Obtener(x)).ToList();
-
-            List<Producto> productos = new List<Producto>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SELECT CODIGO FROM PRODUCTOS WHERE OCULTO=0 ORDER BY NOMBRE"))
+            List<Product> productos = new List<Product>();
+            foreach (string codigo in AppData.SQL.Lista<string>("SP_SEARCH_PRODUCT", CommandType.StoredProcedure, 0,
+                new SqlParameter("SEARCH", Search)))
             {
                 productos.Add(await Obtener(codigo));
             }
@@ -205,61 +140,30 @@ namespace Tabler.Docs.Models
             return AppData.SQL.Single<int>($"SELECT ID FROM PRODUCTOS WHERE CODIGO='{CodigoProducto}'"); ;
         }
 
-        public bool Existe()
+        public void Save()
         {
-            if (SQLHelper.IsInjection(Codigo))
-            {
-                CustomMessageBox.Show("Intento de modificación invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return false;
-            }
-            return AppData.SQL.Exists("SELECT CODIGO FROM PRODUCTOS WHERE CODIGO='" + Codigo + "'");
+            AppData.SQL.EXEC("SP_ABC_PRODUCT", CommandType.StoredProcedure,
+                new SqlParameter("ID", Id),
+                new SqlParameter("ID", Id),
+                new SqlParameter("CODE", Code),
+                new SqlParameter("NAME", Name),
+                new SqlParameter("DESCRIPTION", Description),
+                new SqlParameter("CATEGORY_ID", Category.Id),
+                new SqlParameter("SUPPLIER_ID", Id),
+                new SqlParameter("UNIT", Unit),
+                new SqlParameter("IMAGE", Picture),
+                new SqlParameter("MINIMUM", Minimum),
+                new SqlParameter("MAXIMUM", Maximum),
+                new SqlParameter("PRICE", Price),
+                new SqlParameter("DISABLED", Disabled)
+                );
+            /*
+             @ID INT,@CODE VARCHAR(100),@NAME VARCHAR(100),@DESCRIPTION VARCHAR(100),
+@CATEGORY_ID INT,@SUPPLIER_ID INT,@UNIT VARCHAR(100),@IMAGE VARCHAR(MAX),@STOCK REAL,@MINIMUM REAL,@MAXIMUM REAL,
+@PRICE REAL,@DISABLED BIT
+             */
         }
-        /// <summary>
-        /// Insertar en la base de datos un nuevo producto
-        /// </summary>
-        public void Alta()
-        {
-            if (SQLHelper.IsInjection(Nombre, Descripcion, Clasificacion, Unidad, Proveedor, Codigo))
-            {
-                CustomMessageBox.Show("Intento de modificación invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return;
-            }
-            if (Existe())
-            {
-                Modificacion();
-                return;
-            }
-            //AppData.SQL.EXEC(
-            //    "INSERT INTO PRODUCTOS (CODIGO,NOMBRE,DESCRIPCION,CLASIFICACION,UNIDAD,IMAGEN,PROVEDOR,EXISTENCIA,MINIMO,MAXIMO,PRECIO) VALUES(?,?,?,?,?,?,?,?,?,?,?);"
-            //    , Codigo, Nombre, Descripcion, Clasificacion, Unidad, Imagen, Proveedor, Existencia, Minimo, Maximo, Precio);
 
-        }
-        /// <summary>
-        /// Dar de baja en la base de datos un producto
-        /// </summary>
-        public void Baja()
-        {
-            if (SQLHelper.IsInjection(Codigo))
-            {
-                CustomMessageBox.Show("Intento de baja invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return;
-            }
-         //   AppData.SQL.EXEC("UPDATE PRODUCTOS SET OCULTO = 1 WHERE CODIGO = ?", Codigo);
-        }
-        /// <summary>
-        ///  Actualizar un producto en la base
-        /// </summary>
-        public void Modificacion()
-        {
-            if (SQLHelper.IsInjection(Nombre, Descripcion, Clasificacion, Unidad, Proveedor, Codigo))
-            {
-                CustomMessageBox.Show("Intento de modificación invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return;
-            }
-            //AppData.SQL.EXEC(
-            //    "UPDATE PRODUCTOS SET NOMBRE=?,DESCRIPCION=?,CLASIFICACION=?,UNIDAD=?,IMAGEN=?,PROVEDOR=?,EXISTENCIA=?,MINIMO=?,MAXIMO=?,PRECIO=? WHERE CODIGO=?"
-            //    , Nombre, Descripcion, Clasificacion, Unidad, Imagen, Proveedor, Existencia, Minimo, Maximo, Precio, Codigo);
-            //return;
-        }
+
     }
 }

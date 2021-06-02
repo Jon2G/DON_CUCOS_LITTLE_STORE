@@ -12,12 +12,12 @@ namespace Tabler.Docs.Models
         public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
 
-        public List<Producto> Products { get; set; }
+        public List<Product> Products { get; set; }
         public Category Category { get; set; }
         public GroupLine(Category Linea)
         {
             this.Category = Linea;
-            this.Products = new List<Producto>();
+            this.Products = new List<Product>();
         }
 
         public async Task Refresh()
@@ -30,7 +30,7 @@ namespace Tabler.Docs.Models
                 }
                 Products.Clear();
                 IsLoading = true;
-                Products.AddRange(await Producto.GetByCategory(this.Category));
+                Products.AddRange(await Product.GetByCategory(this.Category));
             }
             catch (Exception e)
             {

@@ -1,0 +1,91 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label class="form-label">Busqueda*:</label>
+                        <div style="display: flex">
+                            <input type="text" class="form-control" style="margin-right: 5px;" @bind="Model.Search">
+                            <Button BackgroundColor="TablerColor.Info" OnClick="FindProduct">
+                                <Icon class="icon" Elements="@DemoIcons.Search" />
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<Table Item="Product" Items="Model.Products" PageSize="10" AllowAdd="False" AllowDelete="False" AllowEdit="False"
+       @bind-SelectedItems="selectedProducts" ShowCheckboxes>
+    <HeaderTemplate>
+        <strong>Orders</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="Product" Property="e=>e.Codigo" Title="Customer" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Codigo" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Nombre" Title="Country" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Nombre" />
+            </EditorTemplate>
+        </Column>
+        @*<Column Item="Product" Property="e=>e.Descripcion" Title="Order type" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <Select Items="EnumHelper.GetList<OrderType>()" @bind-SelectedValue="@context.Descripcion" TextExpression="e=> e.ToString()" ValueExpression="e=> e" Clearable />
+                </EditorTemplate>
+            </Column>*@
+    </ChildContent>
+
+</Table>
+
+
+<ul>
+    @foreach (Product order in selectedProducts)
+    {
+        <li>@order.Nombre, @order.Codigo</li>
+    }
+</ul>
+
+
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Cancelar
+    </a>
+    <a @onclick="Confirm" class="btn btn-primary ms-auto" data-dismiss="modal">
+        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+        Confirmar
+    </a>
+</div>
+@inject TabBlazor.Services.TablerService TablerService;
+@inject ProductFinderViewModel Model;
+@inject IModalService ModalService
+@code {
+    private static List<Product> selectedProducts = new List<Product>();
+    private async Task Confirm()
+    {
+        ModalService.Close(ModalResult.Ok());
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+    private async void FindProduct()
+    {
+        await Model.DoSearch();
+        StateHasChanged();
+    }
+
+}

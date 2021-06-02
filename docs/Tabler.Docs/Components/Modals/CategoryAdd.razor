@@ -36,13 +36,15 @@
 
         var result = await ModalService.ShowAsync($"Confirme alta",
             new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta esta categoría"),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
 
         if (!result.Cancelled)
         {
             if (Category.GetByName(Model.Category.Descripcion) is not null)
             {
-
+                await ModalService.ShowAsync($"¡Alerta!",
+                    new RenderComponent<DialogTest>().Set(x => x.Line1, "Ya existe una categoría con esta descripción"),
+                    new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
                 return;
             }
             Model.Category.Save();

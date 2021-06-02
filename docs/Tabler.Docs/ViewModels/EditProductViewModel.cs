@@ -11,14 +11,14 @@ namespace Tabler.Docs.ViewModels
     public class EditProductViewModel : IRefresh
     {
         public string ProductId { get; private set; }
-        public Producto Product { get; set; }
+        public Product Product { get; set; }
         public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
         public List<Category> Categories { get; set; }
 
         public EditProductViewModel()
         {
-            this.Product = new Producto();
+            this.Product = new Product();
             this.Categories = new List<Category>();
         }
         public async Task RequestLoad(string ProductId)
@@ -37,7 +37,7 @@ namespace Tabler.Docs.ViewModels
             try
             {
                 IsLoading = true;
-                Product = await Producto.Obtener(ProductId);
+                Product = await Product.Obtener(ProductId);
                await RefreshCategories();
             }
             catch (Exception e)
