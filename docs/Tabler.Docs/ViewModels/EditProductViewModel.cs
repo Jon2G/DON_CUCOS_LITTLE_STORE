@@ -26,14 +26,19 @@ namespace Tabler.Docs.ViewModels
             this.ProductId = ProductId;
             await Refresh();
         }
+
+        public async Task RefreshCategories()
+        {
+            Categories.Clear();
+            this.Categories.AddRange(await Category.GetAll());
+        }
         public async Task Refresh()
         {
             try
             {
                 IsLoading = true;
                 Product = await Producto.Obtener(ProductId);
-                Categories.Clear();
-                this.Categories.AddRange(await Category.GetAll());
+               await RefreshCategories();
             }
             catch (Exception e)
             {

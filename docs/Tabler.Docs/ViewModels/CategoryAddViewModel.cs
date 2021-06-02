@@ -19,30 +19,5 @@ namespace Tabler.Docs.ViewModels
             Category = new ();
         }
 
-        public static void Save(Category category)
-        {
-            AppData.SQL.EXEC("SP_ABC_CATEGORY", CommandType.StoredProcedure,
-                new SqlParameter("ID",category.Id),
-                new SqlParameter("DESCRIPTION", category.Descripcion));
-        }
-
-        public static Category GetById(int Id)
-        {
-            Category category = null;
-            using (IReader reader = AppData.SQL.Read("SP_GET_CATEGORY_BY_ID", System.Data.CommandType.StoredProcedure,
-                new System.Data.SqlClient.SqlParameter("ID", Id)))
-            {
-                while (reader.Read())
-                {
-                    category = new Category()
-                    {
-                        Id = Convert.ToInt32(reader[0]),
-                        Descripcion = reader[1].ToString()
-                    };
-                }
-            }
-            return category;
-
-        }
     }
 }

@@ -160,13 +160,15 @@
     }
     private async Task AddCategory()
     {
-        var result = await ModalService.ShowAsync($"Editar: {Model.Product.Nombre}",
+        var result = await ModalService.ShowAsync($"Alta de categoría",
             new RenderComponent<CategoryAdd>(),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
 
         if (!result.Cancelled)
         {
-            ModalService.Close(ModalResult.Ok());
+            await Model.RefreshCategories();
+            StateHasChanged();
+            //ModalService.Close(ModalResult.Ok());
         }
     }
     private async Task Confirm()
@@ -195,12 +197,12 @@
     }
     private async void OnSubmit()
     {
-        if (selectedFiles?.Any()??false)
+        if (selectedFiles?.Any() ?? false)
         {
             var file = selectedFiles.First();
-            using (Stream stream=file.OpenReadStream())
+            using (Stream stream = file.OpenReadStream())
             {
-                Model.Product.Imagen =await stream.ToImageString();
+                Model.Product.Imagen = await stream.ToImageString();
             }
         }
         this.StateHasChanged();
