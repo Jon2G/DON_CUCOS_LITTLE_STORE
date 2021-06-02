@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http.Headers;
 using TabBlazor;
+using Tabler.Docs.Data;
 using Tabler.Docs.Services;
 using Tabler.Docs.ViewModels;
 
@@ -34,6 +35,8 @@ namespace Tabler.Docs.Server
                 .AddSingleton<ProductsPageViewModel>()
                 .AddSingleton<EditProductViewModel>();
             services.AddTabler();
+
+            AppData.Init();
 
         }
 

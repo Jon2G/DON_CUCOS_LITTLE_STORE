@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Kit\Kit.WPF\Kit.WPF.csproj" />
+    <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj" />
     <ProjectReference Include="..\..\src\TabBlazor\TabBlazor.csproj" />
   </ItemGroup>
 

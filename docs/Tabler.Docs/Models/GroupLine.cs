@@ -12,26 +12,25 @@ namespace Tabler.Docs.Models
         public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
 
-        public List<Product> Products { get; set; }
-        public string Name { get; set; }
-        public GroupLine(string Name)
+        public List<Producto> Products { get; set; }
+        public Category Category { get; set; }
+        public GroupLine(Category Linea)
         {
-            this.Name = Name;
-            this.Products = new List<Product>();
+            this.Category = Linea;
+            this.Products = new List<Producto>();
         }
 
         public async Task Refresh()
         {
             try
             {
+                if (IsLoading)
+                {
+                    return;
+                }
                 Products.Clear();
                 IsLoading = true;
-                await Task.Delay(1000);
-                this.Products.Add(new Product("0001","HELADO"));
-                this.Products.Add(new Product("0002", "PAPITAS"));
-                this.Products.Add(new Product("0003", "REFRESQUITO"));
-                this.Products.Add(new Product("0004", "BOTANAS"));
-                this.Products.Add(new Product("0005", "LACTEOS"));
+                Products.AddRange(await Producto.GetByCategory(this.Category));
             }
             catch (Exception e)
             {

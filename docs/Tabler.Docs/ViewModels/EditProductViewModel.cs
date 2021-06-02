@@ -10,23 +10,30 @@ namespace Tabler.Docs.ViewModels
 {
     public class EditProductViewModel : IRefresh
     {
-        public Product Product { get; set; }
+        public string ProductId { get; private set; }
+        public Producto Product { get; set; }
         public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
+        public List<Category> Categories { get; set; }
 
-        public Task RequestLoad(string ProductId)
+        public EditProductViewModel()
         {
-            this.Product = new Product(ProductId);
-            return Refresh();
+            this.Product = new Producto();
+            this.Categories = new List<Category>();
+        }
+        public async Task RequestLoad(string ProductId)
+        {
+            this.ProductId = ProductId;
+            await Refresh();
         }
         public async Task Refresh()
         {
             try
             {
                 IsLoading = true;
-                IsLoading = true;
-                await Task.Delay(1000);
-                Product = await Product.GetById(Product.Id);
+                Product = await Producto.Obtener(ProductId);
+                Categories.Clear();
+                this.Categories.AddRange(await Category.GetAll());
             }
             catch (Exception e)
             {

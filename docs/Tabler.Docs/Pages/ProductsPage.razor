@@ -11,7 +11,15 @@
     <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
     little store
 </PagePretitle>
-<PageTitle>Productos</PageTitle>
+<Button @onclick="ShowModal" BackgroundColor="TablerColor.Primary">Show Modal</Button>
+<Button Text="Nuevo producto" @onclick="() => ShowModal()" BackgroundColor="TablerColor.Info">
+    <div>
+        <span style="margin: 5px;">Nuevo producto</span>
+        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+    </div>
+</Button>
+
+<h1>Productos</h1>
 
 
 @if (Model.IsLoading)
@@ -29,7 +37,7 @@ else
                 </span>
                 <div class="me-3 lh-sm">
                     <div class="strong">
-                        @line.Name
+                        @line.Category.Descripcion
                     </div>
                     @*<div class="text-muted">12 waiting payments</div>*@
                 </div>
@@ -38,8 +46,9 @@ else
 
         if (!line.Products.Any())
         {
+            Task.Run(() => line.Refresh());
+            line.IsLoading = true;
             line.Refreshed += Refreshed;
-            line.Refresh();
         }
         if (line.IsLoading)
         {
@@ -48,24 +57,24 @@ else
         else
         {
             <Row>
-                @foreach (Product product in line.Products)
+                @foreach (Producto product in line.Products)
                 {
                     <RowCol Sm="2">
                         <Card>
                             <div class="card" style="margin: 5px;">
-                                <img src="https://picsum.photos/200/300" alt="@product.Name" style="height: 200px;">
+                                <img src="https://picsum.photos/200/300" alt="@product.Nombre" style="height: 200px;">
                                 <div class="container">
-                                    <h4><b>@product.Name</b></h4>
-                                    <p>@line.Name</p>
-                                    
+                                    <h4><b>@product.Nombre</b></h4>
+                                    <p>@line.Category.Descripcion</p>
+
                                     <Row style="margin: 5px;">
                                         <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
+                                            <Button @onclick="()=>ShowModal(product.Codigo)" BackgroundColor="TablerColor.Green">
                                                 <Icon class="icon" Elements="@DemoIcons.Pencil" />
                                             </Button>
                                         </RowCol>
                                         <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Danger">
+                                            <Button @onclick="()=>ShowModal(product.Codigo)" BackgroundColor="TablerColor.Danger">
                                                 <Icon class="icon" Elements="@DemoIcons.Trash" />
                                             </Button>
                                         </RowCol>
@@ -80,8 +89,6 @@ else
     }
 }
 
-
-<div>@message</div>
 
 
 @code {
@@ -103,23 +110,38 @@ else
         StateHasChanged();
     }
 
+    private void LoadFiles(InputFileChangeEventArgs e)
+    {
+        
+    }
 
     [Inject] IModalService ModalService { get; set; }
-    private string message;
-    protected async Task ShowModal(string ProductId)
+
+    protected async Task ShowModal()
     {
-        message = string.Empty;
+        await ShowModal(String.Empty);
+    }
+    protected async Task ShowModal(string ProductId = null)
+    {
+        ProductId ??= string.Empty;
+
+        string Tile = "Alta de productos";
+        if (!string.IsNullOrEmpty(ProductId))
+        {
+            Tile = "Edición de producto";
+        }
 
         var component = new RenderComponent<ProductEdit>().Set(e => e.ProductId, ProductId);
-        var result = await ModalService.ShowAsync("Edición de producto", component, new ModalOptions { Size = ModalSize.Large });
+        var result = await ModalService.ShowAsync(Tile, component, new ModalOptions { Size = ModalSize.Large });
 
         if (result.Cancelled)
         {
-            message = "Modal was cancelled!";
+            await this.Model.Refresh();
+            StateHasChanged();
         }
         else
         {
-            message = "Modal as ok!";
+
         }
 
     }
