@@ -8,7 +8,7 @@ using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-    public class ProductsPageViewModel:IRefresh
+    public class ProductsPageViewModel : IRefresh
     {
         public bool IsLoading { get; set; }
         public List<GroupLine> Lines { get; set; }
@@ -23,14 +23,16 @@ namespace Tabler.Docs.ViewModels
         {
             try
             {
-                this.Lines.Clear();
+                if (IsLoading)
+                {
+                    return;
+                }
                 IsLoading = true;
-                await Task.Delay(1000);
-                this.Lines.Add(new GroupLine("HELADO"));
-                this.Lines.Add(new GroupLine("PAPITAS"));
-                this.Lines.Add(new GroupLine("REFRESQUITO"));
-                this.Lines.Add(new GroupLine("BOTANAS"));
-                this.Lines.Add(new GroupLine("LACTEOS"));
+                this.Lines.Clear();
+                foreach (Category linea in await Category.GetAll())
+                {
+                    this.Lines.Add(new GroupLine(linea));
+                }
             }
             catch (Exception e)
             {
