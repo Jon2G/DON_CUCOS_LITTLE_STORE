@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Código de cliente*:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="form-label">Descripción*:</label>
+                        <input type="text" class="form-control" @bind="Category.Descripcion">
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <label class="form-label">Notas*:</label>
+                        <textarea rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Cancelar
+    </a>
+    <a @onclick="Confirm" class="btn btn-primary ms-auto" data-dismiss="modal">
+        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+        Confirmar
+    </a>
+</div>
+
+@inject CategoryAddViewModel Model;
+@inject IModalService ModalService
+@code {
+    private async Task Confirm()
+    {
+
+        var result = await ModalService.ShowAsync($"Confirme alta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este cliente"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+
+        if (!result.Cancelled)
+        {
+            ModalService.Close(ModalResult.Ok());
+        }
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+}

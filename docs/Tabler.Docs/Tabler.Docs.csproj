@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\src\TabBlazor\TabBlazor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sql\" />
+  </ItemGroup>
+
 </Project>
