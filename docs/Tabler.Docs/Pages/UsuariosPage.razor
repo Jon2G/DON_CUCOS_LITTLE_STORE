@@ -1,4 +1,4 @@
-﻿@page "/clientes"
+﻿@page "/usuario"
 @using Tabler.Docs.Components.Modals
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
@@ -9,8 +9,8 @@
 @inject CustomerViewModel Mode
 
 
-<Table Item="Customer" Items="Model.Customers" PageSize="10"
-    OnItemSelected="OnItemDelete">
+<!--<Table Item="Customer" Items="Model.Customers" PageSize="10"
+       OnItemSelected="OnItemDelete">
     <HeaderTemplate>
         <strong>Clientes</strong>
     </HeaderTemplate>
@@ -25,22 +25,22 @@
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Note" />
             </EditorTemplate>
-        </Column>
+        </Column>-->
         @*<Column Item="Customer" Property="e=>e.Id" Title="Editar" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <Button @onclick="()=>EditClient(context)" BackgroundColor="TablerColor.Green">
-                    <Icon class="icon" Elements="@DemoIcons.Pencil" />
-                </Button>
-            </EditorTemplate>
-        </Column>*@
+                <EditorTemplate>
+                    <Button @onclick="()=>EditClient(context)" BackgroundColor="TablerColor.Green">
+                        <Icon class="icon" Elements="@DemoIcons.Pencil" />
+                    </Button>
+                </EditorTemplate>
+            </Column>*@
         @*<Column Item="Customer" Property="e=>e.OrderType" Title="Order type" Sortable Searchable Groupable>
                 <EditorTemplate>
                     <Select Items="EnumHelper.GetList<OrderType>()" @bind-SelectedValue="@context.OrderType" TextExpression="e=> e.ToString()" ValueExpression="e=> e" Clearable />
                 </EditorTemplate>
             </Column>*@
-    </ChildContent>
+    <!--</ChildContent>
 
-</Table>
+</Table>-->
 <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
     <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
     Registrar
@@ -53,8 +53,8 @@
     {
 
 
-        var component = new RenderComponent<CustomerRegistration>();
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+        var component = new RenderComponent<UserRegister>();
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Medium });
 
         if (!result.Cancelled)
         {
@@ -82,16 +82,16 @@
         StateHasChanged();
     }
 
-    private async Task OnItemDelete(Customer customer)
-    {
-        var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
-        if (!result.Cancelled)
-        {
-            await Model.Refresh();
-            StateHasChanged();
-        }
-    }
+    //private async Task OnItemDelete(Customer customer)
+    //{
+    //    var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
+    //    var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+    //    if (!result.Cancelled)
+    //    {
+    //        await Model.Refresh();
+    //        StateHasChanged();
+    //    }
+    //}
 
     //private async Task OnItemEdit(Customer customer)
     //{

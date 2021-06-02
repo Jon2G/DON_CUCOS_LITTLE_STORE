@@ -22,6 +22,14 @@ namespace Tabler.Docs.Models
                 new System.Data.SqlClient.SqlParameter("NOTES",Note)
                 );
         }
+        public void Save(int Id)
+        {
+            AppData.SQL.EXEC("SP_ABC_CUSTOMER", System.Data.CommandType.StoredProcedure,
+                new System.Data.SqlClient.SqlParameter("ID", Id),
+                new System.Data.SqlClient.SqlParameter("NAME", Name),
+                new System.Data.SqlClient.SqlParameter("NOTES", Note)
+                );
+        }
         public static Customer GetById(int Id)
         {
             Customer customer = null;

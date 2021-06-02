@@ -36,6 +36,7 @@
 </div>
 @inject IModalService ModalService
         @code {
+            [Parameter] public int CustomerId { get; set; }
             private async Task Confirm()
             {
 
@@ -45,7 +46,13 @@
 
                 if (!result.Cancelled)
                 {
-                    Model.Customer.Save();
+                    if (CustomerId!=0)
+                    {
+                        Model.Customer.Save(CustomerId);
+                    }else
+                    {
+                        Model.Customer.Save();
+                    }
                     ModalService.Close(ModalResult.Ok());
                 }
             }
