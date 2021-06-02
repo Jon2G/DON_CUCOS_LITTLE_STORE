@@ -160,7 +160,14 @@
     }
     private async Task AddCategory()
     {
+        var result = await ModalService.ShowAsync($"Editar: {Model.Product.Nombre}",
+            new RenderComponent<CategoryAdd>(),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
 
+        if (!result.Cancelled)
+        {
+            ModalService.Close(ModalResult.Ok());
+        }
     }
     private async Task Confirm()
     {
