@@ -14,12 +14,12 @@ namespace Tabler.Docs.Models
         public string Name { get; set; }
         public string Note { get; set; }
 
-        public static void Save(Customer customer)
+        public void Save()
         {
             AppData.SQL.EXEC("SP_ABC_CUSTOMER", System.Data.CommandType.StoredProcedure,
-                new System.Data.SqlClient.SqlParameter("ID", customer.Id),
-                new System.Data.SqlClient.SqlParameter("NAME",customer.Name),
-                new System.Data.SqlClient.SqlParameter("NOTE",customer.Note)
+                new System.Data.SqlClient.SqlParameter("ID", Id),
+                new System.Data.SqlClient.SqlParameter("NAME",Name),
+                new System.Data.SqlClient.SqlParameter("NOTE",Note)
                 );
         }
         public static Customer GetById(int Id)
