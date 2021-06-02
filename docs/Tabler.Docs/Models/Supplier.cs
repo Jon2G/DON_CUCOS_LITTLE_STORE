@@ -9,7 +9,7 @@ using Tabler.Docs.Data;
 
 namespace Tabler.Docs.Models
 {
-   public class Proveedor
+   public class Supplier
     {
         public int Id { get; set; }
         public string  Picture { get; set; }
@@ -37,15 +37,15 @@ namespace Tabler.Docs.Models
                 new System.Data.SqlClient.SqlParameter("NOTES", Notes)
                 );
         }
-        public static Proveedor GetById(int Id)
+        public static Supplier GetById(int Id)
         {
-            Proveedor proveedor = null;
+            Supplier proveedor = null;
             using (IReader reader = AppData.SQL.Read("SP_GETIDSUPPLIERS", System.Data.CommandType.StoredProcedure,
                 new System.Data.SqlClient.SqlParameter("ID", Id)))
             {
                 while (reader.Read())
                 {
-                    proveedor = new Proveedor()
+                    proveedor = new Supplier()
                     {
                         Id = Convert.ToInt32(reader[0]),
                         Name = reader[2].ToString(),
@@ -59,10 +59,10 @@ namespace Tabler.Docs.Models
             return proveedor;
 
         }
-        public static async Task<List<Proveedor>> GetAll()
+        public static async Task<List<Supplier>> GetAll()
         {
             await Task.Yield();
-            List<Proveedor> proveedor = new List<Proveedor>();
+            List<Supplier> proveedor = new List<Supplier>();
             foreach (int Id in AppData.SQL.Lista<int>("VIEW_GETALLSUPPLIERS"))
             {
                 proveedor.Add(GetById(Id));

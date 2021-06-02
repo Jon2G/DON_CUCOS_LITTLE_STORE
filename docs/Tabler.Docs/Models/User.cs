@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace Tabler.Docs.Models
 {
-  public  class Usuario : ModelBase
+  public  class User : ModelBase
     {
         public int Id { get; set; }
         public int Permisos { get; set; }
@@ -19,8 +19,8 @@ namespace Tabler.Docs.Models
         private string _Imagen;
         public string Imagen { get => _Imagen; set { _Imagen = value; OnPropertyChanged(); } }
 
-        public Usuario() { }
-        public Usuario(int Id, int Permisos, int Key_Id ,string Nickname, string Name, string Password, string Imagen)
+        public User() { }
+        public User(int Id, int Permisos, int Key_Id ,string Nickname, string Name, string Password, string Imagen)
         {
             this.Id = Id;
             this.Permisos = Permisos;

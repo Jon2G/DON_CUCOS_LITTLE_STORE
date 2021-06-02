@@ -74,7 +74,7 @@ namespace Tabler.Docs.Models
                         Category = Category.GetById(Convert.ToInt32(leector[0])),
                         Unit = Convert.ToString(leector["UNIDAD"]),
                         Picture = leector["IMAGEN"].ToString(),
-                        Supplier = Supplier.GetById(Convert.ToInt32(leector[1])),
+                        Supplier = Supplier.GetById(Convert.ToInt32(leector[(int)1])),
                         Stock = Convert.ToSingle(leector["EXISTENCIA"]),
                         Minimum = Convert.ToSingle(leector["MINIMO"]),
                         Maximum = Convert.ToSingle(leector["MAXIMO"]),

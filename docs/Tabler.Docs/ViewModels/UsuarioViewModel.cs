@@ -10,11 +10,11 @@ namespace Tabler.Docs.ViewModels
 {
     public class UsuarioViewModel 
     {
-        public Usuario Usuario { get; set; }
+        public User Usuario { get; set; }
 
         public UsuarioViewModel()
         {
-            Usuario = new Usuario();
+            Usuario = new User();
         }
 
     }
