@@ -2,31 +2,18 @@
 @using Tabler.Docs.Components.Icons
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
 
 <div class="row">
     <div class="col-lg-12">
         <div class="mb-3">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label">Código de cliente*:</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label">Descripción*:</label>
-                        <input type="text" class="form-control" @bind="Category.Descripcion">
-                    </div>
-                </div>
-
                 <div class="col-lg-12">
                     <div class="mb-3">
-                        <label class="form-label">Notas*:</label>
-                        <textarea rows="3" class="form-control"></textarea>
+                        <label class="form-label">Descripción*:</label>
+                        <input type="text" class="form-control" @bind="Model.Category.Descripcion">
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -48,11 +35,18 @@
     {
 
         var result = await ModalService.ShowAsync($"Confirme alta",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este cliente"),
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta esta categoría"),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
 
         if (!result.Cancelled)
         {
+            if (Category.GetByName(Model.Category.Descripcion) is not null)
+            {
+
+                return;
+            }
+            Model.Category.Save();
+            Model.Category = new Category();
             ModalService.Close(ModalResult.Ok());
         }
     }

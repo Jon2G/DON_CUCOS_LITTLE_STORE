@@ -33,7 +33,8 @@ namespace Tabler.Docs.Server
             services.AddScoped<ICodeSnippetService, LocalSnippetService>();
             services
                 .AddSingleton<ProductsPageViewModel>()
-                .AddSingleton<EditProductViewModel>();
+                .AddSingleton<EditProductViewModel>()
+                .AddSingleton<CategoryAddViewModel>();
             services.AddTabler();
 
             AppData.Init();
