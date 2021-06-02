@@ -7,12 +7,12 @@ using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-    public class CustomerViewModel
+  public class ProveedoresViewModel
     {
-        public Customer Customer { get; set; }
-        public CustomerViewModel()
+        public Proveedor Proveedor { get; set; }
+        public ProveedoresViewModel()
         {
-            Customer = new Customer();
+            Proveedor = new Proveedor();
         }
     }
 }

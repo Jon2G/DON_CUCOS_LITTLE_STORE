@@ -14,12 +14,20 @@ namespace Tabler.Docs.Models
         public string Name { get; set; }
         public string Note { get; set; }
 
-        public static void Save(Customer customer)
+        public void Save()
         {
             AppData.SQL.EXEC("SP_ABC_CUSTOMER", System.Data.CommandType.StoredProcedure,
-                new System.Data.SqlClient.SqlParameter("ID", customer.Id),
-                new System.Data.SqlClient.SqlParameter("NAME",customer.Name),
-                new System.Data.SqlClient.SqlParameter("NOTE",customer.Note)
+                new System.Data.SqlClient.SqlParameter("ID", Id),
+                new System.Data.SqlClient.SqlParameter("NAME",Name),
+                new System.Data.SqlClient.SqlParameter("NOTES",Note)
+                );
+        }
+        public void Save(int Id)
+        {
+            AppData.SQL.EXEC("SP_ABC_CUSTOMER", System.Data.CommandType.StoredProcedure,
+                new System.Data.SqlClient.SqlParameter("ID", Id),
+                new System.Data.SqlClient.SqlParameter("NAME", Name),
+                new System.Data.SqlClient.SqlParameter("NOTES", Note)
                 );
         }
         public static Customer GetById(int Id)
@@ -41,6 +49,17 @@ namespace Tabler.Docs.Models
             return customer;
           
         }
-        
+
+        public static async Task<List<Customer>> GetAll()
+        {
+            await Task.Yield();
+            List<Customer> customers = new List<Customer>();
+            foreach (int Id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALL"))
+            {
+                customers.Add(GetById(Id));
+            }
+            return customers;
+        }
+
     }
 }

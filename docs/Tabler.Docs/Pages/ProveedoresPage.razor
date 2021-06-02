@@ -1,0 +1,94 @@
+﻿@page "/proveedores"
+@using Tabler.Docs.Components.Modals
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+@using Proveedor = Tabler.Docs.Models.Proveedor
+
+@inject ProveedoresPageViewModel Model
+@inject ProveedoresViewModel Mode
+
+
+<Table Item="Proveedor" Items="Model.Proveedores" PageSize="10"
+       OnItemSelected="OnItemDelete">
+    <HeaderTemplate>
+        <strong>Proveedores</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="Proveedor" Property="e=>e.Name" Title="Proveedores" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Name" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Proveedor" Property="e=>e.Cellphone" Title="Cellphone" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Cellphone" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Proveedor" Property="e=>e.Notes" Title="Notas" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Notes" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Proveedor" Property="e=>e.Picture" Title="Picture" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Picture"  />
+            </EditorTemplate>
+        </Column>
+    </ChildContent>
+
+</Table>
+<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+    Registrar
+</Button>
+@code {
+
+    [Inject] IModalService ModalService { get; set; }
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    protected async Task ShowModal()
+    {
+
+
+        var component = new RenderComponent<ProveedorRegister>();
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+
+        if (!result.Cancelled)
+        {
+            await Model.Refresh();
+            StateHasChanged();
+        }
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+
+    private async Task OnItemDelete(Proveedor proveedor)
+    {
+        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, proveedor.Id);
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        if (!result.Cancelled)
+        {
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
+
+}

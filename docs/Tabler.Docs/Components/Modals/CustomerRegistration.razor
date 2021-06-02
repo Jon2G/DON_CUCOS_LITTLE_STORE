@@ -1,28 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Components
 @using Tabler.Docs.Components.Icons
 @using Tabler.Docs.Interfaces
-
+@using Tabler.Docs.ViewModels
+@inject CustomerViewModel Model
 <div class="row">
     <div class="col-lg-12">
         <div class="mb-3">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label">Código de cliente*:</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Nombre*:</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" @bind="Model.Customer.Name" >
                     </div>
                 </div>
 
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Notas*:</label>
-                        <textarea rows="3" class="form-control"></textarea>
+                        <textarea rows="3" class="form-control" @bind="Model.Customer.Note"></textarea>
                     </div>
                 </div>
 
@@ -41,6 +36,7 @@
 </div>
 @inject IModalService ModalService
         @code {
+            [Parameter] public int CustomerId { get; set; }
             private async Task Confirm()
             {
 
@@ -50,6 +46,13 @@
 
                 if (!result.Cancelled)
                 {
+                    if (CustomerId!=0)
+                    {
+                        Model.Customer.Save(CustomerId);
+                    }else
+                    {
+                        Model.Customer.Save();
+                    }
                     ModalService.Close(ModalResult.Ok());
                 }
             }

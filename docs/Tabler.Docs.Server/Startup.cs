@@ -34,6 +34,13 @@ namespace Tabler.Docs.Server
             services
                 .AddSingleton<ProductsPageViewModel>()
                 .AddSingleton<EditProductViewModel>()
+                .AddSingleton<CustomerViewModel>()
+                .AddSingleton<EditProductViewModel>()
+                .AddSingleton<CategoryAddViewModel>()
+                .AddSingleton<ClientesPageViewModel>()
+                .AddSingleton<UsuarioViewModel>()
+                .AddSingleton<ProveedoresPageViewModel>()
+                .AddSingleton<ProveedoresViewModel>()
                 .AddSingleton<ProductFinderViewModel>()
                 .AddSingleton<CategoryAddViewModel>();
             services.AddTabler();
