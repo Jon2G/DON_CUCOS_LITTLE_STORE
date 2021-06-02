@@ -1,0 +1,32 @@
+﻿@page "/clientes"
+@using Tabler.Docs.Components.Modals
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+
+<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+    <Icon class="icon" Elements="@DemoIcons.Pencil" />
+</Button>
+
+@code {
+
+    [Inject] IModalService ModalService { get; set; }
+    private string message;
+    protected async Task ShowModal()
+    {
+        message = string.Empty;
+
+        var component = new RenderComponent<CustomerRegistration>();
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+
+        if (result.Cancelled)
+        {
+            message = "Modal was cancelled!";
+        }
+        else
+        {
+            message = "Modal as ok!";
+        }
+
+    }
+}
