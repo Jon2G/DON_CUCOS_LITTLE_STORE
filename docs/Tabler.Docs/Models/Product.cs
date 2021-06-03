@@ -51,34 +51,30 @@ namespace Tabler.Docs.Models
         /// </summary>
         /// <param name="Codigo">El código del prodcuto que se desea obtener</param>
         /// <returns>Se regresa un producto con sus datos cargados</returns>
-        public static async Task<Product> Obtener(string Codigo)
+        public static async Task<Product> GetById(int Id)
         {
-            if (string.IsNullOrEmpty(Codigo)) { return await Task.FromResult(new Product()); }
+            if (Id<=0) { return await Task.FromResult(new Product()); }
             await Task.Yield();
             Product producto = null;
-            if (SQLHelper.IsInjection(Codigo))
+            using (IReader reader = AppData.SQL.Read("SP_GET_PRODUCT_BY_ID", CommandType.StoredProcedure,new SqlParameter("ID",Id)))
             {
-                CustomMessageBox.Show("Intento de modificación invalido", "Atención", CustomMessageBoxButton.OK, CustomMessageBoxImage.Warning);
-                return producto;
-            }
-            using (IReader leector = AppData.SQL.Read("SELECT * FROM PRODUCTOS WHERE OCULTO=0 AND CODIGO='" + Codigo + "'"))
-            {
-                if (leector.Read())
+                if (reader.Read())
                 {
                     producto = new Product()
                     {
-                        Id = Convert.ToInt32(leector["ID"]),
-                        Code = Convert.ToString(leector["CODIGO"]),
-                        Name = Convert.ToString(leector["NOMBRE"]),
-                        Description = Convert.ToString(leector["DESCRIPCION"]),
-                        Category = Category.GetById(Convert.ToInt32(leector[0])),
-                        Unit = Convert.ToString(leector["UNIDAD"]),
-                        Picture = leector["IMAGEN"].ToString(),
-                        Supplier = Supplier.GetById(Convert.ToInt32(leector[(int)1])),
-                        Stock = Convert.ToSingle(leector["EXISTENCIA"]),
-                        Minimum = Convert.ToSingle(leector["MINIMO"]),
-                        Maximum = Convert.ToSingle(leector["MAXIMO"]),
-                        Price = Convert.ToSingle(leector["PRECIO"])
+                        Id = Convert.ToInt32(reader[0]),
+                        Code = Convert.ToString(reader[1]),
+                        Name = Convert.ToString(reader[2]),
+                        Description = Convert.ToString(reader[3]),
+                        Category = Category.GetById(Convert.ToInt32(reader[4])),
+                        Supplier = Supplier.GetById(Convert.ToInt32(reader[5])),
+                        Unit = Convert.ToString(reader[6]),
+                        Picture = reader[7].ToString(),
+                        Stock = Convert.ToSingle(reader[8]),
+                        Minimum = Convert.ToSingle(reader[9]),
+                        Maximum = Convert.ToSingle(reader[10]),
+                        Price = Convert.ToSingle(reader[11]),
+                        Disabled = Convert.ToBoolean(reader[12])
                     };
                 }
             }
@@ -90,10 +86,10 @@ namespace Tabler.Docs.Models
         public static async Task<List<Product>> GetByCategory(Category Category)
         {
             List<Product> productos = new List<Product>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS_BY_CATEGORY", CommandType.StoredProcedure, 0,
+            foreach (int id in AppData.SQL.Lista<int>("SP_GET_PRODUCTS_BY_CATEGORY", CommandType.StoredProcedure, 0,
                 new SqlParameter("CATEGORY_ID", Category.Id)))
             {
-                productos.Add(await Obtener(codigo));
+                productos.Add(await GetById(id));
             }
             return productos;
         }
@@ -105,9 +101,9 @@ namespace Tabler.Docs.Models
         public static async Task<List<Product>> GetAll()
         {
             List<Product> productos = new List<Product>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SP_GET_PRODUCTS", CommandType.StoredProcedure))
+            foreach (int id in AppData.SQL.Lista<int>("SP_GET_PRODUCTS", CommandType.StoredProcedure))
             {
-                productos.Add(await Obtener(codigo));
+                productos.Add(await GetById(id));
             }
             return productos;
         }
@@ -115,10 +111,10 @@ namespace Tabler.Docs.Models
         public static async Task<List<Product>> Search(string Search)
         {
             List<Product> productos = new List<Product>();
-            foreach (string codigo in AppData.SQL.Lista<string>("SP_SEARCH_PRODUCT", CommandType.StoredProcedure, 0,
+            foreach (int id in AppData.SQL.Lista<int>("SP_SEARCH_PRODUCT", CommandType.StoredProcedure, 0,
                 new SqlParameter("SEARCH", Search)))
             {
-                productos.Add(await Obtener(codigo));
+                productos.Add(await GetById(id));
             }
             return productos;
         }
@@ -144,12 +140,12 @@ namespace Tabler.Docs.Models
         {
             AppData.SQL.EXEC("SP_ABC_PRODUCT", CommandType.StoredProcedure,
                 new SqlParameter("ID", Id),
-                new SqlParameter("ID", Id),
                 new SqlParameter("CODE", Code),
                 new SqlParameter("NAME", Name),
                 new SqlParameter("DESCRIPTION", Description),
                 new SqlParameter("CATEGORY_ID", Category.Id),
-                new SqlParameter("SUPPLIER_ID", Id),
+                new SqlParameter("SUPPLIER_ID", Supplier.Id),
+                new SqlParameter("STOCK", Stock),
                 new SqlParameter("UNIT", Unit),
                 new SqlParameter("IMAGE", Picture),
                 new SqlParameter("MINIMUM", Minimum),
@@ -157,11 +153,6 @@ namespace Tabler.Docs.Models
                 new SqlParameter("PRICE", Price),
                 new SqlParameter("DISABLED", Disabled)
                 );
-            /*
-             @ID INT,@CODE VARCHAR(100),@NAME VARCHAR(100),@DESCRIPTION VARCHAR(100),
-@CATEGORY_ID INT,@SUPPLIER_ID INT,@UNIT VARCHAR(100),@IMAGE VARCHAR(MAX),@STOCK REAL,@MINIMUM REAL,@MAXIMUM REAL,
-@PRICE REAL,@DISABLED BIT
-             */
         }
 
 

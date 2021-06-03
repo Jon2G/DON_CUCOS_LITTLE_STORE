@@ -3,28 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tabler.Docs.Interfaces;
 using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-    public class ProductFinderViewModel
+    public class ProductFinderViewModel:IRefresh
     {
         public List<Product> Products { get; set; }
-        public string Search { get; set; }
         public ProductFinderViewModel()
         {
-            
+            Products = new List<Product>();
         }
 
-        public async Task DoSearch()
+        public bool IsLoading { get; set; }
+        public event EventHandler Refreshed;
+        public async Task Refresh()
         {
-            if (string.IsNullOrEmpty(Search))
+            try
             {
-                Products =await Product.GetAll();
-                return;
+                if (IsLoading)
+                {
+                    return;
+                }
+                IsLoading = true;
+                this.Products.Clear();
+                this.Products.AddRange(await Product.GetAll());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                IsLoading = false;
+                Refreshed?.Invoke(this, EventArgs.Empty);
             }
 
-            Products = await Product.Search(Search);
         }
     }
 }

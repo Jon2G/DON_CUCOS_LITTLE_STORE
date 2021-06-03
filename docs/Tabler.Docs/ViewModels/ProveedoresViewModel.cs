@@ -9,10 +9,10 @@ namespace Tabler.Docs.ViewModels
 {
   public class ProveedoresViewModel
     {
-        public Supplier Proveedor { get; set; }
+        public Supplier Supplier { get; set; }
         public ProveedoresViewModel()
         {
-            Proveedor = new Supplier();
+            Supplier = new Supplier();
         }
     }
 }

@@ -7,10 +7,9 @@ using Tabler.Docs.Interfaces;
 
 namespace Tabler.Docs.Models
 {
-    public class GroupLine:IRefresh
+    public class GroupLine
     {
         public bool IsLoading { get; set; }
-        public event EventHandler Refreshed;
 
         public List<Product> Products { get; set; }
         public Category Category { get; set; }
@@ -40,7 +39,6 @@ namespace Tabler.Docs.Models
             finally
             {
                 IsLoading = false;
-                Refreshed?.Invoke(this,EventArgs.Empty);
             }
         }
     }

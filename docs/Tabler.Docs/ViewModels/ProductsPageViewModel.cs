@@ -31,7 +31,9 @@ namespace Tabler.Docs.ViewModels
                 this.Lines.Clear();
                 foreach (Category linea in await Category.GetAll())
                 {
-                    this.Lines.Add(new GroupLine(linea));
+                    var gropup= new GroupLine(linea);
+                    await gropup.Refresh();
+                    this.Lines.Add(gropup);
                 }
             }
             catch (Exception e)

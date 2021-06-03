@@ -12,7 +12,7 @@
                         <label class="form-label">Imagen de usuario*:</label>
                         <div style="margin: 5px; display: inline-grid;width:100%">
                             <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
-                                <img src="@Model.Proveedor.Picture" style="vertical-align:middle;width:150px;height:150px;border-radius:50%">
+                                <img src="@Model.Supplier.Picture" style="vertical-align:middle;width:150px;height:150px;border-radius:50%">
                             </div>
                             <InputFile OnChange="OnInputFileChange" multiple />
                         </div>
@@ -22,20 +22,20 @@
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Nombre*:</label>
-                        <input type="text" class="form-control" @bind="Model.Proveedor.Name">
+                        <input type="text" class="form-control" @bind="Model.Supplier.Name">
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="mb-3">
-                        <label class="form-label">Cellphone*:</label>
-                        <input type="text" class="form-control" @bind="Model.Proveedor.Cellphone">
+                        <label class="form-label">Celular*:</label>
+                        <input type="text" class="form-control" @bind="Model.Supplier.Cellphone">
                     </div>
                 </div>
 
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Notas*:</label>
-                        <textarea rows="3" class="form-control" @bind="Model.Proveedor.Notes"></textarea>
+                        <textarea rows="3" class="form-control" @bind="Model.Supplier.Notes"></textarea>
                     </div>
                 </div>
 
@@ -61,19 +61,12 @@
     {
 
         var result = await ModalService.ShowAsync($"Confirme alta",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este cliente"),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este proveedor?"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true,CloseOnClickOutside = false});
 
         if (!result.Cancelled)
         {
-            if (ProveedorId != 0)
-            {
-                Model.Proveedor.Register(ProveedorId);
-            }
-            else
-            {
-                Model.Proveedor.Register();
-            }
+            Model.Supplier.Save();
             ModalService.Close(ModalResult.Ok());
         }
     }
@@ -96,7 +89,7 @@
             var file = selectedFiles.First();
             using (Stream stream = file.OpenReadStream())
             {
-                Model.Proveedor.Picture = await stream.ToImageString();
+                Model.Supplier.Picture = await stream.ToImageString();
             }
         }
         this.StateHasChanged();

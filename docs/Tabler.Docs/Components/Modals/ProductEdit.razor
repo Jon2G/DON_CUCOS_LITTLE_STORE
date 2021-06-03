@@ -43,12 +43,12 @@
                         <label class="form-label">Proveedor*:</label>
 
                         <div style="display: flex">
-                    
+
                             <Select Items="Model.Suppliers" @bind-SelectedValue="@Model.Product.Supplier"
                                     TextExpression="e=> e.Name" ValueExpression="e=>e" Clearable />
 
                             <Button BackgroundColor="TablerColor.Green" OnClick="AddSupplier">
-                                <Icon class="icon" Elements="@InternalIcons.Circle_plus"/>
+                                <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
                             </Button>
                         </div>
 
@@ -94,12 +94,12 @@
             <div class="mb-3">
                 <label class="form-label">Linea*:</label>
                 <div style="display: flex">
-                    
+
                     <Select Items="Model.Categories" @bind-SelectedValue="@Model.Product.Category"
-                            TextExpression="e=> e.Descripcion" ValueExpression="e=>e" Clearable />
+                            TextExpression="e=> e.Description" ValueExpression="e=>e" Clearable />
 
                     <Button BackgroundColor="TablerColor.Green" OnClick="AddCategory">
-                        <Icon class="icon" Elements="@InternalIcons.Circle_plus"/>
+                        <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
                     </Button>
                 </div>
             </div>
@@ -160,17 +160,27 @@
 
     }
 
-    [Parameter] public string ProductId { get; set; }
+    [Parameter] public int ProductId { get; set; }
 
+    private async Task AddSupplier()
+    {
+        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId,-1);
+        var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large, BlurBackground = true });
+        if (!result.Cancelled)
+        {
+            await Model.RefreshSuppliers();
+            StateHasChanged();
+        }
+    }
     private async Task FindProduct()
     {
         var result = await ModalService.ShowAsync($"Busqueda de productos",
             new RenderComponent<ProductFinder>(),
-            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true, Size = ModalSize.Large });
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true, Size = ModalSize.Maximized });
 
         if (!result.Cancelled)
         {
-            await Model.RequestLoad(result.Data?.ToString());
+            Model.Product = result.Data as Product;
             StateHasChanged();
         }
     }
@@ -178,7 +188,7 @@
     {
         var result = await ModalService.ShowAsync($"Alta de categoría",
             new RenderComponent<CategoryAdd>(),
-            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = false });
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true });
 
         if (!result.Cancelled)
         {
@@ -196,8 +206,13 @@
     }
     private async Task Confirm()
     {
-        var result = await ModalService.ShowAsync($"Editar: {Model.Product.Name}",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Editar este artículo?"),
+        string message = "Dar de alta este artículo";
+        if (Model.Product.Id > 0)
+        {
+            message = "¿Editar este artículo?";
+        }
+        var result = await ModalService.ShowAsync(Model.Product.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, message),
             new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true });
 
         if (!result.Cancelled)

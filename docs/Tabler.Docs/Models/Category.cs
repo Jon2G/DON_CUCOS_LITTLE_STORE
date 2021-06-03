@@ -13,7 +13,7 @@ namespace Tabler.Docs.Models
     public class Category
     {
         public int Id { get; set; }
-        public string Descripcion { get; set; }
+        public string Description { get; set; }
 
         public static async Task<List<Category>> GetAll()
         {
@@ -25,7 +25,7 @@ namespace Tabler.Docs.Models
                     lineas.Add(new Category()
                     {
                         Id =Convert.ToInt32(reader["ID"]),
-                        Descripcion = reader["DESCRIPTION"]?.ToString()
+                        Description = reader["DESCRIPTION"]?.ToString()
                     });
                 }
             }
@@ -43,7 +43,7 @@ namespace Tabler.Docs.Models
                     category=(new Category()
                     {
                         Id = Convert.ToInt32(reader["ID"]),
-                        Descripcion = reader["DESCRIPTION"]?.ToString()
+                        Description = reader["DESCRIPTION"]?.ToString()
                     });
                 }
             }
@@ -55,7 +55,7 @@ namespace Tabler.Docs.Models
         {
             AppData.SQL.EXEC("SP_ABC_CATEGORY", CommandType.StoredProcedure,
                 new SqlParameter("ID", Id),
-                new SqlParameter("DESCRIPTION", Descripcion));
+                new SqlParameter("DESCRIPTION", Description));
         }
 
         public static Category GetById(int Id)
@@ -69,12 +69,23 @@ namespace Tabler.Docs.Models
                     category = new Category()
                     {
                         Id = Convert.ToInt32(reader[0]),
-                        Descripcion = reader[1].ToString()
+                        Description = reader[1].ToString()
                     };
                 }
             }
             return category;
 
         }
+
+        public override string ToString() => $"{Id} - {Description}";
+        public override bool Equals(object? obj)
+        {
+            if (obj is Category category)
+            {
+                return category.Id == this.Id;
+            }
+            return false;
+        }
+
     }
 }

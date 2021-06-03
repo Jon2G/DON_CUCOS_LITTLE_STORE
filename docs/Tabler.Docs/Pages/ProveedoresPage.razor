@@ -3,35 +3,35 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
-@using Proveedor = Tabler.Docs.Models.Proveedor
+@using Supplier = Tabler.Docs.Models.Supplier
 
 @inject ProveedoresPageViewModel Model
 @inject ProveedoresViewModel Mode
 
 
-<Table Item="Proveedor" Items="Model.Proveedores" PageSize="10"
+<Table Item="Supplier" Items="Model.Suppliers" PageSize="10"
        OnItemSelected="OnItemDelete">
     <HeaderTemplate>
         <strong>Proveedores</strong>
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Proveedor" Property="e=>e.Name" Title="Proveedores" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Name" Title="Proveedores" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Name" />
             </EditorTemplate>
         </Column>
-        <Column Item="Proveedor" Property="e=>e.Cellphone" Title="Cellphone" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Cellphone" Title="Cellphone" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Cellphone" />
             </EditorTemplate>
         </Column>
-        <Column Item="Proveedor" Property="e=>e.Notes" Title="Notas" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Notes" Title="Notas" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Notes" />
             </EditorTemplate>
         </Column>
-        <Column Item="Proveedor" Property="e=>e.Picture" Title="Picture" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Picture" Title="Picture" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Picture"  />
             </EditorTemplate>
@@ -80,10 +80,10 @@
         StateHasChanged();
     }
 
-    private async Task OnItemDelete(Proveedor proveedor)
+    private async Task OnItemDelete(Supplier supplier)
     {
-        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, proveedor.Id);
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, supplier.Id);
+        var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large });
         if (!result.Cancelled)
         {
             await Model.Refresh();

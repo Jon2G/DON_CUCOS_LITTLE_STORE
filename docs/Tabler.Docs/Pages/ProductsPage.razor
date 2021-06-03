@@ -24,35 +24,36 @@
 
 @if (Model.IsLoading)
 {
-    <p><em>Loading...</em></p>
+    <Dimmer ShowSpinner="true" Active="Model.IsLoading">
+        <p><em>Cargando...</em></p>
+    </Dimmer>
 }
 else
 {
     foreach (GroupLine line in Model.Lines)
     {
-        <Card Size="CardSize.Small">
-            <CardBody class="d-flex align-items-center">
-                <span class="bg-blue text-white stamp me-3">
-                    <Icon Elements="@DemoIcons.Building_warehouse" />
-                </span>
-                <div class="me-3 lh-sm">
-                    <div class="strong">
-                        @line.Category.Descripcion
-                    </div>
-                    @*<div class="text-muted">12 waiting payments</div>*@
-                </div>
-            </CardBody>
-        </Card>
-
-        if (!line.Products.Any())
+        if (line.Products.Any())
         {
-            Task.Run(() => line.Refresh());
-            line.IsLoading = true;
-            line.Refreshed += Refreshed;
+            <Card Size="CardSize.Small">
+                <CardBody class="d-flex align-items-center">
+                    <span class="bg-blue text-white stamp me-3">
+                        <Icon Elements="@DemoIcons.Building_warehouse" />
+                    </span>
+                    <div class="me-3 lh-sm">
+                        <div class="strong">
+                            @line.Category.Description
+                        </div>
+                        @*<div class="text-muted">12 waiting payments</div>*@
+                    </div>
+                </CardBody>
+            </Card>
         }
+
         if (line.IsLoading)
         {
-            <p><em>Loading...</em></p>
+            <Dimmer ShowSpinner="true" Active="line.IsLoading">
+                <p><em>Cargando...</em></p>
+            </Dimmer>
         }
         else
         {
@@ -62,19 +63,19 @@ else
                     <RowCol Sm="2">
                         <Card>
                             <div class="card" style="margin: 5px;">
-                                <img src="https://picsum.photos/200/300" alt="@product.Nombre" style="height: 200px;">
+                                <img src="@product.Picture" alt="@product.Name" style="height: 200px;">
                                 <div class="container">
-                                    <h4><b>@product.Nombre</b></h4>
-                                    <p>@line.Category.Descripcion</p>
+                                    <h4><b>@product.Name</b></h4>
+                                    <p>@line.Category.Description</p>
 
                                     <Row style="margin: 5px;">
                                         <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Codigo)" BackgroundColor="TablerColor.Green">
+                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
                                                 <Icon class="icon" Elements="@DemoIcons.Pencil" />
                                             </Button>
                                         </RowCol>
                                         <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Codigo)" BackgroundColor="TablerColor.Danger">
+                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Danger">
                                                 <Icon class="icon" Elements="@DemoIcons.Trash" />
                                             </Button>
                                         </RowCol>
@@ -85,6 +86,7 @@ else
                     </RowCol>
                 }
             </Row>
+
         }
     }
 }
@@ -112,21 +114,19 @@ else
 
     private void LoadFiles(InputFileChangeEventArgs e)
     {
-        
+
     }
 
     [Inject] IModalService ModalService { get; set; }
 
     protected async Task ShowModal()
     {
-        await ShowModal(String.Empty);
+        await ShowModal(0);
     }
-    protected async Task ShowModal(string ProductId = null)
+    protected async Task ShowModal(int ProductId)
     {
-        ProductId ??= string.Empty;
-
         string Tile = "Alta de productos";
-        if (!string.IsNullOrEmpty(ProductId))
+        if (ProductId>0)
         {
             Tile = "Edición de producto";
         }

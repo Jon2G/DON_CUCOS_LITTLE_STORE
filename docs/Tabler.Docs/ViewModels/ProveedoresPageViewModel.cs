@@ -11,10 +11,10 @@ namespace Tabler.Docs.ViewModels
    public class ProveedoresPageViewModel:IRefresh
     {
         public bool IsLoading { get; set; }
-        public List<Supplier> Proveedores { get; set; }
+        public List<Supplier> Suppliers { get; set; }
         public ProveedoresPageViewModel()
         {
-            Proveedores = new List<Supplier>();
+            Suppliers = new List<Supplier>();
         }
         public event EventHandler Refreshed;
 
@@ -27,8 +27,8 @@ namespace Tabler.Docs.ViewModels
                     return;
                 }
                 IsLoading = true;
-                this.Proveedores.Clear();
-                this.Proveedores.AddRange(await Supplier.GetAll());
+                this.Suppliers.Clear();
+                this.Suppliers.AddRange(await Supplier.GetAll());
             }
             catch (Exception e)
             {

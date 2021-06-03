@@ -17,17 +17,7 @@ namespace Tabler.Docs.Models
         public string Cellphone { get; set; }
         public string Notes { get; set; }
 
-        public void Register()
-        {
-            AppData.SQL.EXEC("SP_ABC_SUPPLIERS", System.Data.CommandType.StoredProcedure,
-                new System.Data.SqlClient.SqlParameter("Id", Id),
-                new System.Data.SqlClient.SqlParameter("PICTURE", Picture),
-                new System.Data.SqlClient.SqlParameter("NAME", Name),
-                new System.Data.SqlClient.SqlParameter("CELLPHONE", Cellphone),
-                new System.Data.SqlClient.SqlParameter("NOTES", Notes)
-                );
-        }
-        public void Register(int Id)
+        public void Save()
         {
             AppData.SQL.EXEC("SP_ABC_SUPPLIERS", System.Data.CommandType.StoredProcedure,
                 new System.Data.SqlClient.SqlParameter("Id", Id),
@@ -51,7 +41,7 @@ namespace Tabler.Docs.Models
                         Name = reader[2].ToString(),
                         Cellphone = reader[3].ToString(),
                         Notes = reader[4].ToString(),
-                        Picture = reader[5].ToString()
+                        Picture = reader[1].ToString()
 
                     };
                 }
@@ -63,11 +53,20 @@ namespace Tabler.Docs.Models
         {
             await Task.Yield();
             List<Supplier> proveedor = new List<Supplier>();
-            foreach (int Id in AppData.SQL.Lista<int>("VIEW_GETALLSUPPLIERS"))
+            foreach (int Id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLSUPPLIERS"))
             {
                 proveedor.Add(GetById(Id));
             }
             return proveedor;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is Supplier supplier)
+            {
+                return supplier.Id == this.Id;
+            }
+            return false;
         }
     }
 }

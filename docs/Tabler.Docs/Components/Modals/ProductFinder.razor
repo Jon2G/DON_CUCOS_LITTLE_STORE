@@ -4,77 +4,84 @@
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="mb-3">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="mb-3">
-                        <label class="form-label">Busqueda*:</label>
-                        <div style="display: flex">
-                            <input type="text" class="form-control" style="margin-right: 5px;" @bind="Model.Search">
-                            <Button BackgroundColor="TablerColor.Info" OnClick="FindProduct">
-                                <Icon class="icon" Elements="@DemoIcons.Search" />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<Table Item="Product" Items="Model.Products" PageSize="10" AllowAdd="False" AllowDelete="False" AllowEdit="False"
-       @bind-SelectedItems="selectedProducts" ShowCheckboxes>
+<Table Item="Product" Items="Model.Products" PageSize="10" AllowAdd="False" AllowDelete="False" AllowEdit="False" OnItemSelected="ItemSelected">
     <HeaderTemplate>
-        <strong>Orders</strong>
+        <strong>Productos</strong>
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Product" Property="e=>e.Codigo" Title="Customer" Sortable Searchable Groupable>
+        <Column Item="Product" Property="e=>e.Code" Title="Código" Sortable Searchable Groupable>
             <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Codigo" />
+                <input type="text" class="form-control" @bind-value="@context.Code" />
             </EditorTemplate>
         </Column>
-        <Column Item="Product" Property="e=>e.Nombre" Title="Country" Sortable Searchable Groupable>
+        <Column Item="Product" Property="e=>e.Name" Title="Nombre" Sortable Searchable Groupable>
             <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Nombre" />
+                <input type="text" class="form-control" @bind-value="@context.Name" />
             </EditorTemplate>
         </Column>
-        @*<Column Item="Product" Property="e=>e.Descripcion" Title="Order type" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <Select Items="EnumHelper.GetList<OrderType>()" @bind-SelectedValue="@context.Descripcion" TextExpression="e=> e.ToString()" ValueExpression="e=> e" Clearable />
-                </EditorTemplate>
-            </Column>*@
+        
+        <Column Item="Product" Property="e=>e.Supplier.Name" Title="Proveedor" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Supplier.Name" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Category.Description" Title="Categoría" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Category.Description" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Stock" Title="Stock" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Stock" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Minimum" Title="Mínimo" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Minimum" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Maximum" Title="Máximo" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Maximum" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="Product" Property="e=>e.Price" Title="Precio" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Price" />
+            </EditorTemplate>
+        </Column>
+
     </ChildContent>
 
 </Table>
 
 
-<ul>
-    @foreach (Product order in selectedProducts)
-    {
-        <li>@order.Nombre, @order.Codigo</li>
-    }
-</ul>
-
-
 <div class="modal-footer">
     <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
-        Cancelar
-    </a>
-    <a @onclick="Confirm" class="btn btn-primary ms-auto" data-dismiss="modal">
-        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
-        Confirmar
+        Salir
     </a>
 </div>
 @inject TabBlazor.Services.TablerService TablerService;
 @inject ProductFinderViewModel Model;
 @inject IModalService ModalService
 @code {
-    private static List<Product> selectedProducts = new List<Product>();
-    private async Task Confirm()
+
+    protected override async Task OnInitializedAsync()
     {
-        ModalService.Close(ModalResult.Ok());
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
     }
 
     private void Cancel()
@@ -82,10 +89,9 @@
         ModalService.Close(ModalResult.Cancel());
     }
 
-    private async void FindProduct()
+    private void ItemSelected(Product product)
     {
-        await Model.DoSearch();
-        StateHasChanged();
+        ModalService.Close(ModalResult.Ok(product));
     }
 
 }
