@@ -54,14 +54,48 @@
 </div>
 @using System.IO
 @using Kit.Extensions
+@using Tabler.Docs.Models
 @inject IModalService ModalService
 @code {
+
     [Parameter] public int ProveedorId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.RequestLoad(ProveedorId);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        if (Model.Supplier is null)
+        {
+            Model.Supplier = new Supplier();
+        }
+        StateHasChanged();
+    }
+
+
+
+
+
+
+
     private async Task Confirm()
     {
+        string message = "¿Dar de alta este proveedor?";
+        if (Model.Supplier.Id > 0)
+        {
+            message = "¿Editar este proveedor?";
+        }
 
-        var result = await ModalService.ShowAsync($"Confirme alta",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este proveedor?"),
+        var result = await ModalService.ShowAsync(Model.Supplier.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, message),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true,CloseOnClickOutside = false});
 
         if (!result.Cancelled)

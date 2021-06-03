@@ -11,7 +11,7 @@
     <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
     little store
 </PagePretitle>
-<Button @onclick="ShowModal" BackgroundColor="TablerColor.Primary">Show Modal</Button>
+
 <Button Text="Nuevo producto" @onclick="() => ShowModal()" BackgroundColor="TablerColor.Info">
     <div>
         <span style="margin: 5px;">Nuevo producto</span>
@@ -75,7 +75,7 @@ else
                                             </Button>
                                         </RowCol>
                                         <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Danger">
+                                            <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
                                                 <Icon class="icon" Elements="@DemoIcons.Trash" />
                                             </Button>
                                         </RowCol>
@@ -126,7 +126,7 @@ else
     protected async Task ShowModal(int ProductId)
     {
         string Tile = "Alta de productos";
-        if (ProductId>0)
+        if (ProductId > 0)
         {
             Tile = "Edición de producto";
         }
@@ -134,16 +134,31 @@ else
         var component = new RenderComponent<ProductEdit>().Set(e => e.ProductId, ProductId);
         var result = await ModalService.ShowAsync(Tile, component, new ModalOptions { Size = ModalSize.Large });
 
-        if (result.Cancelled)
+        if (!result.Cancelled)
         {
             await this.Model.Refresh();
             StateHasChanged();
         }
-        else
+    }
+
+    private async void Delete(int productId)
+    {
+        Product product = await Product.GetById(productId);
+        if (product is null) { return; }
+        var result = await ModalService.ShowAsync(product.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este producto?")
+                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
         {
-
+            product.Disabled = true;
+            product.Save();
+            ModalService.Close(ModalResult.Ok());
+            await Model.Refresh();
+            StateHasChanged();
         }
-
     }
 
 }

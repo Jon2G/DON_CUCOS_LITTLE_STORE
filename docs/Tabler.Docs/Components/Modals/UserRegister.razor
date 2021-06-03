@@ -12,12 +12,12 @@
                         <label class="form-label">Imagen de usuario*:</label>
                         <div style="margin: 5px; display: inline-grid;width:100%">
                             <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
-                                <img src="@Model.Usuario.Imagen" style="vertical-align:middle;width:150px;height:150px;border-radius:50%">
-                                </div>
-                                <InputFile OnChange="OnInputFileChange" multiple />
+                                <img src="@Model.Usuario.Picture" style="vertical-align:middle;width:150px;height:150px;border-radius:50%">
                             </div>
-
+                            <InputFile OnChange="OnInputFileChange" multiple />
                         </div>
+
+                    </div>
                 </div>
                 <div class="example-centered">
                     <div class="mb-3">
@@ -37,12 +37,27 @@
                         <input type="password" class="form-control" @bind="Model.Usuario.Password">
                     </div>
                 </div>
-                <div class="example-centered">
-                    <div class="mb-3">
-                        <label class="form-label">Key*:</label>
-                        <input type="text" readonly class="form-control" @bind="Model.Usuario.Key_Id">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <Checkbox Label="Solo lectura" @bind-Value="Model.Usuario.Permissions.ReadOnly" Changed="StateHasChanged" Switch />
                     </div>
+                    <div class="col-md-6">
+                        <Checkbox Label="Derechos sobre usuarios" @bind-Value="Model.Usuario.Permissions.UserManager" Changed="StateHasChanged" Switch />
+                    </div>
+                    <div class="col-md-6">
+                        <Checkbox Label="Privilegio Entradas" @bind-Value="Model.Usuario.Permissions.StockIn" Changed="StateHasChanged" Switch />
+                    </div>
+                    <div class="col-md-6">
+                        <Checkbox Label="Privilegio Salidas" @bind-Value="Model.Usuario.Permissions.StockOut" Changed="StateHasChanged" Switch />
+                    </div>
+                    <div class="col-md-6">
+                        <Checkbox Label="Privilegio Reporte" @bind-Value="Model.Usuario.Permissions.ReadReports" Changed="StateHasChanged" Switch />
+                    </div>
+
                 </div>
+
+
 
             </div>
         </div>
@@ -64,24 +79,22 @@
 @using Kit.Extensions
 @inject IModalService ModalService
 @code {
-    [Parameter] public int CustomerId { get; set; }
+    [Parameter] public int UserId { get; set; }
     private async Task Confirm()
     {
+        string message = "¿Dar de alta este usuario?";
+        if (this.Model.Usuario.Id > 0)
+        {
+            message = "¿Editar este usuario?";
+        }
 
-        var result = await ModalService.ShowAsync($"Confirme alta",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este cliente"),
+        var result = await ModalService.ShowAsync(Model.Usuario.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, message),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
 
         if (!result.Cancelled)
         {
-            if (CustomerId != 0)
-            {
-                //Model.Customer.Save(CustomerId);
-            }
-            else
-            {
-                //Model.Customer.Save();
-            }
+            await Model.Usuario.Save();
             ModalService.Close(ModalResult.Ok());
         }
     }
@@ -105,7 +118,7 @@
             var file = selectedFiles.First();
             using (Stream stream = file.OpenReadStream())
             {
-                Model.Usuario.Imagen = await stream.ToImageString();
+                Model.Usuario.Picture = await stream.ToImageString();
             }
         }
         this.StateHasChanged();

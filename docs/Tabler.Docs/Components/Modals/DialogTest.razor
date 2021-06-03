@@ -4,7 +4,14 @@
     <h3>@Title</h3>
     <p class="text-muted">
         @Line1<br>
-        @Line2
+        @if (!string.IsNullOrEmpty(Line2))
+        {
+            @Line2<br />
+        }
+        @if (!string.IsNullOrEmpty(Line3))
+        {
+            @Line3
+        }
     </p>
 
     <div class="modal-footer">
@@ -30,6 +37,7 @@
 
     [Parameter]   public string Line1 { get; set; }
     [Parameter]   public string Line2 { get; set; }
+    [Parameter]   public string Line3 { get; set; }
 
     [Parameter]  public string Cancel { get; set; } = "CANCELAR";
     [Parameter]   public string Accept { get; set; } = "OK";

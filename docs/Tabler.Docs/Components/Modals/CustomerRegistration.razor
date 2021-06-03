@@ -7,10 +7,22 @@
     <div class="col-lg-12">
         <div class="mb-3">
             <div class="row">
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label">Imagen de usuario*:</label>
+                        <div style="margin: 5px; display: inline-grid;width:100%">
+                            <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
+                                <img src="@Model.Customer.Picture" style="vertical-align:middle;width:150px;height:150px;border-radius:50%">
+                            </div>
+                            <InputFile OnChange="OnInputFileChange" multiple />
+                        </div>
+
+                    </div>
+                </div>
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Nombre*:</label>
-                        <input type="text" class="form-control" @bind="Model.Customer.Name" >
+                        <input type="text" class="form-control" @bind="Model.Customer.Name">
                     </div>
                 </div>
 
@@ -34,31 +46,71 @@
         Confirmar
     </a>
 </div>
+@using System.IO
+@using Kit.Extensions
 @inject IModalService ModalService
-        @code {
-            [Parameter] public int CustomerId { get; set; }
-            private async Task Confirm()
+@code {
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.RequestLoad(CustomerId);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+
+    [Parameter] public int CustomerId { get; set; }
+    private async Task Confirm()
+    {
+        string message = "¿Dar de alta este cliente";
+        if (Model.Customer.Id > 0)
+        {
+            message = "¿Editar este cliente?";
+        }
+
+        var result = await ModalService.ShowAsync(Model.Customer.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1,message),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
+        {
+            Model.Customer.Save();
+
+            ModalService.Close(ModalResult.Ok());
+        }
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+        OnSubmit();
+    }
+    private async void OnSubmit()
+    {
+        if (selectedFiles?.Any() ?? false)
+        {
+            var file = selectedFiles.First();
+            using (Stream stream = file.OpenReadStream())
             {
-
-                var result = await ModalService.ShowAsync($"Confirme alta",
-                    new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este cliente"),
-                    new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
-
-                if (!result.Cancelled)
-                {
-                    if (CustomerId!=0)
-                    {
-                        Model.Customer.Save(CustomerId);
-                    }else
-                    {
-                        Model.Customer.Save();
-                    }
-                    ModalService.Close(ModalResult.Ok());
-                }
-            }
-
-            private void Cancel()
-            {
-                ModalService.Close(ModalResult.Cancel());
+                Model.Customer.Picture = await stream.ToImageString();
             }
         }
+        this.StateHasChanged();
+    }
+}

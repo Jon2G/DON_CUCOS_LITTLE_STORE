@@ -16,12 +16,12 @@
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Supplier" Property="e=>e.Name" Title="Proveedores" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Name" Title="Nombre" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Name" />
             </EditorTemplate>
         </Column>
-        <Column Item="Supplier" Property="e=>e.Cellphone" Title="Cellphone" Sortable Searchable Groupable>
+        <Column Item="Supplier" Property="e=>e.Cellphone" Title="Celular" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Cellphone" />
             </EditorTemplate>
@@ -31,10 +31,10 @@
                 <input type="text" class="form-control" @bind-value="@context.Notes" />
             </EditorTemplate>
         </Column>
-        <Column Item="Supplier" Property="e=>e.Picture" Title="Picture" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Picture"  />
-            </EditorTemplate>
+        <Column Item="Supplier" Property="e => e.Name" Title="Imagen">
+            <Template>
+                <img src="@context.Picture" style="height: 100px;"/>
+            </Template>
         </Column>
     </ChildContent>
 
