@@ -14,6 +14,7 @@ namespace Tabler.Docs.Models
         public string Name { get; set; }
         public string Note { get; set; }
         public string Picture { get; set; }
+        public bool Enabled { get; set; }
 
         public void Save()
         {
@@ -21,7 +22,8 @@ namespace Tabler.Docs.Models
                 new System.Data.SqlClient.SqlParameter("ID", Id),
                 new System.Data.SqlClient.SqlParameter("NAME",Name),
                 new System.Data.SqlClient.SqlParameter("NOTES",Note),
-                new System.Data.SqlClient.SqlParameter("PICTURE", Picture)
+                new System.Data.SqlClient.SqlParameter("PICTURE", Picture),
+                new System.Data.SqlClient.SqlParameter("ENABLED", Enabled)
                 );
         }
 
@@ -38,7 +40,8 @@ namespace Tabler.Docs.Models
                         Id = Convert.ToInt32(reader[0]),
                         Name = reader[1].ToString(),
                         Note = reader[2].ToString(),
-                        Picture = reader[3].ToString()
+                        Picture = reader[3].ToString(),
+                        Enabled = Convert.ToBoolean(reader[4])
                     };
                 }
             }
