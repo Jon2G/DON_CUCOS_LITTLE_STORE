@@ -80,5 +80,29 @@ namespace Tabler.Docs.Models
             return users;
         }
 
+        public static User GetById(int Id)
+        {
+            User user = new User();
+            using (IReader reader = AppData.SQL.Read("SP_SEARCHCUSTOMER", System.Data.CommandType.StoredProcedure,
+                new System.Data.SqlClient.SqlParameter("ID", Id)))
+            {
+                while (reader.Read())
+                {
+                    user = new User()
+                    {
+                        Id = Convert.ToInt32(reader[0]),
+                        Permissions = Permissions.GetById(Convert.ToInt32(reader[1])),
+                        Key_Id = Convert.ToInt32(reader[2]),
+                        Nickname = Convert.ToString(reader[3]),
+                        Name = Convert.ToString(reader[4]),
+                        Password = Convert.ToString(reader[5]),
+                        Picture = Convert.ToString(reader[6]),
+                        Enabled = Convert.ToBoolean(reader[7])
+                    };
+                }
+            }
+            return user;
+
+        }
     }
 }

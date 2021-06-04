@@ -79,6 +79,23 @@
 @using Kit.Extensions
 @inject IModalService ModalService
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.RequestLoad(UserId);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
     [Parameter] public int UserId { get; set; }
     private async Task Confirm()
     {

@@ -52,7 +52,7 @@
 
 
         var component = new RenderComponent<ProveedorRegister>();
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+        var result = await ModalService.ShowAsync("Registrar Proveedor", component, new ModalOptions { Size = ModalSize.Small });
 
         if (!result.Cancelled)
         {

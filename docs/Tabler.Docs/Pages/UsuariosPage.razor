@@ -72,7 +72,7 @@
 
 
         var component = new RenderComponent<UserRegister>();
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Medium });
+        var result = await ModalService.ShowAsync("Registrar Usuario", component, new ModalOptions { Size = ModalSize.Medium });
 
         if (!result.Cancelled)
         {
@@ -103,7 +103,7 @@
     private async Task OnItemEdit(User user)
     {
         var component = new RenderComponent<UserRegister>().Set(u => u.UserId, user.Id);
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        var result = await ModalService.ShowAsync("Registrar Usuario", component, new ModalOptions { Size = ModalSize.Large });
         if (!result.Cancelled)
         {
             await Model.Refresh();
