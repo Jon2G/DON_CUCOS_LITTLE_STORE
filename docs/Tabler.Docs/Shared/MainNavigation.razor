@@ -6,7 +6,7 @@
         <h2 class="mt-2">TabBlazor</h2>
     </a>
 
-    <Checkbox Switch Value="@DarkMode" ValueChanged="DarkModeUpdated"  Label="DarkMode" />
+    <Checkbox Switch Value="@DarkMode" ValueChanged="DarkModeUpdated" Label="DarkMode" />
 
     <NavbarMenu>
         <NavbarMenuItem Href="dashboard" Text="Dashboard">
@@ -24,43 +24,59 @@
                 <NavbarMenuItem Text="Profile" Href="snippets/profiles" />
             </SubMenu>
         </NavbarMenuItem>
+        @if (AppData.Current.User.Permissions.Sales)
+        {
+            <NavbarMenuItem Text="Ventas" Href="ventas">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Shopping_cart" />
+                </MenuItemIcon>
+            </NavbarMenuItem>
+        }
 
-        <NavbarMenuItem Text="Ventas" Href="ventas">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Shopping_cart" />
-            </MenuItemIcon>
-        </NavbarMenuItem>
 
-        <NavbarMenuItem Text="Productos" Href="products">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Building_warehouse" />
-            </MenuItemIcon>
-            <SubMenu>
-                <NavbarMenuItem Text="Categorias" Href="categorias" />
-            </SubMenu>
+            <NavbarMenuItem Text="Productos" Href="products">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Building_warehouse" />
+                </MenuItemIcon>
+                <SubMenu>
+                    <NavbarMenuItem Text="Categorias" Href="categorias" />
+                </SubMenu>
 
-        </NavbarMenuItem>
+            </NavbarMenuItem>
+       
 
-        <NavbarMenuItem Text="Clientes" Href="clientes">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.User_check" />
-            </MenuItemIcon>
-        </NavbarMenuItem>
+            <NavbarMenuItem Text="Clientes" Href="clientes">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.User_check" />
+                </MenuItemIcon>
+            </NavbarMenuItem>
+        
+        @if (AppData.Current.User.Permissions.UserManager)
+        {
+            <NavbarMenuItem Text="Usuarios" Href="usuario">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Users" />
+                </MenuItemIcon>
 
-        <NavbarMenuItem Text="Usuarios" Href="usuario">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Users" />
-            </MenuItemIcon>
+            </NavbarMenuItem>
+        }
+       
+            <NavbarMenuItem Text="Proveedores" Href="proveedores">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
+                </MenuItemIcon>
 
-        </NavbarMenuItem>
+            </NavbarMenuItem>
+        
+        @if (AppData.Current.User.Permissions.ReadReports)
+        {
+            <NavbarMenuItem Text="Reportes" Href="proveedores">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
+                </MenuItemIcon>
 
-        <NavbarMenuItem Text="Proveedores" Href="proveedores">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
-            </MenuItemIcon>
-
-        </NavbarMenuItem>
-
+            </NavbarMenuItem>
+        }
         <NavbarMenuItem Text="Utilites">
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.Exposure" />

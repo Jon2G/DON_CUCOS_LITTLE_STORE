@@ -29,9 +29,9 @@ namespace Tabler.Docs.ViewModels
         {
             try
             {
-                await Task.Yield();
+                
                 IsLoading = true;
-                Usuario = User.GetById(UserId);
+                Usuario = await User.GetById(UserId);
             }
             catch (Exception e)
             {
