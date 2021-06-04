@@ -31,7 +31,7 @@ namespace Tabler.Docs.Models
             }
             else
             {
-                this.Parts.Add(new SalePart(product));
+                this.Parts.Insert(0,new SalePart(product));
             }
         }
     }

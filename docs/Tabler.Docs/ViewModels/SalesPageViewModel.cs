@@ -23,7 +23,7 @@ namespace Tabler.Docs.ViewModels
         {
             get
             {
-                int size = GroupLine.Products.Count / 4;
+                int size = GroupLine.Products.Count / 3;
                 if (size < 4)
                 {
                     size = 4;
