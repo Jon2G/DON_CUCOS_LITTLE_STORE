@@ -27,29 +27,29 @@
             </EditorTemplate>
         </Column>
         <Column Item="User" Property="e=>e.Permissions.StockOut" Title="Stockout" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Permissions.StockOut" />
-            </EditorTemplate>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.StockOut" Disabled="true" Switch />
+            </Template>
         </Column>
         <Column Item="User" Property="e=>e.Permissions.StockIn" Title="StockIn" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Permissions.StockIn" />
-            </EditorTemplate>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.StockIn" Disabled="true" Switch />
+            </Template>
         </Column>
         <Column Item="User" Property="e=>e.Permissions.UserManager" Title="UserManager" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Permissions.UserManager" />
-            </EditorTemplate>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.UserManager" Disabled="true" Switch />
+            </Template>
         </Column>
         <Column Item="User" Property="e=>e.Permissions.ReadReports" Title="ReadReports" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Permissions.ReadReports" />
-            </EditorTemplate>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadReports" Disabled="true" Switch />
+            </Template>
         </Column>
         <Column Item="User" Property="e=>e.Permissions.ReadOnly" Title="ReadOnly" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Permissions.ReadOnly" />
-            </EditorTemplate>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadOnly" Disabled="true" Switch />
+            </Template>
         </Column>
         <Column Item="User" Property="e => e.Name" Title="Imagen">
             <Template>

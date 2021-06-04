@@ -19,6 +19,20 @@ namespace Tabler.Docs.ViewModels
 
         public event EventHandler Refreshed;
 
+        public int PageSize
+        {
+            get
+            {
+                int size = GroupLine.Products.Count / 4;
+                if (size < 4)
+                {
+                    size = 4;
+                }
+
+                return size;
+            }
+        }
+
         public SalesPageViewModel()
         {
             this.GroupLine = new GroupLine(new Category());

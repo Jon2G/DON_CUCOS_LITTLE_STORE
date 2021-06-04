@@ -16,7 +16,13 @@ namespace Tabler.Docs.Models
 
         public SalePart()
         {
-            
+            Quantity = 1;
+        }
+
+        public SalePart(Product product):this()
+        {
+            Product = product;
+            Price = product.Price;
         }
 
     }

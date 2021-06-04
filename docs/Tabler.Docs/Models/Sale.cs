@@ -22,5 +22,17 @@ namespace Tabler.Docs.Models
             Customer = new Customer();
             User = AppData.Current.User;
         }
+
+        public void Add(Product product)
+        {
+            if (Parts.FirstOrDefault(x => x.Product.Equals(product)) is SalePart salePart)
+            {
+                salePart.Quantity++;
+            }
+            else
+            {
+                this.Parts.Add(new SalePart(product));
+            }
+        }
     }
 }
