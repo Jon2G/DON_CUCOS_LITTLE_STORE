@@ -13,269 +13,190 @@
         display: none;
     }
 
-    :root {
-        --baseColor: #606468;
-    }
+import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700);
+import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css);
+import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
+* {
+  margin: 0;
+  padding: 0;
+}
 
-    /* helpers/align.css */
+html {
+  background: url(https://dl.dropboxusercontent.com/u/159328383/background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
-    .align {
-        display: grid;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        justify-items: center;
-        place-items: center;
-    }
+body {
+  background: #606468;
+}
 
-    .grid {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-
-    /* helpers/hidden.css */
-
-    .hidden {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-    }
-
-    /* helpers/icon.css */
-
-    :root {
-        --iconFill: var(--baseColor);
-    }
-
-    .icons {
-        display: none;
-    }
-
-    .icon {
-        height: 1em;
-        display: inline-block;
-        fill: #606468;
-        fill: var(--iconFill);
-        width: 1em;
-        vertical-align: middle;
-    }
-
-    /* layout/base.css */
-
-    :root {
-        --htmlFontSize: 100%;
-        --bodyBackgroundColor: #2c3338;
-        --bodyColor: var(--baseColor);
-        --bodyFontFamily: "Open Sans";
-        --bodyFontFamilyFallback: sans-serif;
-        --bodyFontSize: 0.875rem;
-        --bodyFontWeight: 400;
-        --bodyLineHeight: 1.5;
-    }
-
-    * {
-        -webkit-box-sizing: inherit;
-        box-sizing: inherit;
-    }
-
-    html {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        font-size: 100%;
-        font-size: var(--htmlFontSize);
-    }
-
-    body {
-        background-color: #2c3338;
-        background-color: var(--bodyBackgroundColor);
-        color: #606468;
-        color: var(--bodyColor);
-        font-family: "Open Sans", sans-serif;
-        font-family: var(--bodyFontFamily), var(--bodyFontFamilyFallback);
-        font-size: 0.875rem;
-        font-size: var(--bodyFontSize);
-        font-weight: 400;
-        font-weight: var(--bodyFontWeight);
-        line-height: 1.5;
-        line-height: var(--bodyLineHeight);
-        margin: 0;
-        min-height: 100vh;
-    }
-
-    /* modules/anchor.css */
-
-    :root {
-        --anchorColor: #eee;
-    }
-
-    a {
-        color: #eee;
-        color: var(--anchorColor);
-        outline: 0;
-        text-decoration: none;
-    }
-
-        a:focus,
-        a:hover {
-            text-decoration: underline;
-        }
-
-    /* modules/form.css */
-
-    :root {
-        --formGap: 0.875rem;
-    }
-
-    .button {
-        background-image: none;
-        border: 0;
-        color: inherit;
-        font: inherit;
-        margin: 0;
-        outline: 0;
-        padding: 0;
-        -webkit-transition: background-color 0.3s;
-        -o-transition: background-color 0.3s;
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-       
-
-    .form {
-        display: grid;
-        grid-gap: 0.875rem;
-        gap: 0.875rem;
-        grid-gap: var(--formGap);
-        gap: var(--formGap);
-    }
-
-        .form input[type="password"],
-        .form input[type="text"],
-        .form input[type="submit"] {
-            width: 100%;
-        }
-
-    .form__field {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-    }
-
-    .form__input {
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-    }
-
-    /* modules/login.css */
-
-    :root {
-        --loginBorderRadus: 0.25rem;
-        --loginColor: #eee;
-        --loginInputBackgroundColor: #3b4148;
-        --loginInputHoverBackgroundColor: #434a52;
-        --loginLabelBackgroundColor: #363b41;
-        --loginSubmitBackgroundColor: #206bc4;
-        --loginSubmitColor: #eee;
-        --loginSubmitHoverBackgroundColor: #207cd0;
-    }
+body, input, button {
+  font-family: "Source Sans Pro", sans-serif;
+}
 
     .login {
-        color: #eee;
-        color: var(--loginColor);
+        padding: 15px;
+        width: 400px;
+        min-height: 400px;
+        top: 50%;
+        left: -50%;
+        margin: 8% 259px 0px 190px;
     }
+.login .heading {
+  text-align: center;
+  margin-top: 1%;
+}
+.login .heading h2 {
+  font-size: 3em;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  display: inline-block;
+  padding-bottom: 5px;
+  text-shadow: 1px 1px 3px #23203b;
+}
+.login form .input-group {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.login form .input-group:last-of-type {
+  border-top: none;
+}
+.login form .input-group span {
+  background: transparent;
+  min-width: 53px;
+  border: none;
+}
+.login form .input-group span i {
+  font-size: 1.5em;
+  color: rgba(255, 255, 255, 0.2);
+}
+.login form input.form-control {
+  display: block;
+  width: auto;
+  height: auto;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  background: none;
+  border-radius: 0px;
+  padding: 10px;
+  font-size: 1.6em;
+  width: 100%;
+  background: transparent;
+  color: white;
+}
+.login form input.form-control:focus {
+  border: none;
+}
+.login form button {
+  margin-top: 20px;
+  background: #0B54F1;
+  border: none;
+  font-size: 1.6em;
+  font-weight: 300;
+  padding: 5px 0;
+  width: 100%;
+  border-radius: 3px;
+  color: #cbdbfd;
+  border-bottom: 4px solid #0943c0;
+}
+.login form button:hover {
+  background: #155bf2;
+  -webkit-animation: hop 1s;
+  animation: hop 1s;
+}
 
-        .login label,
-        .login input[type="text"],
-        .login input[type="password"],
-        .login input[type="submit"] {
-            border-radius: 0.25rem;
-            border-radius: var(--loginBorderRadus);
-            padding: 1rem;
-        }
+.float {
+  display: inline-block;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
 
-        .login label {
-            background-color: #363b41;
-            background-color: var(--loginLabelBackgroundColor);
-            border-bottom-right-radius: 0;
-            border-top-right-radius: 0;
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
-        }
+.float:hover, .float:focus, .float:active {
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+}
 
-        .login input[type="password"],
-        .login input[type="text"] {
-            background-color: #3b4148;
-            background-color: var(--loginInputBackgroundColor);
-            border-bottom-left-radius: 0;
-            border-top-left-radius: 0;
-        }
-
-            .login input[type="password"]:focus,
-            .login input[type="password"]:hover,
-            .login input[type="text"]:focus,
-            .login input[type="text"]:hover {
-                background-color: #434a52;
-                background-color: var(--loginInputHoverBackgroundColor);
-            }
-
-        .login input[type="submit"] {
-            background-color: #206bc4;
-            background-color: var(--loginSubmitBackgroundColor);
-            color: #eee;
-            color: var(--loginSubmitColor);
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-            .login input[type="submit"]:focus,
-            .login input[type="submit"]:hover {
-                background-color: #207cd0;
-                background-color: var(--loginSubmitHoverBackgroundColor);
-            }
-
-    /* modules/text.css */
-
-    p {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .text--center {
-        text-align: center;
-    }
+/* Large Devices, Wide Screens */
+media only screen and (max-width: 1200px) {
+  .login {
+    width: 600px;
+    font-size: 2em;
+  }
+}
+media only screen and (max-width: 1100px) {
+  .login {
+    margin-top: 2%;
+    width: 600px;
+    font-size: 1.7em;
+  }
+}
+/* Medium Devices, Desktops */
+media only screen and (max-width: 992px) {
+  .login {
+    margin-top: 1%;
+    width: 550px;
+    font-size: 1.7em;
+    min-height: 0;
+  }
+}
+/* Small Devices, Tablets */
+media only screen and (max-width: 768px) {
+  .login {
+    margin-top: 0;
+    width: 500px;
+    font-size: 1.3em;
+    min-height: 0;
+  }
+}
+/* Extra Small Devices, Phones */
+media only screen and (max-width: 480px) {
+  .login {
+    margin-top: 0;
+    width: 400px;
+    font-size: 1em;
+    min-height: 0;
+  }
+  .login h2 {
+    margin-top: 0;
+  }
+}
+/* Custom, iPhone Retina */
+media only screen and (max-width: 320px) {
+  .login {
+    margin-top: 0;
+    width: 200px;
+    font-size: 0.7em;
+    min-height: 0;
+  }
+}
 </style>
-<body class="align">
 
-    <div class="grid">
-
-        <form class="form login">
-
-            <div class="form__field">
-                <label for="login__username">
-                    <svg class="icon">
-                        <use xlink:href="#icon-user"></use>
-                    </svg><span class="hidden">Username</span>
-                </label>
-                <input @bind-value="Model.User.Nickname" autocomplete="username" id="login__username" type="text" name="username" class="form__input" placeholder="Usuario" required>
+<div class="login">
+    <div class="heading">
+        <h2>Don Cuco's Market</h2>
+        <form action="#">
+            <div style="margin: 5px; display: inline-grid;width:100%">
+                <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
+                    <img src="https://images.emojiterra.com/google/android-11/512px/1f6d2.png" style="vertical-align:middle;width:150px;height:150px;">
+                </div>
+            </div>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input @bind-value="Model.User.Nickname" type="text" class="form-control" placeholder="Usuario">
             </div>
 
-            <div class="form__field">
-                <label for="login__password">
-                    <svg class="icon">
-                        <use xlink:href="#icon-lock"></use>
-                    </svg><span class="hidden">Password</span>
-                </label>
-                <input @bind-value="Model.User.Password" id="login__password" type="password" name="password" class="form__input" placeholder="Contraseña" required>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input @bind-value="Model.User.Password" type="password" class="form-control" placeholder="Contraseña">
             </div>
 
             <div class="form__field">
@@ -283,24 +204,9 @@
                     Ingresar
                 </Button>
             </div>
-
         </form>
-
     </div>
-
-    <svg xmlns="http://www.w3.org/2000/svg" class="icons">
-        <symbol id="icon-arrow-right" viewBox="0 0 1792 1792">
-            <path d="M1600 960q0 54-37 91l-651 651q-39 37-91 37-51 0-90-37l-75-75q-38-38-38-91t38-91l293-293H245q-52 0-84.5-37.5T128 1024V896q0-53 32.5-90.5T245 768h704L656 474q-38-36-38-90t38-90l75-75q38-38 90-38 53 0 91 38l651 651q37 35 37 90z" />
-        </symbol>
-        <symbol id="icon-lock" viewBox="0 0 1792 1792">
-            <path d="M640 768h512V576q0-106-75-181t-181-75-181 75-75 181v192zm832 96v576q0 40-28 68t-68 28H416q-40 0-68-28t-28-68V864q0-40 28-68t68-28h32V576q0-184 132-316t316-132 316 132 132 316v192h32q40 0 68 28t28 68z" />
-        </symbol>
-        <symbol id="icon-user" viewBox="0 0 1792 1792">
-            <path d="M1600 1405q0 120-73 189.5t-194 69.5H459q-121 0-194-69.5T192 1405q0-53 3.5-103.5t14-109T236 1084t43-97.5 62-81 85.5-53.5T538 832q9 0 42 21.5t74.5 48 108 48T896 971t133.5-21.5 108-48 74.5-48 42-21.5q61 0 111.5 20t85.5 53.5 62 81 43 97.5 26.5 108.5 14 109 3.5 103.5zm-320-893q0 159-112.5 271.5T896 896 624.5 783.5 512 512t112.5-271.5T896 128t271.5 112.5T1280 512z" />
-        </symbol>
-    </svg>
-
-</body>
+</div>
 @code{
     [Inject] NavigationManager NavManager { get; set; }
     private async void Login()
