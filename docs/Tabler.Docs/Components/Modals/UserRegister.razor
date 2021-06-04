@@ -54,7 +54,9 @@
                     <div class="col-md-6">
                         <Checkbox Label="Privilegio Reporte" @bind-Value="Model.Usuario.Permissions.ReadReports" Changed="StateHasChanged" Switch />
                     </div>
-
+                    <div class="col-md-6">
+                        <Checkbox Label="Privilegio Ventas" @bind-Value="Model.Usuario.Permissions.Sales" Changed="StateHasChanged" Switch />
+                    </div>
                 </div>
 
 

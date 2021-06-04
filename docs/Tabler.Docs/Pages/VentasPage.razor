@@ -5,7 +5,10 @@
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
 @inject SalesPageViewModel Model
-
+@if(!AppData.Current.User.Permissions.Sales)
+{
+    return;
+}
 <PagePretitle>
     Don cuco's
     <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />

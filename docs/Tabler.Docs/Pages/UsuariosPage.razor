@@ -7,9 +7,12 @@
 
 @inject UserPageViewModel Model
 @inject UsuarioViewModel Mode
+@if (!AppData.Current.User.Permissions.Sales)
+{
+    return;
+}
 
-
-<Table Item="User" Items="Model.Users" PageSize="10" 
+<Table Item="User" Items="Model.Users" PageSize="10"
        OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Usuarios</strong>
@@ -49,6 +52,11 @@
         <Column Item="User" Property="e=>e.Permissions.ReadOnly" Title="ReadOnly" Sortable Searchable Groupable>
             <Template>
                 <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadOnly" Disabled="true" Switch />
+            </Template>
+        </Column>
+        <Column Item="User" Property="e=>e.Permissions.Sales" Title="Sales" Sortable Searchable Groupable>
+            <Template>
+                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.Sales" Disabled="true" Switch />
             </Template>
         </Column>
         <Column Item="User" Property="e => e.Name" Title="Imagen">

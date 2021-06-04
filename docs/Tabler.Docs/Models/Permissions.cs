@@ -59,8 +59,7 @@ namespace Tabler.Docs.Models
         }
 
         public bool _UserManager;
-
-
+        private bool _Sales;
 
         public bool UserManager
         {
@@ -72,6 +71,14 @@ namespace Tabler.Docs.Models
                 {
                     ReadOnly = false;
                 }
+            }
+        }
+        public bool Sales
+        {
+            get => _Sales;
+            set
+            {
+                _Sales = value;
             }
         }
         public static Permissions GetById(int id)
@@ -87,7 +94,8 @@ namespace Tabler.Docs.Models
                         StockIn = Convert.ToBoolean(reader[2]),
                         ReadReports = Convert.ToBoolean(reader[3]),
                         UserManager = Convert.ToBoolean(reader[4]),
-                        ReadOnly = Convert.ToBoolean(reader[5])
+                        ReadOnly = Convert.ToBoolean(reader[5]),
+                        Sales = Convert.ToBoolean(reader[6])
                     };
                 }
             }
@@ -101,7 +109,8 @@ namespace Tabler.Docs.Models
                 new SqlParameter("STOCK_IN", StockIn),
                 new SqlParameter("REPORTS_READ", ReadReports),
                 new SqlParameter("USER_MANAGER", UserManager),
-                new SqlParameter("READ_ONLY", ReadOnly)
+                new SqlParameter("READ_ONLY", ReadOnly),
+                new SqlParameter("SALES", Sales)
             );
         }
     }

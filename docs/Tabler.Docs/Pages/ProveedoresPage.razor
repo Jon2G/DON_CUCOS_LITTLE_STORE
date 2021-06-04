@@ -10,7 +10,7 @@
 
 
 <Table Item="Supplier" Items="Model.Suppliers" PageSize="10"
-       OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
+      OnItemSelected="OnItemEdit"  OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Proveedores</strong>
     </HeaderTemplate>
@@ -33,16 +33,20 @@
         </Column>
         <Column Item="Supplier" Property="e => e.Name" Title="Imagen">
             <Template>
-                <img src="@context.Picture" style="height: 100px;"/>
+                <img src="@context.Picture" style="height: 100px;" />
             </Template>
         </Column>
     </ChildContent>
 
 </Table>
-<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
-    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
-    Registrar
-</Button>
+@if (!AppData.Current.User.Permissions.ReadOnly)
+{
+    <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+        Registrar
+    </Button>
+}
+
 @code {
 
     [Inject] IModalService ModalService { get; set; }
@@ -100,13 +104,23 @@
     }
     private async Task OnItemEdit(Supplier supplier)
     {
-        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, supplier.Id);
-        var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large });
-        if (!result.Cancelled)
+        if(AppData.Current.User.Permissions.ReadOnly)
         {
-            await Model.Refresh();
-            StateHasChanged();
+            var result = await ModalService.ShowAsync(AppData.Current.User.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "No tienes permiso de editar"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
         }
+        else
+        {
+            var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, supplier.Id);
+            var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large });
+            if (!result.Cancelled)
+            {
+                await Model.Refresh();
+                StateHasChanged();
+            }
+        }
+
     }
 
 }

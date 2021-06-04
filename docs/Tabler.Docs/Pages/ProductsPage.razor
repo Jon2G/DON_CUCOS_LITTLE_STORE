@@ -66,19 +66,23 @@ else
                                 <div class="container">
                                     <h4><b>@product.Name</b></h4>
                                     <p>@line.Category.Description</p>
+                                    @if (!AppData.Current.User.Permissions.ReadOnly)
+                                    {
+                                        <Row style="margin: 5px;">
+                                            <RowCol Sm="6">
 
-                                    <Row style="margin: 5px;">
-                                        <RowCol Sm="6">
-                                            <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
-                                                <Icon class="icon" Elements="@DemoIcons.Pencil" />
-                                            </Button>
-                                        </RowCol>
-                                        <RowCol Sm="6">
-                                            <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
-                                                <Icon class="icon" Elements="@DemoIcons.Trash" />
-                                            </Button>
-                                        </RowCol>
-                                    </Row>
+                                                <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
+                                                    <Icon class="icon" Elements="@DemoIcons.Pencil" />
+                                                </Button>
+                                            </RowCol>
+                                            <RowCol Sm="6">
+                                                <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
+                                                    <Icon class="icon" Elements="@DemoIcons.Trash" />
+                                                </Button>
+                                            </RowCol>
+                                        </Row>
+                                    }
+
                                 </div>
                             </div>
                         </Card>

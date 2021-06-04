@@ -34,29 +34,32 @@
     </ChildContent>
 
 </Table>
+@if (!AppData.Current.User.Permissions.ReadOnly)
+{
 <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
     <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
     Registrar
 </Button>
+}
 @code {
 
-    [Inject] IModalService ModalService { get; set; }
-    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
-    protected async Task ShowModal()
-    {
-
-
-        var component = new RenderComponent<CustomerRegistration>();
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
-
-        if (!result.Cancelled)
+        [Inject] IModalService ModalService { get; set; }
+        [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+        protected async Task ShowModal()
         {
-            await Model.Refresh();
-            StateHasChanged();
+
+
+            var component = new RenderComponent<CustomerRegistration>();
+            var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+
+            if (!result.Cancelled)
+            {
+                await Model.Refresh();
+                StateHasChanged();
+            }
+
+
         }
-
-
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,12 +81,21 @@
 
     private async Task OnItemEdit(Customer customer)
     {
-        var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
-        if (!result.Cancelled)
+        if (AppData.Current.User.Permissions.ReadOnly)
         {
-            await Model.Refresh();
-            StateHasChanged();
+            var result = await ModalService.ShowAsync(AppData.Current.User.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "No tienes permiso de editar"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+        }
+        else
+        {
+            var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
+            var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+            if (!result.Cancelled)
+            {
+                await Model.Refresh();
+                StateHasChanged();
+            }
         }
     }
 
