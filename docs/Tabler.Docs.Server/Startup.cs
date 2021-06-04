@@ -41,7 +41,8 @@ namespace Tabler.Docs.Server
                 .AddSingleton<UserPageViewModel>()
                 .AddSingleton<UsuarioViewModel>()
                 .AddSingleton<ProveedoresPageViewModel>()
-                .AddSingleton<ProveedoresViewModel>()
+                .AddSingleton<ProveedoresRegisterViewModel>()
+                .AddSingleton<CategoriesPageViewModel>()
                 .AddSingleton<ProductFinderViewModel>()
                 .AddSingleton<SalesPageViewModel>()
                 .AddSingleton<CategoryAddViewModel>();

@@ -3,35 +3,20 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
-@using Supplier = Tabler.Docs.Models.Supplier
+@using Category = Tabler.Docs.Models.Category
 
-@inject ProveedoresPageViewModel Model
-@inject ProveedoresViewModel Mode
+@inject CategoriesPageViewModel Model
 
 
-<Table Item="Supplier" Items="Model.Suppliers" PageSize="10"
+<Table Item="Category" Items="Model.Categories" PageSize="10"
        OnItemSelected="OnItemDelete">
     <HeaderTemplate>
         <strong>Proveedores</strong>
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Supplier" Property="e=>e.Name" Title="Nombre" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Name" />
-            </EditorTemplate>
-        </Column>
-        <Column Item="Supplier" Property="e=>e.Cellphone" Title="Celular" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Cellphone" />
-            </EditorTemplate>
-        </Column>
-        <Column Item="Supplier" Property="e=>e.Notes" Title="Notas" Sortable Searchable Groupable>
-            <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Notes" />
-            </EditorTemplate>
-        </Column>
-        <Column Item="Supplier" Property="e => e.Name" Title="Imagen">
+        <Column Item="Category" Property="e=>e.Description" Title="Nombre" Sortable Searchable Groupable/>
+        <Column Item="Category" Property="e => e.Id" Title="Imagen">
             <Template>
                 <img src="@context.Picture" style="height: 100px;"/>
             </Template>
@@ -51,8 +36,8 @@
     {
 
 
-        var component = new RenderComponent<ProveedorRegister>();
-        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+        var component = new RenderComponent<CategoryAdd>();
+        var result = await ModalService.ShowAsync("Alta de categoria", component, new ModalOptions { Size = ModalSize.Small });
 
         if (!result.Cancelled)
         {
@@ -80,10 +65,10 @@
         StateHasChanged();
     }
 
-    private async Task OnItemDelete(Supplier supplier)
+    private async Task OnItemDelete(Category Category)
     {
-        var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, supplier.Id);
-        var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large });
+        var component = new RenderComponent<CategoryAdd>().Set(prove => prove.CategoryId, Category.Id);
+        var result = await ModalService.ShowAsync("Editar categoría", component, new ModalOptions { Size = ModalSize.Large });
         if (!result.Cancelled)
         {
             await Model.Refresh();

@@ -18,7 +18,7 @@
                             <div style="margin: 5px; display: block; margin-left: auto; margin-right: auto; width: auto;">
                                 <img src="@Model.Category.Picture" style="vertical-align: middle; width: 150px; height: 150px;">
                             </div>
-                            <InputFile OnChange="OnInputFileChange" multiple/>
+                            <InputFile OnChange="OnInputFileChange" multiple />
                         </div>
 
                     </div>
@@ -47,16 +47,43 @@
 @inject CategoryAddViewModel Model;
 @inject IModalService ModalService
 @code {
+    [Parameter] public int CategoryId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.RequestLoad(CategoryId);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        if (Model.Category is null)
+        {
+            Model.Category = new Category();
+        }
+        StateHasChanged();
+    }
+
+
     private async Task Confirm()
     {
-
+        string message = "¿Dar de alta esta categoría";
+        if (Model.Category.Id > 0)
+        {
+            message = "¿Actualizar esta categoría?";
+        }
         var result = await ModalService.ShowAsync(Model.Category.Description,
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta esta categoría"),
+            new RenderComponent<DialogTest>().Set(x => x.Line1, message),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
 
         if (!result.Cancelled)
         {
-            if (Category.GetByName(Model.Category.Description).Id>0)
+            if ((Model.Category.Id <= 0) && Category.GetByName(Model.Category.Description).Id > 0)
             {
                 await ModalService.ShowAsync($"¡Alerta!",
                     new RenderComponent<DialogTest>().Set(x => x.Line1, "Ya existe una categoría con esta descripción"),
