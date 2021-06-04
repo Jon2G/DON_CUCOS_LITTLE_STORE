@@ -1,0 +1,325 @@
+﻿@page "/"
+@page "/ventas"
+@using Tabler.Docs.Components.Modals
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+@inject SalesPageViewModel Model
+
+<PagePretitle>
+    Don cuco's
+    <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
+    little store
+</PagePretitle>
+
+
+<div class="row">
+    <dvi class="col-md-6">
+        @if (Model.IsInCategory)
+        {
+            <Button Text="Volver a categorias" @onclick="() => GoBack()" BackgroundColor="TablerColor.Info">
+                <div>
+                    <Icon class="icon" Elements="@DemoIcons.Arrow_back" />
+                    <span style="margin: 5px;">Volver a categorias</span>
+                </div>
+            </Button>
+        }
+
+        <Row>
+            @if (Model.IsInCategory)
+            {
+                @if (Model.IsLoading)
+                {
+                    <Dimmer ShowSpinner="true" Active="Model.IsLoading">
+                        <p><em>Cargando...</em></p>
+                    </Dimmer>
+                }
+                else
+                {
+                    <Card Size="CardSize.Small">
+                        <CardBody class="d-flex align-items-center">
+                            <span class="bg-blue text-white stamp me-3">
+                                <Icon Elements="@DemoIcons.Building_warehouse" />
+                            </span>
+                            <div class="me-3 lh-sm">
+                                <div class="strong">
+                                    @Model.GroupLine.Category.Description
+                                </div>
+                                @*<div class="text-muted">12 waiting payments</div>*@
+                            </div>
+                        </CardBody>
+                    </Card>
+                    if (Model.GroupLine.IsLoading)
+                    {
+                        <Dimmer ShowSpinner="true" Active="Model.GroupLine.IsLoading">
+                            <p><em>Cargando...</em></p>
+                        </Dimmer>
+                    }
+                    else
+                    {
+                        <Row>
+                            @foreach (Product product in Model.GroupLine.Products)
+                            {
+                                <RowCol Sm="4">
+                                    <Card OnClick="() =>ProductClick(product)">
+                                        <div class="card" style="margin: 5px; cursor: pointer;">
+                                            <img src="@product.Picture" alt="@product.Name" style="height: 200px;">
+                                            <div class="container">
+                                                <h4><b>@product.Name</b></h4>
+                                                <p>@Model.GroupLine.Category.Description</p>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </RowCol>
+                            }
+                        </Row>
+
+                    }
+
+                }
+            }
+            else
+            {
+
+                foreach (GroupLine line in Model.Lines)
+                {
+                    <RowCol Sm="4">
+                        <Card OnClick="() =>LineClick(line)">
+                            <div class="card" style="margin: 5px; cursor: pointer;">
+                                <img src="@line.Category.Picture" alt="@line.Category.Description" style="height: 200px;">
+                                <div class="container" style="
+                                                          padding: 0px;
+                                                          margin: auto;
+                                                          width: 100%;
+                                                          text-align: center;
+                                                      "><b style="text-align: center;font-size: 20px; ">@line.Category.Description</b></div>
+                                                </div>
+                                            </Card>
+                                        </RowCol>
+                                    }
+                                }
+        </Row>
+    </dvi>
+    <dvi class="col-md-6">
+        <Card>
+            <div>
+                <div class="row" style="padding: 10px; margin: 5px;">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Cliente*:</label>
+                            <div style="display: flex">
+
+                                <Select Items="Model.Customers" @bind-SelectedValue="@Model.Sale.Customer"
+                                        TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+
+                                <Button BackgroundColor="TablerColor.Green" OnClick="CustomerSearch">
+                                    <Icon class="icon" Elements="@InternalIcons.Search" />
+                                </Button>
+                                <Button BackgroundColor="TablerColor.Green" OnClick="AddCustomer">
+                                    <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label class="form-label">Vendendor*:</label>
+                            <div style="display: flex">
+                                <label value="@Model.Sale.User.Name" />
+                                <Button BackgroundColor="TablerColor.Green" OnClick="ChangeUser">
+                                    <Icon class="icon" Elements="@DemoIcons.Login" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <Table Item="SalePart" Items="Model.Sale.Parts" PageSize="Model.PageSize">
+                    <HeaderTemplate>
+                        <strong>Venta</strong>
+                    </HeaderTemplate>
+
+                    <ChildContent>
+                        <Column Item="SalePart" Property="e => e.Product.Picture" Title="Imagen">
+                            <Template>
+                                <img src="@context.Product.Picture" style="height: 100px;" />
+                            </Template>
+                        </Column>
+                        <Column Item="SalePart" Property="e => e.Product.Name" Title="Nombre" Sortable Searchable Groupable />
+
+                        <Column Item="SalePart" Property="e => e.Price" Title="Precio" Sortable Searchable Groupable>
+                            <Template>
+                                <b>@context.Price.ToString("C2")</b>
+                            </Template>
+                        </Column>
+                        <Column Item="SalePart" Property="e => e.Quantity" Title="Qty." Sortable Searchable Groupable>
+                            <Template>
+                                <div style="display: block;">
+
+
+                                    <Button style="width: 50px;" class="col-md-4" @onclick="() => Minus(context)" BackgroundColor="TablerColor.Orange">
+                                        <Icon class="icon" Elements="@DemoIcons.Minus" />
+                                    </Button>
+                                    <Button style="width: 50px;" class="col-md-4" @onclick="() => Plus(context)" BackgroundColor="TablerColor.Green">
+                                        <Icon class="icon" Elements="@DemoIcons.Plus" />
+                                    </Button>
+                                    <input style="margin-left: 5px; width: 70px;" class="col-md-4" @bind="context.Quantity" />
+
+
+                                </div>
+                            </Template>
+                        </Column>
+                        <Column Item="SalePart" Property="e => e.Total" Title="Total" Sortable Searchable Groupable>
+                            <Template>
+                                <b>@context.Total.ToString("C2")</b>
+                            </Template>
+                        </Column>
+                    </ChildContent>
+                </Table>
+                <Card style="padding: 10px; text-align: end;">
+
+                    <div style="display: block;">
+                        <b style="font-size: 18px">Total:</b>
+                        <b>@Model.Sale.Total.ToString("C2")</b>
+                    </div>
+                    <Button style="align-self: flex-end; margin: 3px;" class="col-md-4" @onclick="() => EndSale()" BackgroundColor="TablerColor.Green">
+                        Cobrar
+                        <Icon class="icon" Elements="@DemoIcons.Shopping_cart" />
+                    </Button>
+
+                </Card>
+            </div>
+        </Card>
+    </dvi>
+</div>
+
+
+
+
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed()
+    {
+        StateHasChanged();
+    }
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+
+    [Inject] IModalService ModalService { get; set; }
+
+    protected async Task ShowModal()
+    {
+        await ShowModal(0);
+    }
+    protected async Task ShowModal(int ProductId)
+    {
+        string Tile = "Alta de productos";
+        if (ProductId > 0)
+        {
+            Tile = "Edición de producto";
+        }
+
+        var component = new RenderComponent<ProductEdit>().Set(e => e.ProductId, ProductId);
+        var result = await ModalService.ShowAsync(Tile, component, new ModalOptions { Size = ModalSize.Large });
+
+        if (!result.Cancelled)
+        {
+            await this.Model.Refresh();
+            StateHasChanged();
+        }
+    }
+
+    private async void Delete(int productId)
+    {
+        Product product = await Product.GetById(productId);
+        if (product is null) { return; }
+        var result = await ModalService.ShowAsync(product.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este producto?")
+                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
+        {
+            product.Disabled = true;
+            product.Save();
+            ModalService.Close(ModalResult.Ok());
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
+
+    private void ChangeUser()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void AddCustomer()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void CustomerSearch()
+    {
+        throw new NotImplementedException();
+    }
+
+    private async void LineClick(GroupLine line)
+    {
+        Model.IsLoading = true;
+        StateHasChanged();
+        await Task.Delay(10);
+        await Model.LoadLine(line);
+        Model.GroupLine = line;
+        StateHasChanged();
+    }
+
+    private async void GoBack()
+    {
+        Model.GroupLine = new GroupLine(new Category());
+        await Model.Refresh();
+        StateHasChanged();
+    }
+
+    private void ProductClick(Product product)
+    {
+        Model.Sale.Add(product);
+        StateHasChanged();
+    }
+
+    private void Plus(SalePart salePart)
+    {
+        salePart.Quantity++;
+    }
+
+    private void Minus(SalePart salePart)
+    {
+        salePart.Quantity--;
+        if (salePart.Quantity <= 0)
+        {
+            this.Model.Sale.Parts.Remove(salePart);
+        }
+    }
+
+    public void EndSale()
+    {
+
+    }
+
+}
+

@@ -46,11 +46,11 @@ namespace Tabler.Docs.Models
 
         }
 
-        public static async Task<User> FindByNickName(string nickname)//eSTE PIDE NICKNAME
+        public static async Task<User> GetById(int Id)
         {
             await Task.Yield();
-            using (IReader reader = AppData.SQL.Read("GET_USER_BY_NICKNAME",
-                CommandType.StoredProcedure, new SqlParameter("NICKNAME", nickname)))
+            using (IReader reader = AppData.SQL.Read("GET_USER_BY_ID",
+                CommandType.StoredProcedure, new SqlParameter("ID", Id)))
             {
                 if (reader.Read())
                 {
@@ -69,13 +69,20 @@ namespace Tabler.Docs.Models
             }
             return new User();
         }
+        public static async Task<User> FindByNickName(string nickname)//eSTE PIDE NICKNAME
+        {
+            int id = AppData.SQL.Single<int>("GET_USER_BY_NICKNAME",
+                CommandType.StoredProcedure, new SqlParameter("NICKNAME", nickname));
+            return await GetById(id);
+
+        }
         public static async Task<List<User>> GetAll()
         {
             await Task.Yield();
             List<User> users = new List<User>();
-            foreach (string Nickname in AppData.SQL.Lista<string>("SELECT *FROM VIEW_GETALLUSERS",3))
+            foreach (int id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLUSERS",0))
             {
-                users.Add(await FindByNickName(Nickname));//LO PRIMERO QUE ENTRA ES EL ID ,ASI? SIP LEE EN 1 Y NO EN CERO
+                users.Add(await GetById(id));
             }
             return users;
         }

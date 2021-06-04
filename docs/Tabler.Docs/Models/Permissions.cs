@@ -85,9 +85,9 @@ namespace Tabler.Docs.Models
                         Id = Convert.ToInt32(reader[0]),
                         StockOut = Convert.ToBoolean(reader[1]),
                         StockIn = Convert.ToBoolean(reader[2]),
-                        ReadOnly = Convert.ToBoolean(reader[5]),
                         ReadReports = Convert.ToBoolean(reader[3]),
-                        UserManager = Convert.ToBoolean(reader[4])
+                        UserManager = Convert.ToBoolean(reader[4]),
+                        ReadOnly = Convert.ToBoolean(reader[5])
                     };
                 }
             }

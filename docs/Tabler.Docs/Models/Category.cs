@@ -14,53 +14,43 @@ namespace Tabler.Docs.Models
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string Picture { get; set; }
 
         public static async Task<List<Category>> GetAll()
         {
+            await Task.Yield();
             List<Category> lineas = new List<Category>();
-            using (IReader reader = AppData.SQL.Read("SP_GET_CATEGORIES", CommandType.StoredProcedure))
+            foreach (int id in AppData.SQL.Lista<int>("SP_GET_CATEGORIES", CommandType.StoredProcedure))
             {
-                while (reader.Read())
-                {
-                    lineas.Add(new Category()
-                    {
-                        Id =Convert.ToInt32(reader["ID"]),
-                        Description = reader["DESCRIPTION"]?.ToString()
-                    });
-                }
+                lineas.Add(GetById(id));
             }
             return lineas;
         }
 
         public static Category GetByName(string categoryName)
         {
-            Category category = null;
-            using (IReader reader = AppData.SQL.Read("SP_GET_CATEGORY_BY_NAME", CommandType.StoredProcedure,
-                new SqlParameter("NAME",categoryName)))
-            {
-                while (reader.Read())
-                {
-                    category=(new Category()
-                    {
-                        Id = Convert.ToInt32(reader["ID"]),
-                        Description = reader["DESCRIPTION"]?.ToString()
-                    });
-                }
-            }
-
-            return category;
+            int id = AppData.SQL.Single<int>("SP_GET_CATEGORY_BY_NAME", CommandType.StoredProcedure,
+                new SqlParameter("NAME", categoryName));
+            return GetById(id);
         }
 
         public void Save()
         {
             AppData.SQL.EXEC("SP_ABC_CATEGORY", CommandType.StoredProcedure,
                 new SqlParameter("ID", Id),
-                new SqlParameter("DESCRIPTION", Description));
+                new SqlParameter("DESCRIPTION", Description),
+                new SqlParameter("PICTURE", Picture)
+                );
         }
 
         public static Category GetById(int Id)
         {
-            Category category = null;
+            Category category = new Category();
+            if (Id <= 0)
+            {
+                return category;
+            }
+      
             using (IReader reader = AppData.SQL.Read("SP_GET_CATEGORY_BY_ID", System.Data.CommandType.StoredProcedure,
                 new System.Data.SqlClient.SqlParameter("ID", Id)))
             {
@@ -69,7 +59,8 @@ namespace Tabler.Docs.Models
                     category = new Category()
                     {
                         Id = Convert.ToInt32(reader[0]),
-                        Description = reader[1].ToString()
+                        Description = reader[1].ToString(),
+                        Picture =Convert.ToString(reader[2])
                     };
                 }
             }

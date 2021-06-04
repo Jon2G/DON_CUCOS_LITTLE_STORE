@@ -154,7 +154,14 @@ namespace Tabler.Docs.Models
                 new SqlParameter("DISABLED", Disabled)
                 );
         }
-
+        public override bool Equals(object? obj)
+        {
+            if (obj is Product product)
+            {
+                return product.Id == this.Id;
+            }
+            return false;
+        }
 
     }
 }
