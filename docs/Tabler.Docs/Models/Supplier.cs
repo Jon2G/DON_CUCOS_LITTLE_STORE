@@ -16,15 +16,18 @@ namespace Tabler.Docs.Models
         public string Name { get; set; }
         public string Cellphone { get; set; }
         public string Notes { get; set; }
+        public bool Enabled { get; set; }
 
-        public void Save()
+        public async Task Save()
         {
+            await Task.Yield();
             AppData.SQL.EXEC("SP_ABC_SUPPLIERS", System.Data.CommandType.StoredProcedure,
                 new System.Data.SqlClient.SqlParameter("Id", Id),
                 new System.Data.SqlClient.SqlParameter("PICTURE", Picture),
                 new System.Data.SqlClient.SqlParameter("NAME", Name),
                 new System.Data.SqlClient.SqlParameter("CELLPHONE", Cellphone),
-                new System.Data.SqlClient.SqlParameter("NOTES", Notes)
+                new System.Data.SqlClient.SqlParameter("NOTES", Notes),
+                 new System.Data.SqlClient.SqlParameter("ENABLED", Enabled)
                 );
         }
         public static Supplier GetById(int Id)
@@ -41,8 +44,8 @@ namespace Tabler.Docs.Models
                         Name = reader[2].ToString(),
                         Cellphone = reader[3].ToString(),
                         Notes = reader[4].ToString(),
-                        Picture = reader[1].ToString()
-
+                        Picture = reader[1].ToString(),
+                        Enabled = Convert.ToBoolean(reader[5])
                     };
                 }
             }

@@ -10,7 +10,7 @@
 
 
 <Table Item="Customer" Items="Model.Customers" PageSize="10"
-    OnItemSelected="OnItemDelete">
+    OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Clientes</strong>
     </HeaderTemplate>
@@ -75,7 +75,8 @@
         StateHasChanged();
     }
 
-    private async Task OnItemDelete(Customer customer)
+
+    private async Task OnItemEdit(Customer customer)
     {
         var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
         var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
@@ -86,10 +87,23 @@
         }
     }
 
-    //private async Task OnItemEdit(Customer customer)
-    //{
-    //    var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
-    //    var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
-    //   // await TablerService.ShowAlert($"Edited order {customer.Id}");
-    //}
+    private async Task OnItemDelete(Customer customer)
+    {
+        Customer custom = Customer.GetById(customer.Id);
+        if (custom is null) { return; }
+        var result = await ModalService.ShowAsync(custom.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este Cliente?")
+                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
+        {
+            customer.Enabled = true;
+            customer.Save();
+            ModalService.Close(ModalResult.Ok());
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
 }

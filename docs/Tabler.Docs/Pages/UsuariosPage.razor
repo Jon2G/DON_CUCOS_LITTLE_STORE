@@ -5,42 +5,60 @@
 @using Tabler.Docs.ViewModels
 @using Customer = Tabler.Docs.Models.Customer
 
-@inject ClientesPageViewModel Model
-@inject CustomerViewModel Mode
+@inject UserPageViewModel Model
+@inject UsuarioViewModel Mode
 
 
-<!--<Table Item="Customer" Items="Model.Customers" PageSize="10"
-       OnItemSelected="OnItemDelete">
+<Table Item="User" Items="Model.Users" PageSize="10" 
+       OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
-        <strong>Clientes</strong>
+        <strong>Usuarios</strong>
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Customer" Property="e=>e.Name" Title="Clientes" Sortable Searchable Groupable>
+        <Column Item="User" Property="e=>e.Nickname" Title="NickName" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Nickname" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="User" Property="e=>e.Name" Title="Nombre" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Name" />
             </EditorTemplate>
         </Column>
-        <Column Item="Customer" Property="e=>e.Note" Title="Notas" Sortable Searchable Groupable>
+        <Column Item="User" Property="e=>e.Permissions.StockOut" Title="Stockout" Sortable Searchable Groupable>
             <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Note" />
+                <input type="text" class="form-control" @bind-value="@context.Permissions.StockOut" />
             </EditorTemplate>
-        </Column>-->
-        @*<Column Item="Customer" Property="e=>e.Id" Title="Editar" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <Button @onclick="()=>EditClient(context)" BackgroundColor="TablerColor.Green">
-                        <Icon class="icon" Elements="@DemoIcons.Pencil" />
-                    </Button>
-                </EditorTemplate>
-            </Column>*@
-        @*<Column Item="Customer" Property="e=>e.OrderType" Title="Order type" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <Select Items="EnumHelper.GetList<OrderType>()" @bind-SelectedValue="@context.OrderType" TextExpression="e=> e.ToString()" ValueExpression="e=> e" Clearable />
-                </EditorTemplate>
-            </Column>*@
-    <!--</ChildContent>
+        </Column>
+        <Column Item="User" Property="e=>e.Permissions.StockIn" Title="StockIn" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Permissions.StockIn" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="User" Property="e=>e.Permissions.UserManager" Title="UserManager" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Permissions.UserManager" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="User" Property="e=>e.Permissions.ReadReports" Title="ReadReports" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Permissions.ReadReports" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="User" Property="e=>e.Permissions.ReadOnly" Title="ReadOnly" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Permissions.ReadOnly" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="User" Property="e => e.Name" Title="Imagen">
+            <Template>
+                <img src="@context.Picture" style="height: 100px;" />
+            </Template>
+        </Column>
+    </ChildContent>
 
-</Table>-->
+</Table>
 <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
     <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
     Registrar
@@ -82,21 +100,34 @@
         StateHasChanged();
     }
 
-    //private async Task OnItemDelete(Customer customer)
-    //{
-    //    var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
-    //    var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
-    //    if (!result.Cancelled)
-    //    {
-    //        await Model.Refresh();
-    //        StateHasChanged();
-    //    }
-    //}
+    private async Task OnItemEdit(User user)
+    {
+        var component = new RenderComponent<UserRegister>().Set(u => u.UserId, user.Id);
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        if (!result.Cancelled)
+        {
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
 
-    //private async Task OnItemEdit(Customer customer)
-    //{
-    //    var component = new RenderComponent<CustomerRegistration>().Set(custom => custom.CustomerId, customer.Id);
-    //    var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
-    //   // await TablerService.ShowAlert($"Edited order {customer.Id}");
-    //}
+    private async Task OnItemDelete(User user)
+    {
+        User userDel = await User.FindByNickName(user.Nickname);
+        if (userDel is null) { return; }
+        var result = await ModalService.ShowAsync(userDel.Nickname,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este Usuario?")
+                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
+        {
+            userDel.Enabled = true;
+            await userDel.Save();
+            ModalService.Close(ModalResult.Ok());
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
 }

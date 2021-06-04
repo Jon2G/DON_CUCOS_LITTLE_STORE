@@ -10,7 +10,7 @@
 
 
 <Table Item="Supplier" Items="Model.Suppliers" PageSize="10"
-       OnItemSelected="OnItemDelete">
+       OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Proveedores</strong>
     </HeaderTemplate>
@@ -79,8 +79,26 @@
         (sender as IRefresh).Refreshed -= Refreshed;
         StateHasChanged();
     }
-
     private async Task OnItemDelete(Supplier supplier)
+    {
+        Supplier sup = Supplier.GetById(supplier.Id);
+        if (sup is null) { return; }
+        var result = await ModalService.ShowAsync(sup.Name,
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este Proveedor?")
+                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+        if (!result.Cancelled)
+        {
+            sup.Enabled = true;
+            await sup.Save();
+            ModalService.Close(ModalResult.Ok());
+            await Model.Refresh();
+            StateHasChanged();
+        }
+    }
+    private async Task OnItemEdit(Supplier supplier)
     {
         var component = new RenderComponent<ProveedorRegister>().Set(prove => prove.ProveedorId, supplier.Id);
         var result = await ModalService.ShowAsync("Registrar proveedor", component, new ModalOptions { Size = ModalSize.Large });

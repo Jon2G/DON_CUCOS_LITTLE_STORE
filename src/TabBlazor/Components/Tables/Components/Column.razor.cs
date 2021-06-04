@@ -140,7 +140,7 @@ namespace TabBlazor
         {
             try
             {
-                return Property.Compile().Invoke(item);
+                return Property.Compile().Invoke(item);///AQUI MANDA EL NULL
             }
             catch (NullReferenceException)
             {

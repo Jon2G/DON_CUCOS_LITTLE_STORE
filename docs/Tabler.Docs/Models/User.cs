@@ -39,15 +39,16 @@ namespace Tabler.Docs.Models
                 new SqlParameter("PICTURE",Picture),
                 new SqlParameter("ENABLED",Enabled)
             );
-            User user = User.FindByNickName(this.Nickname);
+            User user = await User.FindByNickName(this.Nickname);
             Permissions permissions = Permissions.GetById(user.Id);
             this.Permissions.Id = permissions.Id;
             this.Permissions.Save();
 
         }
 
-        private static User FindByNickName(string nickname)
+        public static async Task<User> FindByNickName(string nickname)//eSTE PIDE NICKNAME
         {
+            await Task.Yield();
             using (IReader reader = AppData.SQL.Read("GET_USER_BY_NICKNAME",
                 CommandType.StoredProcedure, new SqlParameter("NICKNAME", nickname)))
             {
@@ -68,5 +69,16 @@ namespace Tabler.Docs.Models
             }
             return new User();
         }
+        public static async Task<List<User>> GetAll()
+        {
+            await Task.Yield();
+            List<User> users = new List<User>();
+            foreach (string Nickname in AppData.SQL.Lista<string>("SELECT *FROM VIEW_GETALLUSERS",3))
+            {
+                users.Add(await FindByNickName(Nickname));//LO PRIMERO QUE ENTRA ES EL ID ,ASI? SIP LEE EN 1 Y NO EN CERO
+            }
+            return users;
+        }
+
     }
 }
