@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kit.Sql.SqlServer;
+using Tabler.Docs.Models;
 
 namespace Tabler.Docs.Data
 {
@@ -12,7 +13,7 @@ namespace Tabler.Docs.Data
     {
         public static AppData Current { get; private set; }
         public static SQLServerConnection SQL { get; private set; }
-
+        public User User { get; private set; }
         private AppData()
         {
             
@@ -28,6 +29,7 @@ namespace Tabler.Docs.Data
                 directory.Create();
             }
             Kit.WPF.Tools.Init(directory.FullName);
+            Current.User = new User();
         }
     }
 }

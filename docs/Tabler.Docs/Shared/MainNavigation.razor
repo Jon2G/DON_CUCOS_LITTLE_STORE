@@ -25,16 +25,19 @@
             </SubMenu>
         </NavbarMenuItem>
 
+        <NavbarMenuItem Text="Ventas" Href="ventas">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.Shopping_cart" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
 
         <NavbarMenuItem Text="Productos" Href="products">
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.Building_warehouse" />
             </MenuItemIcon>
-            @*<SubMenu>
-                <NavbarMenuItem Text="Altas" Href="docs/utilities/products" />
-                <NavbarMenuItem Text="Bajas" Href="docs/utilities/colors" />
-                <NavbarMenuItem Text="Cambios" Href="docs/utilities/colors" />
-            </SubMenu>*@
+            <SubMenu>
+                <NavbarMenuItem Text="Categorias" Href="categorias" />
+            </SubMenu>
 
         </NavbarMenuItem>
 
@@ -42,7 +45,6 @@
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.User_check" />
             </MenuItemIcon>
-
         </NavbarMenuItem>
 
         <NavbarMenuItem Text="Usuarios" Href="usuario">

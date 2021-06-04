@@ -1,5 +1,4 @@
-﻿@page "/"
-@page "/products"
+﻿@page "/products"
 @using Tabler.Docs.Components.Modals
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
@@ -60,7 +59,7 @@ else
             <Row>
                 @foreach (Product product in line.Products)
                 {
-                    <RowCol Sm="2">
+                    <RowCol Sm="4">
                         <Card>
                             <div class="card" style="margin: 5px;">
                                 <img src="@product.Picture" alt="@product.Name" style="height: 200px;">

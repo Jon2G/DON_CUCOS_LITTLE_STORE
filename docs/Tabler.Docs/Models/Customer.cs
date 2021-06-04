@@ -56,6 +56,13 @@ namespace Tabler.Docs.Models
             }
             return customers;
         }
-
+        public override bool Equals(object? obj)
+        {
+            if (obj is Customer customer)
+            {
+                return customer.Id == this.Id;
+            }
+            return false;
+        }
     }
 }

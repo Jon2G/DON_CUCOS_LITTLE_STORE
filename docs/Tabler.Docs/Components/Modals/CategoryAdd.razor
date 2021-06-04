@@ -3,11 +3,27 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
+@using System.IO
+@using Kit.Extensions
 
 <div class="row">
     <div class="col-lg-12">
         <div class="mb-3">
             <div class="row">
+
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label">Icono de categoría*:</label>
+                        <div style="margin: 5px; display: inline-grid; width: 100%">
+                            <div style="margin: 5px; display: block; margin-left: auto; margin-right: auto; width: auto;">
+                                <img src="@Model.Category.Picture" style="vertical-align: middle; width: 150px; height: 150px;">
+                            </div>
+                            <InputFile OnChange="OnInputFileChange" multiple/>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="col-lg-12">
                     <div class="mb-3">
                         <label class="form-label">Descripción*:</label>
@@ -34,13 +50,13 @@
     private async Task Confirm()
     {
 
-        var result = await ModalService.ShowAsync($"Confirme alta",
+        var result = await ModalService.ShowAsync(Model.Category.Description,
             new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta esta categoría"),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
 
         if (!result.Cancelled)
         {
-            if (Category.GetByName(Model.Category.Description) is not null)
+            if (Category.GetByName(Model.Category.Description).Id>0)
             {
                 await ModalService.ShowAsync($"¡Alerta!",
                     new RenderComponent<DialogTest>().Set(x => x.Line1, "Ya existe una categoría con esta descripción"),
@@ -51,6 +67,25 @@
             Model.Category = new Category();
             ModalService.Close(ModalResult.Ok());
         }
+    }
+    IReadOnlyList<IBrowserFile> selectedFiles;
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+        this.StateHasChanged();
+        OnSubmit();
+    }
+    private async void OnSubmit()
+    {
+        if (selectedFiles?.Any() ?? false)
+        {
+            var file = selectedFiles.First();
+            using (Stream stream = file.OpenReadStream())
+            {
+                Model.Category.Picture = await stream.ToImageString();
+            }
+        }
+        this.StateHasChanged();
     }
 
     private void Cancel()
