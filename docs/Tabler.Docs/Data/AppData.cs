@@ -13,7 +13,7 @@ namespace Tabler.Docs.Data
     {
         public static AppData Current { get; private set; }
         public static SQLServerConnection SQL { get; private set; }
-        public User User { get; private set; }
+        public User User { get; set; }
         private AppData()
         {
             

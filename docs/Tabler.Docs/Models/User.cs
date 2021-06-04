@@ -15,6 +15,9 @@ namespace Tabler.Docs.Models
   public  class User 
     {
         public int Id { get; set; }
+
+    
+
         public int Key_Id { get; set; }
         public string Nickname { get; set; }
         public string Name { get; set; }
@@ -27,7 +30,17 @@ namespace Tabler.Docs.Models
         {
             Permissions = new Permissions();
         }
-
+        internal async Task<User> Login()
+        {
+          if(AppData.SQL.Single<bool>("SP_LOGIN", CommandType.StoredProcedure,
+                new SqlParameter("NICKNAME", Nickname),
+                new SqlParameter("PASSWORD", Password)
+                ))
+            {
+                return await User.FindByNickName(Nickname);
+            }
+            return this;
+        }
         public async  Task Save()
         {
             await Task.Yield();
@@ -49,7 +62,7 @@ namespace Tabler.Docs.Models
         public static async Task<User> GetById(int Id)
         {
             await Task.Yield();
-            using (IReader reader = AppData.SQL.Read("SP_GET_USER_BY_ID",
+            using (IReader reader = AppData.SQL.Read("GET_USER_BY_ID",
                 CommandType.StoredProcedure, new SqlParameter("ID", Id)))
             {
                 if (reader.Read())

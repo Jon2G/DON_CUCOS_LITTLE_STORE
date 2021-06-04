@@ -98,6 +98,15 @@ else
 
 @code {
 
+    [Inject] NavigationManager NavManager { get; set; }
+    protected override void OnAfterRender(bool firstrender)
+    {
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+        {
+            NavManager.NavigateTo("login");
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await Model.Refresh();

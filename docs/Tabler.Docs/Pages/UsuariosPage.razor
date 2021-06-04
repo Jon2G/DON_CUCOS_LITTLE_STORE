@@ -3,14 +3,14 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
-@using Customer = Tabler.Docs.Models.Customer
 
 @inject UserPageViewModel Model
-@inject UsuarioViewModel Mode
 @if (!AppData.Current.User.Permissions.Sales)
 {
-    return;
+<Forbbiden />
 }
+else
+{
 
 <Table Item="User" Items="Model.Users" PageSize="10"
        OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
@@ -19,44 +19,44 @@
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="User" Property="e=>e.Nickname" Title="NickName" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Nickname" Title="NickName" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Nickname" />
             </EditorTemplate>
         </Column>
-        <Column Item="User" Property="e=>e.Name" Title="Nombre" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Name" Title="Nombre" Sortable Searchable Groupable>
             <EditorTemplate>
                 <input type="text" class="form-control" @bind-value="@context.Name" />
             </EditorTemplate>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.StockOut" Title="Stockout" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.StockOut" Title="Privilegio Salidas" Sortable Searchable Groupable>
             <Template>
-                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.StockOut" Disabled="true" Switch />
+                <Checkbox Label="Privilegio Salidas" @bind-Value="context.Permissions.StockOut" Disabled="true" Switch />
             </Template>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.StockIn" Title="StockIn" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.StockIn" Title="Privilegio Entradas" Sortable Searchable Groupable>
             <Template>
-                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.StockIn" Disabled="true" Switch />
+                <Checkbox Label="Privilegio Entradas" @bind-Value="context.Permissions.StockIn" Disabled="true" Switch />
             </Template>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.UserManager" Title="UserManager" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.UserManager" Title="Derechos sobre usuarios" Sortable Searchable Groupable>
             <Template>
-                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.UserManager" Disabled="true" Switch />
+                <Checkbox Label="Derechos sobre usuarios" @bind-Value="context.Permissions.UserManager" Disabled="true" Switch />
             </Template>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.ReadReports" Title="ReadReports" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.ReadReports" Title="Privilegio Reporte" Sortable Searchable Groupable>
             <Template>
-                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadReports" Disabled="true" Switch />
+                <Checkbox Label="Privilegio Reporte" @bind-Value="context.Permissions.ReadReports" Disabled="true" Switch />
             </Template>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.ReadOnly" Title="ReadOnly" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.ReadOnly" Title="Solo lectura" Sortable Searchable Groupable>
             <Template>
                 <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadOnly" Disabled="true" Switch />
             </Template>
         </Column>
-        <Column Item="User" Property="e=>e.Permissions.Sales" Title="Sales" Sortable Searchable Groupable>
+        <Column Item="User" Property="e => e.Permissions.Sales" Title="Privilegio Ventas" Sortable Searchable Groupable>
             <Template>
-                <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.Sales" Disabled="true" Switch />
+                <Checkbox Label="Privilegio Ventas" @bind-Value="context.Permissions.Sales" Disabled="true" Switch />
             </Template>
         </Column>
         <Column Item="User" Property="e => e.Name" Title="Imagen">
@@ -67,75 +67,82 @@
     </ChildContent>
 
 </Table>
-<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
-    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
-    Registrar
-</Button>
+                <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+                    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+                    Registrar
+                </Button>}
 @code {
-
-    [Inject] IModalService ModalService { get; set; }
-    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
-    protected async Task ShowModal()
-    {
-
-
-        var component = new RenderComponent<UserRegister>();
-        var result = await ModalService.ShowAsync("Registrar Usuario", component, new ModalOptions { Size = ModalSize.Medium });
-
-        if (!result.Cancelled)
-        {
-            await Model.Refresh();
-            StateHasChanged();
-        }
+            [Inject] IModalService ModalService { get; set; }
+            [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+            [Inject] NavigationManager NavManager { get; set; }
+            protected override void OnAfterRender(bool firstrender)
+            {
+                @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+                {
+                    NavManager.NavigateTo("login");
+                }
+            }
+            protected async Task ShowModal()
+            {
 
 
-    }
+                var component = new RenderComponent<UserRegister>();
+                var result = await ModalService.ShowAsync("Registrar Usuario", component, new ModalOptions { Size = ModalSize.Medium });
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Model.Refresh();
-    }
+                if (!result.Cancelled)
+                {
+                    await Model.Refresh();
+                    StateHasChanged();
+                }
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Model.Refreshed += Refreshed;
-    }
 
-    private void Refreshed(object sender, EventArgs e)
-    {
-        (sender as IRefresh).Refreshed -= Refreshed;
-        StateHasChanged();
-    }
+            }
 
-    private async Task OnItemEdit(User user)
-    {
-        var component = new RenderComponent<UserRegister>().Set(u => u.UserId, user.Id);
-        var result = await ModalService.ShowAsync("Editar Usuario", component, new ModalOptions { Size = ModalSize.Large });
-        if (!result.Cancelled)
-        {
-            await Model.Refresh();
-            StateHasChanged();
-        }
-    }
+            protected override async Task OnInitializedAsync()
+            {
+                await Model.Refresh();
+            }
 
-    private async Task OnItemDelete(User user)
-    {
-        User userDel = await User.FindByNickName(user.Nickname);
-        if (userDel is null) { return; }
-        var result = await ModalService.ShowAsync(userDel.Nickname,
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este Usuario?")
-                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
-                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+            protected override void OnInitialized()
+            {
+                base.OnInitialized();
+                Model.Refreshed += Refreshed;
+            }
 
-        if (!result.Cancelled)
-        {
-            userDel.Enabled = true;
-            await userDel.Save();
-            ModalService.Close(ModalResult.Ok());
-            await Model.Refresh();
-            StateHasChanged();
-        }
-    }
+            private void Refreshed(object sender, EventArgs e)
+            {
+                (sender as IRefresh).Refreshed -= Refreshed;
+                StateHasChanged();
+            }
+
+            private async Task OnItemEdit(User user)
+            {
+                var component = new RenderComponent<UserRegister>().Set(u => u.UserId, user.Id);
+                var result = await ModalService.ShowAsync("Editar Usuario", component, new ModalOptions { Size = ModalSize.Large });
+                if (!result.Cancelled)
+                {
+                    await Model.Refresh();
+                    StateHasChanged();
+                }
+            }
+
+            private async Task OnItemDelete(User user)
+            {
+                User userDel = await User.FindByNickName(user.Nickname);
+                if (userDel is null) { return; }
+                var result = await ModalService.ShowAsync(userDel.Nickname,
+                    new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este Usuario?")
+                        .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
+                        .Set(x => x.Line3, "Esta acción no puede deshacerse"),
+                    new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+
+                if (!result.Cancelled)
+                {
+                    userDel.Enabled = true;
+                    await userDel.Save();
+                    ModalService.Close(ModalResult.Ok());
+                    await Model.Refresh();
+                    StateHasChanged();
+                }
+            }
 }

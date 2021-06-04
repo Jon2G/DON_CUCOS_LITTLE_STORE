@@ -15,10 +15,10 @@
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="Category" Property="e=>e.Description" Title="Nombre" Sortable Searchable Groupable/>
+        <Column Item="Category" Property="e=>e.Description" Title="Nombre" Sortable Searchable Groupable />
         <Column Item="Category" Property="e => e.Id" Title="Imagen">
             <Template>
-                <img src="@context.Picture" style="height: 100px;"/>
+                <img src="@context.Picture" style="height: 100px;" />
             </Template>
         </Column>
     </ChildContent>
@@ -32,6 +32,14 @@
 
     [Inject] IModalService ModalService { get; set; }
     [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    [Inject] NavigationManager NavManager { get; set; }
+    protected override void OnAfterRender(bool firstrender)
+    {
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+        {
+            NavManager.NavigateTo("login");
+        }
+    }
     protected async Task ShowModal()
     {
 

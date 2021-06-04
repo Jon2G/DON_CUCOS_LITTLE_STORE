@@ -10,7 +10,7 @@
 
 
 <Table Item="Customer" Items="Model.Customers" PageSize="10"
-    OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
+       OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Clientes</strong>
     </HeaderTemplate>
@@ -36,30 +36,38 @@
 </Table>
 @if (!AppData.Current.User.Permissions.ReadOnly)
 {
-<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
-    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
-    Registrar
-</Button>
+    <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+        Registrar
+    </Button>
 }
 @code {
 
-        [Inject] IModalService ModalService { get; set; }
-        [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
-        protected async Task ShowModal()
+    [Inject] IModalService ModalService { get; set; }
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    [Inject] NavigationManager NavManager { get; set; }
+    protected override void OnAfterRender(bool firstrender)
+    {
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
         {
-
-
-            var component = new RenderComponent<CustomerRegistration>();
-            var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
-
-            if (!result.Cancelled)
-            {
-                await Model.Refresh();
-                StateHasChanged();
-            }
-
-
+            NavManager.NavigateTo("login");
         }
+    }
+    protected async Task ShowModal()
+    {
+
+
+        var component = new RenderComponent<CustomerRegistration>();
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Small });
+
+        if (!result.Cancelled)
+        {
+            await Model.Refresh();
+            StateHasChanged();
+        }
+
+
+    }
 
     protected override async Task OnInitializedAsync()
     {
