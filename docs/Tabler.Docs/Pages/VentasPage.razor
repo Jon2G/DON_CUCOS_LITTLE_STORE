@@ -154,13 +154,13 @@
                         </Column>
                         <Column Item="SalePart" Property="e => e.Quantity" Title="Qty." Sortable Searchable Groupable>
                             <Template>
-                                <div style="display: block;">
+                                <div style="display: flex;">
 
 
-                                    <Button style="width: 50px;" class="col-md-4" @onclick="() => Minus(context)" BackgroundColor="TablerColor.Orange">
+                                    <Button style="width: 20px;" class="col-md-4" @onclick="() => Minus(context)" BackgroundColor="TablerColor.Orange">
                                         <Icon class="icon" Elements="@DemoIcons.Minus" />
                                     </Button>
-                                    <Button style="width: 50px;" class="col-md-4" @onclick="() => Plus(context)" BackgroundColor="TablerColor.Green">
+                                    <Button style="width: 20px;" class="col-md-4" @onclick="() => Plus(context)" BackgroundColor="TablerColor.Green">
                                         <Icon class="icon" Elements="@DemoIcons.Plus" />
                                     </Button>
                                     <input style="margin-left: 5px; width: 70px;" class="col-md-4" @bind="context.Quantity" />
@@ -266,10 +266,11 @@
 
     private void ChangeUser()
     {
+        
         throw new NotImplementedException();
     }
 
-    private  async void AddCustomer()
+    private async void AddCustomer()
     {
         var component = new RenderComponent<CustomerRegistration>();
         var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
@@ -280,9 +281,16 @@
         }
     }
 
-    private void CustomerSearch()
+    private async void CustomerSearch()
     {
-       
+        var component = new RenderComponent<CustomerFinder>();
+        var result = await ModalService.ShowAsync("Buscar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        if (!result.Cancelled)
+        {
+            Model.Sale.Customer = result.Data as Tabler.Docs.Models.Customer;
+            await Model.Refresh();
+            StateHasChanged();
+        }
     }
 
     private async void LineClick(GroupLine line)

@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+@using Customer = Tabler.Docs.Models.Customer
+
+<Table Item="Customer" Items="Model.Customers" PageSize="10" AllowAdd="False" AllowDelete="False" AllowEdit="False" OnItemSelected="ItemSelected">
+    <HeaderTemplate>
+        <strong>Clientes</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="Customer" Property="e=>e.Name" Title="Código" Sortable Searchable Groupable/>
+        
+
+        <Column Item="Customer" Property="e=>e.Note" Title="Notas" Sortable Searchable Groupable/>
+
+        <Column Item="Customer" Property="e=>e.Id" Title="Imagen" Sortable Searchable Groupable>
+            <Template>
+                <img src="@context.Picture" style="height: 100px;"/>
+            </Template>
+        </Column>
+
+
+    </ChildContent>
+
+</Table>
+
+
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Salir
+    </a>
+</div>
+@inject TabBlazor.Services.TablerService TablerService;
+@inject CustomerFinderViewModel Model;
+@inject IModalService ModalService
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+    private void ItemSelected(Customer Customer)
+    {
+        ModalService.Close(ModalResult.Ok(Customer));
+    }
+
+}

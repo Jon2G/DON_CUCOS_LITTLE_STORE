@@ -3,6 +3,8 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.ViewModels
 @inject CustomerViewModel Model
+@using Customer = Tabler.Docs.Models.Customer
+
 <div class="row">
     <div class="col-lg-12">
         <div class="mb-3">
@@ -79,7 +81,7 @@
         }
 
         var result = await ModalService.ShowAsync(Model.Customer.Name,
-            new RenderComponent<DialogTest>().Set(x => x.Line1,message),
+            new RenderComponent<DialogTest>().Set(x => x.Line1, message),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
 
         if (!result.Cancelled)
