@@ -8,11 +8,11 @@ using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-   public class ClientesPageViewModel : IRefresh
+   public class CustomersPageViewModel : IRefresh
     {
         public bool IsLoading { get; set; }
        public List<Customer> Customers { get; set; }
-        public ClientesPageViewModel()
+        public CustomersPageViewModel()
         {
             Customers = new List<Customer>();
         }
