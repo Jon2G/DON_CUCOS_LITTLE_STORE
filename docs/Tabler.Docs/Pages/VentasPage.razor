@@ -269,14 +269,20 @@
         throw new NotImplementedException();
     }
 
-    private void AddCustomer()
+    private  async void AddCustomer()
     {
-        throw new NotImplementedException();
+        var component = new RenderComponent<CustomerRegistration>();
+        var result = await ModalService.ShowAsync("Registrar cliente", component, new ModalOptions { Size = ModalSize.Large });
+        if (!result.Cancelled)
+        {
+            await Model.Refresh();
+            StateHasChanged();
+        }
     }
 
     private void CustomerSearch()
     {
-        throw new NotImplementedException();
+       
     }
 
     private async void LineClick(GroupLine line)

@@ -8,26 +8,30 @@ using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-   public class ProveedoresPageViewModel:IRefresh
+  public class ProveedoresRegisterViewModel:IRefresh
     {
-        public bool IsLoading { get; set; }
-        public List<Supplier> Suppliers { get; set; }
-        public ProveedoresPageViewModel()
+
+        public Supplier Supplier { get; set; }
+        public ProveedoresRegisterViewModel()
         {
-            Suppliers = new List<Supplier>();
+            Supplier = new Supplier();
         }
+        public int SupplierId { get; set; }
+        public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
+        public async Task RequestLoad(int SupplierId)
+        {
+            this.SupplierId = SupplierId;
+            await Refresh();
+        }
+
         public async Task Refresh()
         {
             try
             {
-                if (IsLoading)
-                {
-                    return;
-                }
+                await Task.Yield();
                 IsLoading = true;
-                this.Suppliers.Clear();
-                this.Suppliers.AddRange(await Supplier.GetAll());
+                Supplier = Supplier.GetById(SupplierId);
             }
             catch (Exception e)
             {
@@ -39,7 +43,6 @@ namespace Tabler.Docs.ViewModels
                 IsLoading = false;
                 Refreshed?.Invoke(this, EventArgs.Empty);
             }
-
         }
     }
 }
