@@ -5,6 +5,7 @@
 @using Tabler.Docs.ViewModels
 @using System.IO
 @using Kit.Extensions
+@using Kit.WPF.Extensions
 
 <div class="row">
     <div class="col-lg-12">
@@ -109,7 +110,9 @@
             var file = selectedFiles.First();
             using (Stream stream = file.OpenReadStream())
             {
-                Model.Category.Picture = await stream.ToImageString();
+                System.Drawing.Image myImage = System.Drawing.Image.FromStream(stream, true);
+                string lowbase64 = await myImage.CompressAsJpeg(10).ToImageString();
+                Model.Category.Picture = lowbase64;
             }
         }
         this.StateHasChanged();

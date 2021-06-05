@@ -54,6 +54,7 @@
 </div>
 @using System.IO
 @using Kit.Extensions
+@using Kit.WPF.Extensions
 @using Tabler.Docs.Models
 @inject IModalService ModalService
 @code {
@@ -123,7 +124,10 @@
             var file = selectedFiles.First();
             using (Stream stream = file.OpenReadStream())
             {
-                Model.Supplier.Picture = await stream.ToImageString();
+                System.Drawing.Image myImage = System.Drawing.Image.FromStream(stream, true);
+                string lowbase64 = await myImage.CompressAsJpeg(10).ToImageString();
+                Model.Supplier.Picture = lowbase64;
+
             }
         }
         this.StateHasChanged();
