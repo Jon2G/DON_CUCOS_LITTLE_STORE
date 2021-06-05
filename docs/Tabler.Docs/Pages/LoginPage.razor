@@ -275,6 +275,7 @@
 
         if (await Model.Login())
         {
+            Model.User = new User();
             NavManager.NavigateTo("ventas");
         }
         else

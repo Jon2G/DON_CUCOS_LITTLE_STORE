@@ -37,13 +37,10 @@ namespace Tabler.Docs.Models
 
         public Product() { }
 
-        public static List<string> ListarProvedores()
+
+        internal static float GetStock(int id)
         {
-            return AppData.SQL.Lista<string>("SELECT DISTINCT PROVEDOR FROM PRODUCTOS WHERE OCULTO=0");
-        }
-        public static List<string> ListarCategorias()
-        {
-            return AppData.SQL.Lista<string>("SELECT DISTINCT CLASIFICACION FROM PRODUCTOS WHERE OCULTO=0");
+            return AppData.SQL.Single<float>("SP_GETSTOCK",CommandType.StoredProcedure,new SqlParameter("ID",id));
         }
 
         /// <summary>
@@ -131,23 +128,8 @@ namespace Tabler.Docs.Models
             return productos;
         }
 
-        public static float ObtenerExistencia(string CodigoProducto)
-        {
-            if (SQLHelper.IsInjection(CodigoProducto))
-            {
-                return 0;
-            }
-            return AppData.SQL.Single<float>($"SELECT EXISTENCIA FROM PRODUCTOS WHERE CODIGO='{CodigoProducto}'"); ;
-        }
-        public static int ObtenerId(string CodigoProducto)
-        {
-            if (SQLHelper.IsInjection(CodigoProducto))
-            {
-                return 0;
-            }
-            return AppData.SQL.Single<int>($"SELECT ID FROM PRODUCTOS WHERE CODIGO='{CodigoProducto}'"); ;
-        }
 
+   
         public void Save()
         {
             AppData.SQL.EXEC("SP_ABC_PRODUCT", CommandType.StoredProcedure,

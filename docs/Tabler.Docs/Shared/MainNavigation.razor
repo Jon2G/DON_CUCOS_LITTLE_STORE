@@ -34,23 +34,23 @@
         }
 
 
-            <NavbarMenuItem Text="Productos" Href="products">
-                <MenuItemIcon>
-                    <Icon class="icon" Elements="@DemoIcons.Building_warehouse" />
-                </MenuItemIcon>
-                <SubMenu>
-                    <NavbarMenuItem Text="Categorias" Href="categorias" />
-                </SubMenu>
+        <NavbarMenuItem Text="Productos" Href="products">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.Building_warehouse" />
+            </MenuItemIcon>
+            <SubMenu>
+                <NavbarMenuItem Text="Categorias" Href="categorias" />
+            </SubMenu>
 
-            </NavbarMenuItem>
-       
+        </NavbarMenuItem>
 
-            <NavbarMenuItem Text="Clientes" Href="clientes">
-                <MenuItemIcon>
-                    <Icon class="icon" Elements="@DemoIcons.User_check" />
-                </MenuItemIcon>
-            </NavbarMenuItem>
-        
+
+        <NavbarMenuItem Text="Clientes" Href="clientes">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.User_check" />
+            </MenuItemIcon>
+        </NavbarMenuItem>
+
         @if (AppData.Current.User.Permissions.UserManager)
         {
             <NavbarMenuItem Text="Usuarios" Href="usuario">
@@ -60,14 +60,14 @@
 
             </NavbarMenuItem>
         }
-       
-            <NavbarMenuItem Text="Proveedores" Href="proveedores">
-                <MenuItemIcon>
-                    <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
-                </MenuItemIcon>
 
-            </NavbarMenuItem>
-        
+        <NavbarMenuItem Text="Proveedores" Href="proveedores">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
+            </MenuItemIcon>
+
+        </NavbarMenuItem>
+
         @if (AppData.Current.User.Permissions.ReadReports)
         {
             <NavbarMenuItem Text="Reportes" Href="proveedores">
@@ -77,6 +77,18 @@
 
             </NavbarMenuItem>
         }
+        <NavbarMenuItem Text="Entradas" Href="entradassalidas">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.Login" />
+            </MenuItemIcon>
+
+        </NavbarMenuItem>
+        <NavbarMenuItem Text="Cerrar sesión" Href="login">
+            <MenuItemIcon>
+                <Icon class="icon" Elements="@DemoIcons.Login" />
+            </MenuItemIcon>
+
+        </NavbarMenuItem>
         <NavbarMenuItem Text="Utilites">
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.Exposure" />
