@@ -51,6 +51,8 @@
 @using System.IO
 @using Kit.Extensions
 @using Kit.WPF.Extensions
+@using MoyskleyTech.ImageProcessing.Image
+@using Image = System.Drawing.Image
 @inject IModalService ModalService
 @code {
 
@@ -109,13 +111,9 @@
         if (selectedFiles?.Any() ?? false)
         {
             var file = selectedFiles.First();
-            using (Stream stream = file.OpenReadStream())
-            {
-                System.Drawing.Image myImage = System.Drawing.Image.FromStream(stream, true);
-                string lowbase64 = await myImage.CompressAsJpeg(10).ToImageString();
-                Model.Customer.Picture =lowbase64;
-    
-            }
+            Model.Customer.Picture = await AppData.Compress(file);
+
+
         }
         this.StateHasChanged();
     }

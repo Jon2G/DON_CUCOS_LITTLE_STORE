@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kit;
+using Kit.Extensions;
 using Kit.Sql.SqlServer;
+using Kit.WPF.Extensions;
+using Microsoft.AspNetCore.Components.Forms;
 using Tabler.Docs.Models;
 
 namespace Tabler.Docs.Data
@@ -16,7 +21,7 @@ namespace Tabler.Docs.Data
         public User User { get; set; }
         private AppData()
         {
-            
+
         }
 
         public static void Init()
@@ -30,6 +35,31 @@ namespace Tabler.Docs.Data
             }
             Kit.WPF.Tools.Init(directory.FullName);
             Current.User = new User();
+        }
+
+        public static async Task<string> Compress(IBrowserFile file)
+        {
+            using (Stream stream = file.OpenReadStream())
+            {
+                try
+                {
+                    string path = Path.Combine(Kit.Tools.Instance.LibraryPath, $"{Guid.NewGuid()}.png");
+                    using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+                    {
+                        await stream.CopyToAsync(fileStream);
+                    }
+
+                    System.Drawing.Image myImage = Image.FromFile(path, true);
+                    string lowbase64 = await myImage.CompressAsJpeg(10).ToImageString();
+                    return lowbase64;
+                }
+                catch (Exception ex)
+                {
+                    Log.Logger.Error(ex, "Compress");
+                    return await stream.ToImageString();
+                }
+            }
+
         }
     }
 }

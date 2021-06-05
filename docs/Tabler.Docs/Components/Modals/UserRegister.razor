@@ -136,12 +136,7 @@
         if (selectedFiles?.Any() ?? false)
         {
             var file = selectedFiles.First();
-            using (Stream stream = file.OpenReadStream())
-            {
-                System.Drawing.Image myImage = System.Drawing.Image.FromStream(stream, true);
-                string lowbase64 = await myImage.CompressAsJpeg(10).ToImageString();
-                Model.Usuario.Picture = lowbase64;
-            }
+            Model.Usuario.Picture = await AppData.Compress(file); ;
         }
         this.StateHasChanged();
     }
