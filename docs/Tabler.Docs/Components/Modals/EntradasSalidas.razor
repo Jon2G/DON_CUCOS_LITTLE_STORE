@@ -1,0 +1,127 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.ViewModels
+@using Tabler.Docs.Models
+@inject MovementViewModel Model
+@inject MovementsPageViewModel Mode
+
+<Table Item="MovementPart" Items="Model.movement.Parts" PageSize="10"
+        OnItemDeleted="OnItemDelete">
+    <HeaderTemplate>
+        <strong>Movimientos</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="MovementPart" Property="e => e.Product.Id" Title="Codigo " Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Product.Id" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="MovementPart" Property="e => e.Product.Name" Title="Nombre" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Product.Name" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="MovementPart" Property="e => e.Quantity" Title="Cantidad" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Quantity" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="MovementPart" Property="e => e.InitiallyStock" Title="Actual" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.InitiallyStock" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="MovementPart" Property="e => e.NewStock" Title="Posterior" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <label class="form-label">@context.NewStock</label>
+            </EditorTemplate>
+        </Column>
+    </ChildContent>
+</Table>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <div class="row">
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label"> Articulo*:</label>
+                        <Select Items="Model.products" @bind-SelectedValue="@Model.SelectedProduct"
+                                TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+
+                        <Button BackgroundColor="TablerColor.Green" OnClick="CustomerSearch">
+                            <Icon class="icon" Elements="@InternalIcons.Search" />
+                        </Button>
+                    </div>
+                </div>
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label">Cantidad*:</label>
+                        <input type="text" class="form-control" @bind="Model.SelectedQuantity">
+
+                    </div>
+                </div>
+                <div class="example-centered">
+                    <label class="form-label"> Unidad*:</label>
+                    <label class="form-label">@Model.SelectedProduct.Unit</label>
+                    <Button BackgroundColor="TablerColor.Green" OnClick="Seleccionar">
+                        <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
+                    </Button>
+                </div>
+
+                <div class="example-centered">
+                    <label class="form-label"> Observaciones*:</label>
+                    <textarea type="text" class="form-control" @bind="Model.movement.Observations"></textarea>
+                    <label class="form-label"> Concepto*:</label>
+                    <Select Items="Model.movementConcepts" @bind-SelectedValue="@Model.SelectedConcept"
+                            TextExpression="e => e.Tag" ValueExpression="e=>e" Clearable />
+                </div>
+                <div class="example-centered">
+                    <Checkbox Label="Imprimir Reporte" Changed="StateHasChanged" Switch />
+                    <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
+                        <Icon class="icon" Elements="@InternalIcons.Arrow_left" />
+                    </Button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@code
+{
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.RequestLoad(MovementId);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+    [Parameter] public int MovementId { get; set; }
+    private void CustomerSearch()
+    {
+
+    }
+    private void Seleccionar()
+    {
+        Model.Agregar();
+    }
+    private void Finalizar()
+    {
+
+    }
+    private async Task OnItemDelete(MovementPart order)
+    {
+        await TablerService.ShowAlert($"Order deleted {order.Product.Id}");
+    }
+}

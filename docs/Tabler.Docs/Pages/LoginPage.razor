@@ -227,6 +227,7 @@ media only screen and (max-width: 320px) {
     {
         if (await Model.Login())
         {
+            Model.User = new User();
             NavManager.NavigateTo("ventas");
         }
     }

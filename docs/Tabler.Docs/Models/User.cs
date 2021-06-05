@@ -15,9 +15,6 @@ namespace Tabler.Docs.Models
   public  class User 
     {
         public int Id { get; set; }
-
-    
-
         public int Key_Id { get; set; }
         public string Nickname { get; set; }
         public string Name { get; set; }
