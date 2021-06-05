@@ -81,8 +81,20 @@ namespace Tabler.Docs.Models
             return producto;
         }
 
-     
 
+
+        public static async Task<List<Product>> GetByCategory(Category Category,string search)
+        {
+            List<Product> productos = new List<Product>();
+            foreach (int id in AppData.SQL.Lista<int>("SP_GET_PRODUCTS_BY_CATEGORY_FIND", CommandType.StoredProcedure, 0,
+                new SqlParameter("CATEGORY_ID", Category.Id),
+                new SqlParameter("SEARCH", search)
+                ))
+            {
+                productos.Add(await GetById(id));
+            }
+            return productos;
+        }
         public static async Task<List<Product>> GetByCategory(Category Category)
         {
             List<Product> productos = new List<Product>();

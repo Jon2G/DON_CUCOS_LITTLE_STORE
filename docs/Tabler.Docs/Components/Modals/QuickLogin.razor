@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.ViewModels
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <div class="row">
+                
+                
+                <div class="example-centered" style="margin: 5px; display: inline-grid;width:100%">
+                    <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
+                        <img src="https://images.emojiterra.com/google/android-11/512px/1f6d2.png" style="vertical-align:middle;width:150px;height:150px;">
+                    </div>
+                </div>
+
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label">NickName*:</label>
+                        <input type="text" class="form-control" @bind="Model.User.Nickname">
+                    </div>
+                </div>
+                <div class="example-centered">
+                    <div class="mb-3">
+                        <label class="form-label">Password*:</label>
+                        <input type="password" class="form-control" @bind="Model.User.Password">
+                    </div>
+                </div>
+                <Button OnClick="() => Login()">
+                    Iniciar sesión
+                </Button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Cancelar
+    </a>
+</div>
+@using System.IO
+@using Kit.Extensions
+@using Kit.WPF.Extensions
+@inject IModalService ModalService
+@code {
+    [Inject] QuickLoginViewModel Model { get; set; }
+
+    private async void Login()
+    {
+        if (await Model.Login())
+        {
+            ModalService.Close(ModalResult.Ok());
+        }
+    }
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+
+}

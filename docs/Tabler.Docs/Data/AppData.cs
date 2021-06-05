@@ -28,7 +28,7 @@ namespace Tabler.Docs.Data
         {
             Current = new AppData();
             SQL = new SQLServerConnection("DON_CUCO", ".\\SQLXEXPRESS", "1433", "sa", "12345678");
-            DirectoryInfo directory = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "\\Library"));
+            DirectoryInfo directory = new DirectoryInfo( $"{Environment.CurrentDirectory}\\Library");
             if (!directory.Exists)
             {
                 directory.Create();

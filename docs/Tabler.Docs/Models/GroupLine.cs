@@ -19,7 +19,7 @@ namespace Tabler.Docs.Models
             this.Products = new List<Product>();
         }
 
-        public async Task Refresh()
+        public async Task Refresh(string search=null)
         {
             try
             {
@@ -29,7 +29,14 @@ namespace Tabler.Docs.Models
                 }
                 Products.Clear();
                 IsLoading = true;
-                Products.AddRange(await Product.GetByCategory(this.Category));
+                if (string.IsNullOrEmpty(search))
+                {
+                    Products.AddRange(await Product.GetByCategory(this.Category));
+                }
+                else
+                {
+                    Products.AddRange(await Product.GetByCategory(this.Category, search));
+                }
             }
             catch (Exception e)
             {

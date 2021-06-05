@@ -3,100 +3,184 @@
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
-@inject ProductsPageViewModel Model
 
-<PagePretitle>
-    Don cuco's
-    <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
-    little store
-</PagePretitle>
 
-<Button Text="Nuevo producto" @onclick="() => ShowModal()" BackgroundColor="TablerColor.Info">
-    <div>
-        <span style="margin: 5px;">Nuevo producto</span>
-        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+<style>
+    .sticky {
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+</style>
+
+<Card class="sticky" style=" padding: 3px;">
+    <PagePretitle>
+        Don cuco's
+        <Icon class="align-text-top" Elements="@DemoIcons.Heart" TextColor="TablerColor.Red" Size="12" Filled />
+        little store
+    </PagePretitle>
+    <div style="display: flex;">
+
+        <h1>Productos</h1>
+        <Button style="margin-left: 10px;" Text="Nuevo producto" @onclick="() => ShowModal()" BackgroundColor="TablerColor.Info">
+            <div>
+                <span style="margin: 5px;">Nuevo producto</span>
+                <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+            </div>
+        </Button>
+        <div style="width: 60px;" />
+        <p style="margin: auto">Buscador de productos:</p>
+        <input style="width:100%" @bind="Search" />
     </div>
-</Button>
-
-<h1>Productos</h1>
+</Card>
 
 
-@if (Model.IsLoading)
+
+
+@if (IsLoading)
 {
-    <Dimmer ShowSpinner="true" Active="Model.IsLoading">
+    <Dimmer ShowSpinner="true" Active="IsLoading">
         <p><em>Cargando...</em></p>
     </Dimmer>
 }
 else
 {
-    foreach (GroupLine line in Model.Lines)
+    lock (Lines)
     {
-        if (line.Products.Any())
+        foreach (GroupLine line in Lines)
         {
-            <Card Size="CardSize.Small">
-                <CardBody class="d-flex align-items-center">
-                    <span class="bg-blue text-white stamp me-3">
-                        <Icon Elements="@DemoIcons.Building_warehouse" />
-                    </span>
-                    <div class="me-3 lh-sm">
-                        <div class="strong">
-                            @line.Category.Description
-                        </div>
-                        @*<div class="text-muted">12 waiting payments</div>*@
-                    </div>
-                </CardBody>
-            </Card>
-        }
-
-        if (line.IsLoading)
-        {
-            <Dimmer ShowSpinner="true" Active="line.IsLoading">
-                <p><em>Cargando...</em></p>
-            </Dimmer>
-        }
-        else
-        {
-            <Row>
-                @foreach (Product product in line.Products)
-                {
-                    <RowCol Sm="2">
-                        <Card>
-                            <div class="card" style="margin: 5px;">
-                                <img src="@product.Picture" alt="@product.Name" style="height: 200px;">
-                                <div class="container">
-                                    <h4><b>@product.Name</b></h4>
-                                    <p>@line.Category.Description</p>
-                                    @if (!AppData.Current.User.Permissions.ReadOnly)
-                                    {
-                                        <Row style="margin: 5px;">
-                                            <RowCol Sm="6">
-
-                                                <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
-                                                    <Icon class="icon" Elements="@DemoIcons.Pencil" />
-                                                </Button>
-                                            </RowCol>
-                                            <RowCol Sm="6">
-                                                <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
-                                                    <Icon class="icon" Elements="@DemoIcons.Trash" />
-                                                </Button>
-                                            </RowCol>
-                                        </Row>
-                                    }
-
-                                </div>
+            if (line.Products.Any())
+            {
+                <Card Size="CardSize.Small" class="sticky" style="top: 60px;">
+                    <CardBody class="d-flex align-items-center">
+                        <span class="bg-blue text-white stamp me-3">
+                            <Icon Elements="@DemoIcons.Building_warehouse" />
+                        </span>
+                        <div class="me-3 lh-sm">
+                            <div class="strong">
+                                @line.Category.Description
                             </div>
-                        </Card>
-                    </RowCol>
-                }
-            </Row>
+                            @*<div class="text-muted">12 waiting payments</div>*@
+                        </div>
+                    </CardBody>
+                </Card>
+            }
 
+            if (line.IsLoading)
+            {
+                <Dimmer ShowSpinner="true" Active="line.IsLoading">
+                    <p><em>Cargando...</em></p>
+                </Dimmer>
+            }
+            else
+            {
+                <Row>
+                    @foreach (Product product in line.Products)
+                    {
+                        <RowCol Sm="2">
+                            <Card>
+                                <div class="card" style="margin: 5px;">
+                                    <img src="@product.Picture" alt="@product.Name" style="height: 200px;">
+                                    <div class="container">
+                                        <h4><b>@product.Name</b></h4>
+                                        <p>@line.Category.Description</p>
+                                        @if (!AppData.Current.User.Permissions.ReadOnly)
+                                        {
+                                            <Row style="margin: 5px;">
+                                                <RowCol Sm="6">
+
+                                                    <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
+                                                        <Icon class="icon" Elements="@DemoIcons.Pencil" />
+                                                    </Button>
+                                                </RowCol>
+                                                <RowCol Sm="6">
+                                                    <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
+                                                        <Icon class="icon" Elements="@DemoIcons.Trash" />
+                                                    </Button>
+                                                </RowCol>
+                                            </Row>
+                                        }
+
+                                    </div>
+                                </div>
+                            </Card>
+                        </RowCol>
+                    }
+                </Row>
+
+            }
         }
     }
+
 }
 
 
 
 @code {
+
+    private string _Search;
+    public string Search
+    {
+        get => _Search;
+        set
+        {
+            if (_Search != value)
+            {
+                _Search = value;
+                Task.Run(Refresh);
+            }
+        }
+    }
+    public bool IsLoading { get; set; }
+    public List<GroupLine> Lines { get; set; } = new List<GroupLine>();
+
+
+    public async Task Refresh()
+    {
+        try
+        {
+            if (IsLoading)
+            {
+                return;
+            }
+            IsLoading = true;
+
+            this.Lines.Clear();
+            if (string.IsNullOrEmpty(_Search))
+            {
+                foreach (Category linea in await Category.GetAll())
+                {
+                    var gropup = new GroupLine(linea);
+                    await gropup.Refresh();
+                    this.Lines.Add(gropup);
+                }
+            }
+            else
+            {
+                foreach (Category linea in await Category.Search(_Search))
+                {
+                    var gropup = new GroupLine(linea);
+                    await gropup.Refresh(_Search);
+                    this.Lines.Add(gropup);
+                }
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            IsLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+
+    }
+
 
     [Inject] NavigationManager NavManager { get; set; }
     protected override void OnAfterRender(bool firstrender)
@@ -109,25 +193,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Model.Refresh();
+        await Refresh();
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Model.Refreshed += Refreshed;
     }
 
-    private void Refreshed(object sender, EventArgs e)
-    {
-        (sender as IRefresh).Refreshed -= Refreshed;
-        StateHasChanged();
-    }
-
-    private void LoadFiles(InputFileChangeEventArgs e)
-    {
-
-    }
 
     [Inject] IModalService ModalService { get; set; }
 
@@ -148,7 +221,7 @@ else
 
         if (!result.Cancelled)
         {
-            await this.Model.Refresh();
+            await this.Refresh();
             StateHasChanged();
         }
     }
@@ -168,50 +241,10 @@ else
             product.Disabled = true;
             product.Save();
             ModalService.Close(ModalResult.Ok());
-            await Model.Refresh();
+            await Refresh();
             StateHasChanged();
         }
     }
 
 }
-
-
-
-<Row class="mt-1 row-deck row-cards">
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.SmallSales />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.SmallOrders />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.SmallLikes />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.SmallMembers />
-    </RowCol>
-
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.StatisticsMedium />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.StatisticsChart />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.StatisticsLineChart />
-    </RowCol>
-    <RowCol Sm="12" Md="6" Lg="3">
-        <Tabler.Docs.Components.Snippets.Statistics.StatisticsMedium />
-    </RowCol>
-
-    <RowCol Sm="12" Lg="6">
-        <Tabler.Docs.Components.Snippets.Tables.CustomerList />
-    </RowCol>
-
-    <RowCol Sm="12" Lg="6">
-        <Tabler.Docs.Components.Snippets.Tables.Orders />
-    </RowCol>
-
-
-</Row>
 

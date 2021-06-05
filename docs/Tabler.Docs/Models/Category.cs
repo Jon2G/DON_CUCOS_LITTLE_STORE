@@ -26,6 +26,17 @@ namespace Tabler.Docs.Models
             }
             return lineas;
         }
+        public static async Task<IEnumerable<Category>> Search(string search)
+        {
+            await Task.Yield();
+            List<Category> lineas = new List<Category>();
+            foreach (int id in AppData.SQL.Lista<int>("SP_FIND_CATEGORIES", CommandType.StoredProcedure,0,
+                new SqlParameter("SEARCH",search)))
+            {
+                lineas.Add(GetById(id));
+            }
+            return lineas;
+        }
 
         public static Category GetByName(string categoryName)
         {
@@ -77,6 +88,7 @@ namespace Tabler.Docs.Models
             }
             return false;
         }
+
 
     }
 }

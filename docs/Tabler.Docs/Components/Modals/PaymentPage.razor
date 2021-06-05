@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+<div class="row">
+
+    <div class="col-sm-12" style="text-align: end; font-size: 20px; font-weight: 600;">
+        <label>Total</label>
+        <label>@Model.Sale.Total.ToString("C2")</label>
+    </div>
+</div>
+<div class="row" style="margin: 5px;">
+    @foreach (Pay pay in Model.Sale.Payment.Payments)
+    {
+        <div class="col-sm-2" style="font-size: 16px; font-weight: 400;">
+            <label>@Pay.GetName(pay.PayWay)</label>
+        </div>
+        <div class="col-sm-2">
+            <Button BackgroundColor="TablerColor.Green" OnClick="() => SelectPay(pay, PayWays.Cash)">
+                Efectivo
+                <Icon style="margin-left: 5px" class="icon" Elements="@DemoIcons.Cash" />
+            </Button>
+        </div>
+        <div class="col-sm-2">
+            <Button BackgroundColor="TablerColor.Orange" OnClick="() => SelectPay(pay, PayWays.Card)">
+                Tarjeta
+                <Icon style="margin-left: 5px" class="icon" Elements="@DemoIcons.Credit_card" />
+            </Button>
+        </div>
+        <div class="col-sm-2">
+            <Button BackgroundColor="TablerColor.Light" OnClick="() => SelectPay(pay, PayWays.Vale)">
+                Vale
+                <Icon style="margin-left: 5px" class="icon" Elements="@DemoIcons.Currency_dollar" />
+            </Button>
+        </div>
+        <div class="col-sm-4">
+            <label>$</label>
+            <input style="width: 100px;" type="number" @bind="pay.Amount" />
+        </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-sm-12" style="text-align: end; font-size: 14px; font-weight: 600;">
+        <label>Cubierto:</label>
+        <label>@Model.Sale.Payed.ToString("C2")</label>
+    </div>
+    <div class="col-sm-12" style="text-align: end; font-size: 20px; font-weight: 600;">
+        <label>Por cubrir:</label>
+        <label>@Model.Sale.ToPay.ToString("C2")</label>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Cancelar
+    </a>
+    <a @onclick="Confirm" class="btn btn-primary ms-auto" data-dismiss="modal">
+        <Icon class="icon" Elements="@DemoIcons.Plus" />
+        Confirmar
+    </a>
+</div>
+
+@inject SalesPageViewModel Model
+@inject IModalService ModalService
+
+@using System.IO
+@using Kit.Extensions
+@using Kit.WPF.Extensions
+@using Microsoft.AspNetCore.Hosting
+@inject IWebHostEnvironment env
+@inject ToastService ToastService
+@code {
+
+    public void SelectPay(Pay pay, PayWays ways)
+    {
+        pay.PayWay = ways;
+
+    }
+
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+               new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+               new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
+    private async Task Confirm()
+    {
+        if (Model.Sale.ToPay > 0)
+        {
+            await ModalService.ShowAsync("Alerta",
+                 new RenderComponent<DialogTest>().Set(x => x.Line1, "Debe cubrir el total de la venta"),
+                 new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true });
+            return;
+        }
+        Model.Sale.Confirm();
+        if (Model.Sale.Change > 0)
+        {
+            await ToastService.AddToastAsync(new ToastModel
+            {
+                Message = $"Su cambio: {Model.Sale.Change:C2}",
+                Options = new ToastOptions()
+                {
+                    Delay = 7,
+                    ShowHeader = false
+                }
+            });
+        }
+        Reports.PrintTicket(Model.Sale);
+        ModalService.Close(ModalResult.Ok());
+
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+}
+
+

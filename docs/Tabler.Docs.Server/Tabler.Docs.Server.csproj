@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tabler.Docs\Tabler.Docs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\Assemblies\System.Windows.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

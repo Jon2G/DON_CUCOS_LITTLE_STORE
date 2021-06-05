@@ -16,7 +16,7 @@ namespace Tabler.Docs.ViewModels
             User = new User();
         }
         public async Task<bool> Login()
-        {
+        { 
             User =await User.Login();
             if (User.Id > 0)
             {

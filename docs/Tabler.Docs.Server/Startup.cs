@@ -32,7 +32,6 @@ namespace Tabler.Docs.Server
             //services.AddScoped<ICodeSnippetService, GitHubSnippetService>();
             services.AddScoped<ICodeSnippetService, LocalSnippetService>();
             services
-                .AddSingleton<ProductsPageViewModel>()
                 .AddSingleton<EditProductViewModel>()
                 .AddSingleton<CustomerViewModel>()
                 .AddSingleton<EditProductViewModel>()
@@ -40,6 +39,7 @@ namespace Tabler.Docs.Server
                 .AddSingleton<CustomersPageViewModel>()
                 .AddSingleton<UserPageViewModel>()
                 .AddSingleton<UsuarioViewModel>()
+                .AddSingleton<QuickLoginViewModel>()
                 .AddSingleton<ProveedoresPageViewModel>()
                 .AddSingleton<ProveedoresRegisterViewModel>()
                 .AddSingleton<CategoriesPageViewModel>()
