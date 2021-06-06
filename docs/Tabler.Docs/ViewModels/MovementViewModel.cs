@@ -43,13 +43,16 @@ namespace Tabler.Docs.ViewModels
                 InitiallyStock = Product.GetStock(SelectedProduct.Id)
             });
             SelectedProduct = new Product();
-            SelectedQuantity = 0;    
+            SelectedQuantity = 0;
+        }
+        public async void AgregarIdConcept()
+        {
+            this.movement.Concept = SelectedConcept;
         }
         public async Task Refresh()
         {
             try
             {
-
                 IsLoading = true;
                 movement = await Movement.GetById(MovementId);
                 products = await Product.GetAll();

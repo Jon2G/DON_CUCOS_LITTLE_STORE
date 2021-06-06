@@ -12,9 +12,11 @@ namespace Tabler.Docs.ViewModels
     {
         public bool IsLoading { get; set; }
         public List<Movement> Movements { get; set; }
+        public List<MovementPart> movementParts { get; set; }
         public MovementsPageViewModel()
         {
             Movements = new List<Movement>();
+            movementParts = new List<MovementPart>();
         }
 
         public event EventHandler Refreshed;
@@ -30,6 +32,7 @@ namespace Tabler.Docs.ViewModels
                 IsLoading = true;
                 this.Movements.Clear();
                 this.Movements.AddRange(await Movement.GetAll());
+                this.movementParts.AddRange(await MovementPart.GetAll());
             }
             catch (Exception e)
             {

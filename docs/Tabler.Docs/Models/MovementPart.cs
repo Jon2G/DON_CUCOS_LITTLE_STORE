@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kit.Sql.Readers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -26,21 +27,50 @@ namespace Tabler.Docs.Models
                 }
                 return InitiallyStock + Quantity;
             }
+
         }
+        public float NewStockB { get; set; }
         public char Type { get; set; }
+        public MovementPart()
+        {
+
+        }
         public MovementPart(char Type)
         {
             this.Type = Type;
 
         }
-        public async Task Save()
+        public static async Task<List<MovementPart>> GetAll()
         {
             await Task.Yield();
-            AppData.SQL.EXEC("SP_ADD_MOVEMENT", CommandType.StoredProcedure,
-                new SqlParameter("MOVEMENT_ID", IdMovement),
-                new SqlParameter("PRODUCT_ID", Product.Id),
-                new SqlParameter("QUANTITY", Quantity)
-            );
+            List<MovementPart> movementsparts = new List<MovementPart>();
+            foreach (int id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLMOVEMENTPART"))
+            {
+                movementsparts.Add(await GetById(id));
+            }
+            return movementsparts;
+        }
+        public static async Task<MovementPart> GetById(int movementpId)
+        {
+            await Task.Yield();
+            using (IReader reader = AppData.SQL.Read("SP_GET_MOVEMENTPART",
+                CommandType.StoredProcedure, new SqlParameter("ID", movementpId)))
+            {
+                if (reader.Read())
+                {
+                    return new MovementPart()
+                    {
+                        Id = Convert.ToInt32(reader[0]),
+                        IdMovement = Convert.ToInt32(reader[1]),
+                        Product = await Product.GetById(Convert.ToInt32(reader[2])),
+                        Quantity = Convert.ToSingle(reader[3]),
+                        InitiallyStock = Convert.ToSingle(reader[4]),
+                        NewStockB = Convert.ToSingle(reader[5]),
+                        Type = Convert.ToChar(reader[6])
+                    };
+                }
+            }
+            return new MovementPart();
         }
     }
 }

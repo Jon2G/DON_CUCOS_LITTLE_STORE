@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tabler.Docs.Data;
+using Tabler.Docs.ViewModels;
 
 namespace Tabler.Docs.Models
 {
@@ -24,19 +25,29 @@ namespace Tabler.Docs.Models
         {
             Parts = new List<MovementPart>();
         }
+     
         public async Task Save()
         {
             await Task.Yield();
             AppData.SQL.EXEC("SP_ADD_MOVEMENT", CommandType.StoredProcedure,
                 new SqlParameter("USER_ID", AppData.Current.User.Id),
                 new SqlParameter("MOVEMENT_CONCEPT_ID", Concept.Id),
-                new SqlParameter("TYPE", Type),
-                new SqlParameter("DATE_M", Date_m),
+                new SqlParameter("TYPE", Concept.Type),
+                new SqlParameter("DATE_M", DateTime.Now),
                 new SqlParameter("DESCRIPTION", Observations)
             );
-            MovementConcept movementConcept = await MovementConcept.GetById(Concept.Id);
-            this.MC.Id = movementConcept.Id;
-            this.MC.Save();
+            //MovementConcept movementConcept = await MovementConcept.GetById(Concept.Id);
+            //this.MC.Id = movementConcept.Id;
+            //this.MC.Save();
+            foreach (MovementPart item in Parts)
+            {
+                AppData.SQL.EXEC("SP_ADD_MOVENT_PARTS", CommandType.StoredProcedure,
+                new SqlParameter("MOVEMENT_ID", 1),
+                new SqlParameter("PRODUCT_ID", item.Product.Id),
+                new SqlParameter("QUANTITY", item.Quantity),
+                new SqlParameter("TYPE", Concept.Type)
+            );
+            }
 
         }
         public static async Task<List<Movement>> GetAll()

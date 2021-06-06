@@ -7,7 +7,7 @@
 @inject MovementsPageViewModel Mode
 
 <Table Item="MovementPart" Items="Model.movement.Parts" PageSize="10"
-        OnItemDeleted="OnItemDelete">
+       OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Movimientos</strong>
     </HeaderTemplate>
@@ -66,6 +66,7 @@
                     <label class="form-label"> Unidad*:</label>
                     <label class="form-label">@Model.SelectedProduct.Unit</label>
                     <Button BackgroundColor="TablerColor.Green" OnClick="Seleccionar">
+                        Seleccionar
                         <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
                     </Button>
                 </div>
@@ -80,7 +81,8 @@
                 <div class="example-centered">
                     <Checkbox Label="Imprimir Reporte" Changed="StateHasChanged" Switch />
                     <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
-                        <Icon class="icon" Elements="@InternalIcons.Arrow_left" />
+                        Registrar entrada
+                        <Icon class="icon" Elements="@InternalIcons.Arrow_right" />
                     </Button>
                 </div>
             </div>
@@ -88,7 +90,9 @@
     </div>
 
 </div>
+@inject IModalService ModalService
 @code
+
 {
     [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
     protected override async Task OnInitializedAsync()
@@ -116,9 +120,19 @@
     {
         Model.Agregar();
     }
-    private void Finalizar()
+    private async Task Finalizar()
     {
 
+        var result = await ModalService.ShowAsync("Movimiento",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este movimiento?"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+
+        if (!result.Cancelled)
+        {
+            Model.AgregarIdConcept();
+            await Model.movement.Save();
+            ModalService.Close(ModalResult.Ok());
+        }
     }
     private async Task OnItemDelete(MovementPart order)
     {
