@@ -53,14 +53,38 @@
     [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
     [Inject] NavigationManager NavManager { get; set; }
 
+    public async Task Refresh()
+    {
+        try
+        {
+            if (Model.IsLoading)
+            {
+                return;
+            }
+            Model.IsLoading = true;
+            Model.Movements.Clear();
+            Model.Movements.AddRange(await Movement.GetAll(Model.Type));
+            //this.movementParts.AddRange(await MovementPart.GetAll());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            Model.IsLoading = false;
+        }
 
+    }
 
     protected override void OnAfterRender(bool firstrender)
     {
         @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
         {
             NavManager.NavigateTo("login");
-        }}
+        }
+    }
     protected async Task ShowModal()
     {
         var component = new RenderComponent<MovementsView>().Set(x => x.Type, this.Model.Type);
@@ -68,7 +92,7 @@
 
         if (!result.Cancelled)
         {
-            await Model.Refresh();
+            await Refresh();
             StateHasChanged();
         }
 
@@ -76,27 +100,23 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (NavManager.BaseUri.EndsWith("salida"))
+        if (NavManager.Uri.EndsWith("salida"))
         {
-            await Model.Refresh('S');
+            Model.Type = 'S';
         }
         else
         {
-            await Model.Refresh('E');
+            Model.Type = 'E';
         }
+        await Refresh();
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Model.Refreshed += Refreshed;
     }
 
-    private void Refreshed(object sender, EventArgs e)
-    {
-        //(sender as IRefresh).Refreshed -= Refreshed;
-        StateHasChanged();
-    }
+
 
     private async Task OnselectedItem(Movement movement)
     {

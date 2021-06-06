@@ -8,7 +8,7 @@ using Tabler.Docs.Models;
 
 namespace Tabler.Docs.ViewModels
 {
-   public class MovementsPageViewModel : IRefresh
+   public class MovementsPageViewModel 
     {
         public  char Type { get; set; }
         public bool IsLoading { get; set; }
@@ -18,39 +18,6 @@ namespace Tabler.Docs.ViewModels
         {
             Movements = new List<Movement>();
             SelectedMovent = new Movement();
-        }
-
-        public event EventHandler Refreshed;
-
-        public async Task Refresh(char type)
-        {
-            Type = type;
-            await Refresh();
-        }
-        public async Task Refresh()
-        {
-            try
-            {
-                if (IsLoading)
-                {
-                    return;
-                }
-                IsLoading = true;
-                this.Movements.Clear();
-                this.Movements.AddRange(await Movement.GetAll(this.Type));
-                //this.movementParts.AddRange(await MovementPart.GetAll());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                IsLoading = false;
-                Refreshed?.Invoke(this, EventArgs.Empty);
-            }
-
         }
     }
 }

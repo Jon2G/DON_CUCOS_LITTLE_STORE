@@ -1,13 +1,10 @@
 ﻿@using Tabler.Docs.ViewModels
 @using Tabler.Docs.Components.Modals
 @code {
-    [Inject] MovementsPageViewModel Movements { get; set; }
     [Inject] NavigationManager NavigationManager { get; set; }
-    private async void GotoStockInOut(char type)
+    private void GotoStockInOut(char type)
     {
-        Movements.Type = type;
-        NavigationManager.NavigateTo(type == 'E' ? "entrada" : "salida");
-        await Movements.Refresh(type);
+        NavigationManager.NavigateTo(type == 'E' ? "entrada" : "salida",true);
     }
 
 

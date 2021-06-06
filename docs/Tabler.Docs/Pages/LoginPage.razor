@@ -5,9 +5,8 @@
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
 @inject LoginPageViewModel Model
-@code{
 
-}
+
 <style>
 
     .navbar {
@@ -255,6 +254,17 @@
 @inject IModalService ModalService
 @code{
     [Inject] NavigationManager NavManager { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (AppData.Current.User.Id > 0)
+        {
+            NavManager.NavigateTo("ventas",true);
+        }
+
+    }
+
     private Task Error(string error)
     {
         return ModalService.ShowAsync($"Alerta",
