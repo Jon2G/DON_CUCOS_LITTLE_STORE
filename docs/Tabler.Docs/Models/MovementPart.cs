@@ -15,7 +15,22 @@ namespace Tabler.Docs.Models
         public int Id { get; set; }
         public int IdMovement { get; set; }
         public Product Product { get; set; }
-        public float Quantity { get; set; }
+        private float _Quantity;
+
+        public float Quantity
+        {
+            get => _Quantity;
+            set
+            {
+                if (value <= 0)
+                {
+                    _Quantity = 1;
+                    return;
+                }
+                _Quantity = value;
+            }
+        }
+
         public float InitiallyStock { get; set; }
         public float NewStock
         {
@@ -29,6 +44,15 @@ namespace Tabler.Docs.Models
             }
 
         }
+
+        public float Value
+        {
+            get
+            {
+                int mul = Type == 'S' ? -1 : 1;
+                return mul * Product.Price * Quantity;
+            }
+        }
         public float NewStockB { get; set; }
         public char Type { get; set; }
         public MovementPart()
@@ -38,22 +62,11 @@ namespace Tabler.Docs.Models
         public MovementPart(char Type)
         {
             this.Type = Type;
-
         }
-        public static async Task<List<MovementPart>> GetAll()
+        public static async Task<MovementPart> GetById(int movementpId,char type)
         {
             await Task.Yield();
-            List<MovementPart> movementsparts = new List<MovementPart>();
-            foreach (int id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLMOVEMENTPART"))
-            {
-                movementsparts.Add(await GetById(id));
-            }
-            return movementsparts;
-        }
-        public static async Task<MovementPart> GetById(int movementpId)
-        {
-            await Task.Yield();
-            using (IReader reader = AppData.SQL.Read("SP_GET_MOVEMENTPART",
+            using (IReader reader = AppData.SQL.Read("SP_GET_MOVEMENTPART_BY_ID",
                 CommandType.StoredProcedure, new SqlParameter("ID", movementpId)))
             {
                 if (reader.Read())
@@ -66,11 +79,21 @@ namespace Tabler.Docs.Models
                         Quantity = Convert.ToSingle(reader[3]),
                         InitiallyStock = Convert.ToSingle(reader[4]),
                         NewStockB = Convert.ToSingle(reader[5]),
-                        Type = Convert.ToChar(reader[6])
+                        Type = type
                     };
                 }
             }
             return new MovementPart();
+        }
+
+        public void Save(Movement movement)
+        {
+           this.Id= AppData.SQL.Single<int>("SP_ADD_MOVENT_PARTS", CommandType.StoredProcedure,
+                new SqlParameter("MOVEMENT_ID", movement.Id),
+                new SqlParameter("PRODUCT_ID", Product.Id),
+                new SqlParameter("QUANTITY", Quantity),
+                new SqlParameter("TYPE", Type)
+            );
         }
     }
 }

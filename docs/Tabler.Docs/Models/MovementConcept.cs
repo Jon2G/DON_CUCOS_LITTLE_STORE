@@ -47,17 +47,22 @@ namespace Tabler.Docs.Models
             );
         }
 
-        public static async Task<List<MovementConcept>> GetAll()
+        public static async Task<List<MovementConcept>> GetAll(char Type)
         {
             await Task.Yield();
             List<MovementConcept> movementConcepts = new List<MovementConcept>();
-            foreach (int id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLMOVEMENTCONCEPT"))
+            foreach (int id in AppData.SQL.Lista<int>("SELECT *FROM VIEW_GETALLMOVEMENTCONCEPT WHERE TYPE=@TYPE",
+                new SqlParameter("TYPE",Type)))
             {
                 movementConcepts.Add(await GetById(id));
             }
             return movementConcepts;
         }
-       
+
+        public override string ToString()
+        {
+            return $"{Tag} - {Description}";
+        }
     }
 
 

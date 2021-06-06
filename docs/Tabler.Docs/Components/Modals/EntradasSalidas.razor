@@ -6,7 +6,7 @@
 @inject MovementViewModel Model
 @inject MovementsPageViewModel Mode
 
-<Table Item="MovementPart" Items="Model.movement.Parts" PageSize="10"
+<Table Item="MovementPart" Items="Model.Movement.Parts" PageSize="10"
        OnItemDeleted="OnItemDelete">
     <HeaderTemplate>
         <strong>Movimientos</strong>
@@ -41,52 +41,59 @@
     </ChildContent>
 </Table>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-md-4">
+        <label class="form-label"> Articulo*:</label>
+        <div class="mb-3" style="display: flex;">
+            <Select Items="Model.Products" @bind-SelectedValue="@Model.SelectedProduct"
+                    TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+
+            <Button BackgroundColor="TablerColor.Green" OnClick="FindProduct">
+                <Icon class="icon" Elements="@InternalIcons.Search" />
+            </Button>
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="mb-3">
-            <div class="row">
-                <div class="example-centered">
-                    <div class="mb-3">
-                        <label class="form-label"> Articulo*:</label>
-                        <Select Items="Model.products" @bind-SelectedValue="@Model.SelectedProduct"
-                                TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+            <label class="form-label">Cantidad*:</label>
+            <input type="text" class="form-control" @bind="Model.SelectedQuantity">
 
-                        <Button BackgroundColor="TablerColor.Green" OnClick="CustomerSearch">
-                            <Icon class="icon" Elements="@InternalIcons.Search" />
-                        </Button>
-                    </div>
-                </div>
-                <div class="example-centered">
-                    <div class="mb-3">
-                        <label class="form-label">Cantidad*:</label>
-                        <input type="text" class="form-control" @bind="Model.SelectedQuantity">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label"> Unidad*:</label>
 
-                    </div>
-                </div>
-                <div class="example-centered">
-                    <label class="form-label"> Unidad*:</label>
-                    <label class="form-label">@Model.SelectedProduct.Unit</label>
-                    <Button BackgroundColor="TablerColor.Green" OnClick="Seleccionar">
-                        Seleccionar
-                        <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
-                    </Button>
-                </div>
-
-                <div class="example-centered">
-                    <label class="form-label"> Observaciones*:</label>
-                    <textarea type="text" class="form-control" @bind="Model.movement.Observations"></textarea>
-                    <label class="form-label"> Concepto*:</label>
-                    <Select Items="Model.movementConcepts" @bind-SelectedValue="@Model.SelectedConcept"
-                            TextExpression="e => e.Tag" ValueExpression="e=>e" Clearable />
-                </div>
-                <div class="example-centered">
-                    <Checkbox Label="Imprimir Reporte" Changed="StateHasChanged" Switch />
-                    <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
-                        Registrar entrada
-                        <Icon class="icon" Elements="@InternalIcons.Arrow_right" />
-                    </Button>
-                </div>
+        <div class="row">
+            <div class="col-md-6" style="margin: auto">
+                <label class="form-label">@Model.SelectedProduct.Unit</label>
+            </div>
+            <div class="col-md-6">
+                <Button BackgroundColor="TablerColor.Green" OnClick="Seleccionar">
+                    Seleccionar
+                    <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
+                </Button>
             </div>
         </div>
+    </div>
+
+    <div class="col-md-5">
+        <label class="form-label"> Observaciones*:</label>
+        <textarea type="text" class="form-control" @bind="Model.Movement.Observations"></textarea>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label"> Concepto*:</label>
+        <div style="margin: auto">
+            <Select Items="Model.Concepts" @bind-SelectedValue="@Model.SelectedConcept"
+                    TextExpression="e => e.ToString()" ValueExpression="e=>e" Clearable />
+        </div>
+    </div>
+    <div class="col-md-2" style="margin: auto">
+        <Checkbox Label="Imprimir Reporte" Changed="StateHasChanged" Switch />
+    </div>
+    <div class="col-md-2" style="margin: auto">
+        <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
+            Registrar entrada
+            <Icon class="icon" Elements="@InternalIcons.Arrow_right" />
+        </Button>
     </div>
 
 </div>
@@ -95,9 +102,36 @@
 
 {
     [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
-    protected override async Task OnInitializedAsync()
+
+    [Parameter]
+    public char Type
     {
-        await Model.RequestLoad(MovementId);
+        get => Model.Type;
+        set { Model.Type = value;
+            DoRefresh(value);
+        }
+    }
+
+    private async void DoRefresh(char Type)
+    {
+        await Model.Refresh(Type);
+    }
+    protected override Task OnParametersSetAsync()
+    {
+        if (Type == '\0')
+        {
+            return  base.OnParametersSetAsync();
+        }
+        return Model.Refresh(Type);
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        if (Type == '\0')
+        {
+            return base.OnInitializedAsync();
+        }
+        return Model.Refresh(Type);
     }
 
     protected override void OnInitialized()
@@ -112,25 +146,51 @@
         StateHasChanged();
     }
     [Parameter] public int MovementId { get; set; }
-    private void CustomerSearch()
+    
+    private Task Error(string error)
     {
-
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
     }
-    private void Seleccionar()
+    private async void Seleccionar()
     {
+        if (Model.SelectedProduct.Id <= 0)
+        {
+            await Error("Seleccione un producto");
+            return;
+        }
+
         Model.Agregar();
+    }
+    private async Task FindProduct()
+    {
+        var result = await ModalService.ShowAsync($"Busqueda de productos",
+            new RenderComponent<ProductFinder>(),
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true, Size = ModalSize.Maximized });
+
+        if (!result.Cancelled)
+        {
+            Model.SelectedProduct = result.Data as Product;
+            StateHasChanged();
+        }
     }
     private async Task Finalizar()
     {
-
+        if (Model.SelectedConcept.Id <= 0)
+        {
+            await Error("Seleccione un concepto para este movimiento");
+            return;
+        }
+     
         var result = await ModalService.ShowAsync("Movimiento",
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Dar de alta este movimiento?"),
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Confirmar este movimiento?"),
             new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
 
         if (!result.Cancelled)
         {
             Model.AgregarIdConcept();
-            await Model.movement.Save();
+            await Model.Movement.Save();
             ModalService.Close(ModalResult.Ok());
         }
     }

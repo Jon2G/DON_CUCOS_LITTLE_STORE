@@ -1,104 +1,60 @@
-﻿@page "/entradassalidas"
+﻿@page "/entrada"
+@page "/salida"
 @using Tabler.Docs.Components.Modals
 @using Tabler.Docs.Interfaces
 @using Tabler.Docs.Models
 @using Tabler.Docs.ViewModels
 @inject MovementsPageViewModel Model
+
 @if (!AppData.Current.User.Permissions.Sales)
 {
     <Forbbiden />
+    return;
 }
-else
-{
 
-    <Table Item="Movement" Items="Model.Movements" PageSize="10">
-        <HeaderTemplate>
-            <strong>Movimientos</strong>
-        </HeaderTemplate>
 
-        <ChildContent>
-            <Column Item="Movement" Property="e => e.Id" Title="Id" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Id" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="Movement" Property="e => e.User.Id" Title="UserId" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.User.Id" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="Movement" Property="e => e.Concept.Tag" Title="Concept" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Concept.Tag" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="Movement" Property="e => e.Type" Title="Tipo" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Type" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="Movement" Property="e => e.Date_m" Title="Fecha" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Date_m" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="Movement" Property="e => e.Observations" Title="Observaciones" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Observations" />
-                </EditorTemplate>
-            </Column>
-        </ChildContent>
+<Table Item="Movement" Items="Model.Movements" PageSize="10" OnItemSelected="OnselectedItem">
+    <HeaderTemplate>
+        <strong>Movimientos</strong>
+    </HeaderTemplate>
 
-    </Table>
-<Table Item="MovementPart" Items="Model.movementParts" PageSize="10">
-        <HeaderTemplate>
-            <strong>Partes del movimiento</strong>
-        </HeaderTemplate>
+    <ChildContent>
+        <Column Item="Movement" Property="e => e.Date_m" Title="Fecha" Sortable Searchable Groupable />
+        <Column Item="Movement" Property="e => e.User.Id" Title="Usuario" Sortable Searchable Groupable />
+        <Column Item="Movement" Property="e => e.Concept" Title="Concepto" Sortable Searchable Groupable />
+        <Column Item="Movement" Property="e => e.Type" Title="Tipo" Sortable Searchable Groupable />
+        <Column Item="Movement" Property="e => e.Observations" Title="Observaciones" Sortable Searchable Groupable />
+    </ChildContent>
 
-        <ChildContent>
-            <Column Item="MovementPart" Property="e => e.Id" Title="Id" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Id" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="MovementPart" Property="e => e.IdMovement" Title="IdMovement" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.IdMovement" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="MovementPart" Property="e => e.Product.Id" Title="Id producto" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Product.Id" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="MovementPart" Property="e => e.Quantity" Title="Cantidad" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.Quantity" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="MovementPart" Property="e => e.InitiallyStock" Title="Existencia inicial" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.InitiallyStock" />
-                </EditorTemplate>
-            </Column>
-            <Column Item="MovementPart" Property="e => e.NewStockB" Title="Existencia actual" Sortable Searchable Groupable>
-                <EditorTemplate>
-                    <input type="text" class="form-control" @bind-value="@context.NewStockB" />
-                </EditorTemplate>
-            </Column>
-        </ChildContent>
+</Table>
+<Table Item="MovementPart" Items="Model.SelectedMovent.Parts" PageSize="10">
+    <HeaderTemplate>
+        <strong>Partes del movimiento</strong>
+    </HeaderTemplate>
 
-    </Table>
-    <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
-        <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
-        Registrar
-    </Button>
-}
+    <ChildContent>
+        <Column Item="MovementPart" Property="e => e.Product.Code" Title="Código" Sortable Searchable Groupable />
+        <Column Item="MovementPart" Property="e => e.Product.Name" Title="Producto" Sortable Searchable Groupable />
+        <Column Item="MovementPart" Property="e => e.Quantity" Title="Cantidad" Sortable Searchable Groupable />
+        <Column Item="MovementPart" Property="e => e.InitiallyStock" Title="Existencia inicial" Sortable Searchable Groupable />
+        <Column Item="MovementPart" Property="e => e.NewStockB" Title="Existencia actual" Sortable Searchable Groupable />
+        <Column Item="MovementPart" Property="e => e.Value" Title="Valor" Sortable Searchable Groupable />
+    </ChildContent>
+
+</Table>
+<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+    Registrar
+</Button>
+
 @code
 {
     [Inject] IModalService ModalService { get; set; }
     [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
     [Inject] NavigationManager NavManager { get; set; }
+
+
+
     protected override void OnAfterRender(bool firstrender)
     {
         @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
@@ -107,10 +63,8 @@ else
         }}
     protected async Task ShowModal()
     {
-
-
-        var component = new RenderComponent<EntradasSalidas>();
-        var result = await ModalService.ShowAsync("Registrar Entrada", component, new ModalOptions { Size = ModalSize.XLarge });
+        var component = new RenderComponent<EntradasSalidas>().Set(x => x.Type, this.Model.Type);
+        var result = await ModalService.ShowAsync($"Registrar {(Model.Type == 'S' ? "Salida" : "Entrada")}", component, new ModalOptions { Size = ModalSize.XLarge });
 
         if (!result.Cancelled)
         {
@@ -123,7 +77,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Model.Refresh();
+        if (NavManager.BaseUri.EndsWith("salida"))
+        {
+            await Model.Refresh('S');
+        }
+        else
+        {
+            await Model.Refresh('E');
+        }
     }
 
     protected override void OnInitialized()
@@ -134,7 +95,13 @@ else
 
     private void Refreshed(object sender, EventArgs e)
     {
-        (sender as IRefresh).Refreshed -= Refreshed;
+        //(sender as IRefresh).Refreshed -= Refreshed;
         StateHasChanged();
+    }
+
+    private async Task OnselectedItem(Movement movement)
+    {
+        Model.SelectedMovent = movement;
+        await Model.SelectedMovent.Load();
     }
 }

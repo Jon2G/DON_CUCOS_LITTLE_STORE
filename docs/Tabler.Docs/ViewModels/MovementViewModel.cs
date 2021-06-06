@@ -10,33 +10,50 @@ namespace Tabler.Docs.ViewModels
 {
   public  class MovementViewModel : IRefresh
     {
-
-        public Movement movement { get; set; }
+        public char Type { get; set; }
+        public Movement Movement { get; set; }
         public Product SelectedProduct { get; set; }
-        public float SelectedQuantity { get; set; }
-        public List<Product> products { get; set; }
+
+        private float _SelectedQuantity;
+        public float SelectedQuantity
+        {
+            get => _SelectedQuantity;
+            set
+            {
+                if (value <= 0)
+                {
+                    _SelectedQuantity = 1;
+                    return;
+                }
+                _SelectedQuantity = value;
+            }
+        }
+        public List<Product> Products { get; set; }
         public MovementConcept SelectedConcept { get; set; }
-        public List<MovementConcept> movementConcepts { get; set; }
+        public List<MovementConcept> Concepts { get; set; }
         public MovementViewModel()
         {
-            movement = new Movement();
-            products = new List<Product>();
+            Movement = new Movement();
+            Products = new List<Product>();
             SelectedProduct = new Product();
             SelectedConcept = new MovementConcept();
             SelectedQuantity = 0;
-            movementConcepts = new List<MovementConcept>(); 
+            Concepts = new List<MovementConcept>(); 
         }
         public bool IsLoading { get; set; }
         public event EventHandler Refreshed;
-        public int MovementId { get; set; }
-        public async Task RequestLoad(int UserId)
-        {
-            this.MovementId = UserId;
-            await Refresh();
-        }
+     
+
         public void Agregar()
         {
-            this.movement.Parts.Add(new MovementPart(this.movement.Type)
+            if (this.Movement.Parts.FirstOrDefault(x => x.Product.Equals(this.SelectedProduct)) is MovementPart ajuste)
+            {
+                ajuste.Quantity += (float)this.SelectedQuantity;
+                SelectedProduct = new Product();
+                SelectedQuantity = 0;
+                return;
+            }
+            this.Movement.Parts.Add(new MovementPart(this.Movement.Type)
             {
                 Product = this.SelectedProduct,
                 Quantity = this.SelectedQuantity,
@@ -47,16 +64,22 @@ namespace Tabler.Docs.ViewModels
         }
         public async void AgregarIdConcept()
         {
-            this.movement.Concept = SelectedConcept;
+            this.Movement.Concept = SelectedConcept;
+        }
+
+        public Task Refresh(char Type)
+        {
+            this.Type = Type;
+            return Refresh();
         }
         public async Task Refresh()
         {
             try
             {
                 IsLoading = true;
-                movement = await Movement.GetById(MovementId);
-                products = await Product.GetAll();
-                movementConcepts = await MovementConcept.GetAll();
+                Movement = new Movement();
+                Products = await Product.GetAll();
+                Concepts = await MovementConcept.GetAll(Type);
             }
             catch (Exception e)
             {

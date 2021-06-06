@@ -87,19 +87,29 @@ else
                                         <p>@line.Category.Description</p>
                                         @if (!AppData.Current.User.Permissions.ReadOnly)
                                         {
-                                            <Row style="margin: 5px;">
-                                                <RowCol Sm="6">
 
-                                                    <Button @onclick="()=>ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <Button @onclick="() => ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
                                                         <Icon class="icon" Elements="@DemoIcons.Pencil" />
                                                     </Button>
-                                                </RowCol>
-                                                <RowCol Sm="6">
-                                                    <Button @onclick="()=>Delete(product.Id)" BackgroundColor="TablerColor.Danger">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <Button @onclick="() => Delete(product.Id)" BackgroundColor="TablerColor.Danger">
                                                         <Icon class="icon" Elements="@DemoIcons.Trash" />
                                                     </Button>
-                                                </RowCol>
-                                            </Row>
+                                                </div>
+                                                @if (!product.HasStock)
+                                                {
+                                                    <div class="col-md-4">
+                                                        <Icon class="icon" Elements="@DemoIcons.Alert_triangle" />
+                                                    </div>
+                                                }
+                                            </div>
+
+
+
+
                                         }
 
                                     </div>

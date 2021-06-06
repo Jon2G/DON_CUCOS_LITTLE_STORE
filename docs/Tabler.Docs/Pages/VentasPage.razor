@@ -66,7 +66,7 @@
                     <Card Size="CardSize.Small" class="sticky" style="z-index: 999; top: 65px;">
                         <CardBody class="d-flex align-items-center">
                             <span class="bg-blue text-white stamp me-3">
-                                <Icon Elements="@DemoIcons.Building_warehouse"/>
+                                <Icon Elements="@DemoIcons.Building_warehouse" />
                             </span>
                             <div class="me-3 lh-sm">
                                 <div class="strong">
@@ -93,7 +93,17 @@
                                             <img src="@product.Picture" alt="@product.Name" style="height: 200px;">
                                             <div class="container">
                                                 <h4><b>@product.Name</b></h4>
-                                                <p>@Model.GroupLine.Category.Description</p>
+                                                <div class="row">
+                                                    <p>
+                                                        @Model.GroupLine.Category.Description
+                                                        @if (!product.HasStock)
+                                                        {
+
+                                                            <Icon class="icon" Elements="@DemoIcons.Alert_triangle" />
+
+                                                        }
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </Card>
@@ -249,7 +259,7 @@
         StateHasChanged();
     }
 
-    public async Task Refresh(string Search=null)
+    public async Task Refresh(string Search = null)
     {
         try
         {
@@ -277,7 +287,7 @@
                     await gropup.Refresh(_Search);
                     Model.Lines.Add(gropup);
                 }
-                Model.GroupLine = Model.Lines.Where(x=>x.Products.Any()).FirstOrDefault();
+                Model.GroupLine = Model.Lines.Where(x => x.Products.Any()).FirstOrDefault();
             }
         }
         catch (Exception e)
@@ -304,6 +314,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        this.Model.Customers.Clear();
+        this.Model.Customers.AddRange(await Customer.GetAll());
         await Refresh();
     }
 
@@ -337,25 +349,6 @@
         }
     }
 
-    private async void Delete(int productId)
-    {
-        Product product = await Product.GetById(productId);
-        if (product is null) { return; }
-        var result = await ModalService.ShowAsync(product.Name,
-            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Eliminar este producto?")
-                .Set(x => x.Line2, "Continuará mostrandose en reportes de ventas anteriores")
-                .Set(x => x.Line3, "Esta acción no puede deshacerse"),
-            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
-
-        if (!result.Cancelled)
-        {
-            product.Disabled = true;
-            product.Save();
-            ModalService.Close(ModalResult.Ok());
-            await Refresh();
-            StateHasChanged();
-        }
-    }
 
     private async void ChangeUser()
     {
@@ -410,9 +403,19 @@
         await Refresh();
         StateHasChanged();
     }
-
-    private void ProductClick(Product product)
+    private Task Error(string error)
     {
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
+    private async void ProductClick(Product product)
+    {
+        if (!product.HasStock)
+        {
+            await Error("Este producto no cuenta con existencia");
+            return;
+        }
         Model.Sale.Add(product);
     }
 

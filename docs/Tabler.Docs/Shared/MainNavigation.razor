@@ -1,4 +1,16 @@
-﻿<Navbar Darkmode>
+﻿@using Tabler.Docs.ViewModels
+@code {
+    [Inject] MovementsPageViewModel Movements { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
+    private async void GotoStockInOut(char type)
+    {
+        Movements.Type = type;
+        NavigationManager.NavigateTo(type == 'E' ? "entrada" : "salida");
+        await Movements.Refresh(type);
+    }
+
+}
+<Navbar Darkmode>
 
 
     <a href="https://github.com/joadan/Blazor-Tabler" class="navbar-brand navbar-brand-autodark">
@@ -77,12 +89,23 @@
 
             </NavbarMenuItem>
         }
-        <NavbarMenuItem Text="Entradas" Href="entradassalidas">
-            <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Login" />
-            </MenuItemIcon>
 
-        </NavbarMenuItem>
+        @if (AppData.Current.User.Permissions.StockIn)
+        {
+            <NavbarMenuItem Text="Entrada" OnClick="()=>GotoStockInOut('E')">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Letter_e" />
+                </MenuItemIcon>
+            </NavbarMenuItem>
+        }
+        @if (AppData.Current.User.Permissions.StockOut)
+        {
+            <NavbarMenuItem Text="Salida" OnClick="()=>GotoStockInOut('S')">
+                <MenuItemIcon>
+                    <Icon class="icon" Elements="@DemoIcons.Letter_s" />
+                </MenuItemIcon>
+            </NavbarMenuItem>
+        }
         <NavbarMenuItem Text="Cerrar sesión" Href="login">
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.Login" />

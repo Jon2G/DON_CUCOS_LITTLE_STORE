@@ -10,17 +10,23 @@ namespace Tabler.Docs.ViewModels
 {
    public class MovementsPageViewModel : IRefresh
     {
+        public  char Type { get; set; }
         public bool IsLoading { get; set; }
-        public List<Movement> Movements { get; set; }
-        public List<MovementPart> movementParts { get; set; }
+        public List<Movement> Movements { get; set; } 
+        public Movement SelectedMovent { get; set; }
         public MovementsPageViewModel()
         {
             Movements = new List<Movement>();
-            movementParts = new List<MovementPart>();
+            SelectedMovent = new Movement();
         }
 
         public event EventHandler Refreshed;
 
+        public async Task Refresh(char type)
+        {
+            Type = type;
+            await Refresh();
+        }
         public async Task Refresh()
         {
             try
@@ -31,8 +37,8 @@ namespace Tabler.Docs.ViewModels
                 }
                 IsLoading = true;
                 this.Movements.Clear();
-                this.Movements.AddRange(await Movement.GetAll());
-                this.movementParts.AddRange(await MovementPart.GetAll());
+                this.Movements.AddRange(await Movement.GetAll(this.Type));
+                //this.movementParts.AddRange(await MovementPart.GetAll());
             }
             catch (Exception e)
             {
