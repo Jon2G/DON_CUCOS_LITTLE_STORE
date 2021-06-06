@@ -1,7 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,18 +21,21 @@
 
   <ItemGroup>
     <PackageReference Include="Blazor-ApexCharts" Version="0.2.2-alpha" />
-    <PackageReference Include="Blazored.Typeahead" Version="4.5.1" />
-    <PackageReference Include="ColorCode.HTML" Version="2.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.3" />
+    <PackageReference Include="Blazored.Typeahead" Version="4.6.0" />
+    <PackageReference Include="ColorCode.HTML" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Kit\Kit.WPF\Kit.WPF.csproj" />
     <ProjectReference Include="..\..\..\..\Kit\Kit\Kit.csproj" />
+    <ProjectReference Include="..\..\PrintService\PrintService.csproj" />
     <ProjectReference Include="..\..\src\TabBlazor\TabBlazor.csproj" />
   </ItemGroup>
 

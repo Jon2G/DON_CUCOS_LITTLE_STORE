@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Kit.Sql.Readers;
+using Stimulsoft.Report.Dictionary;
 using Tabler.Docs.Data;
 
 namespace Tabler.Docs.Models
@@ -96,7 +97,5 @@ namespace Tabler.Docs.Models
             }
             return users;
         }
-
-      
     }
 }

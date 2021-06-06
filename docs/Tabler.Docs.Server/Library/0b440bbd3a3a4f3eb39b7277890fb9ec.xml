@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-16"?>
+<DataTable>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:MainDataTable="Sale" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Sale">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Id" type="xs:int" minOccurs="0" />
+                <xs:element name="Date" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Total" type="xs:float" minOccurs="0" />
+                <xs:element name="Payed" type="xs:float" minOccurs="0" />
+                <xs:element name="ToPay" type="xs:float" minOccurs="0" />
+                <xs:element name="Change" type="xs:float" minOccurs="0" />
+                <xs:element name="Letters" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">
+    <DocumentElement>
+      <Sale diffgr:id="Sale1" msdata:rowOrder="0" diffgr:hasChanges="inserted">
+        <Id>11</Id>
+        <Date>0001-01-01T00:00:00-06:00</Date>
+        <Total>53.5</Total>
+        <Payed>100</Payed>
+        <ToPay>0</ToPay>
+        <Change>46.5</Change>
+        <Letters>CINCUENTA Y TRES MXN 50 /100 </Letters>
+      </Sale>
+    </DocumentElement>
+  </diffgr:diffgram>
+</DataTable>

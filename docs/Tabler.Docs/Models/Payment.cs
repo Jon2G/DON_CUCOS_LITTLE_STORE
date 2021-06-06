@@ -11,6 +11,14 @@ namespace Tabler.Docs.Models
 {
     public class Payment
     {
+        public string PayWay1 => Pay.GetName(Payments[0].PayWay);
+        public string PayWay2 => Pay.GetName(Payments[1].PayWay);
+        public string PayWay3 => Pay.GetName(Payments[2].PayWay);
+
+        public float PayAmount1 => Payments[0].Amount;
+        public float PayAmount2 => Payments[1].Amount;
+        public float PayAmount3 => Payments[2].Amount;
+
         public float Total => Payments.Sum(x => x.Amount);
         public List<Pay> Payments { get; set; }
         public Payment()

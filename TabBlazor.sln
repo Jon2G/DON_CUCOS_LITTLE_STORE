@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kit", "..\..\Kit\Kit\Kit.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kit.WPF", "..\..\Kit\Kit.WPF\Kit.WPF.csproj", "{34EFE474-FEF7-4E63-92C3-10AA9B823C85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintService\PrintService.csproj", "{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,14 @@ Global
 		{34EFE474-FEF7-4E63-92C3-10AA9B823C85}.Gorilla|Any CPU.Build.0 = Debug|Any CPU
 		{34EFE474-FEF7-4E63-92C3-10AA9B823C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34EFE474-FEF7-4E63-92C3-10AA9B823C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Debug2|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Debug2|Any CPU.Build.0 = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Gorilla|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Gorilla|Any CPU.Build.0 = Debug|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB5A378-31FF-4BE1-89E4-5D527ABE533D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

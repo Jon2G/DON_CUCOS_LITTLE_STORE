@@ -16,7 +16,7 @@ namespace Tabler.Docs.Models
         public float Quantity { get; set; }
         public float Price { get; set; }
         public float Total => Price * Quantity;
-
+        public string ProductName => Product.Name;
         public SalePart()
         {
             Quantity = 1;

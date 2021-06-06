@@ -1,19 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>WinExe</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PrintService\PrintService.csproj" />
     <ProjectReference Include="..\Tabler.Docs\Tabler.Docs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Stimulsoft.Base">
+      <HintPath>..\..\Assemblies\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Controls">
+      <HintPath>..\..\Assemblies\Stimulsoft.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Controls.Win">
+      <HintPath>..\..\Assemblies\Stimulsoft.Controls.Win.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Editor">
+      <HintPath>..\..\Assemblies\Stimulsoft.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Check">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.Check.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Design">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Helper">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Win">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.Win.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Wpf">
+      <HintPath>..\..\Assemblies\Stimulsoft.Report.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms">
       <HintPath>..\..\Assemblies\System.Windows.Forms.dll</HintPath>
     </Reference>

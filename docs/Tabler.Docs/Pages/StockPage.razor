@@ -1,0 +1,97 @@
+﻿@page "/existencia"
+@using Tabler.Docs.Components.Modals
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+
+@inject StockPageViewModel Model
+<style>
+    .over_stocked {
+        background-color: firebrick;
+        color: white;
+    }
+    .under_stocked {
+        background-color: #c2661b;
+        color: white;
+    }
+</style>
+
+<Table Item="Stock" Items="Model.Stocks" PageSize="30">
+    <HeaderTemplate>
+        <strong>Existencia</strong>
+    </HeaderTemplate>
+    <ChildContent>
+        <Column Item="Stock" Property="e => e.Code" Title="Código" Sortable Searchable Groupable>
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Code</label>
+                </div>
+            </Template>
+        </Column>
+        <Column Item="Stock" Property="e => e.Name" Title="Nombre" Sortable Searchable Groupable>
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Name</label>
+                </div>
+            </Template>
+        </Column>
+        <Column Item="Stock" Property="e => e.Quantity" Title="Existencia" Sortable Searchable Groupable>
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Quantity.ToString("N2")</label>
+                </div>
+            </Template>
+        </Column>
+        <Column Item="Stock" Property="e => e.Minimum" Title="Mínimo" Sortable Searchable Groupable>
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Minimum.ToString("N2")</label>
+                </div>
+            </Template>
+        </Column>
+        <Column Item="Stock" Property="e => e.Maximum" Title="Máximo" Sortable Searchable Groupable>
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Maximum.ToString("N2")</label>
+                </div>
+            </Template>
+        </Column>     
+        <Column Item="Stock" Property="e => e.Status" Title="Status" >
+            <Template>
+                <div class="@context.CssClass">
+                    <label>@context.Status</label>
+                </div>
+            </Template>
+        </Column>
+    </ChildContent>
+</Table>
+
+
+@code {
+    [Inject] IModalService ModalService { get; set; }
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+    [Inject] NavigationManager NavManager { get; set; }
+    protected override void OnAfterRender(bool firstrender)
+    {
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+        {
+            NavManager.NavigateTo("login");
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+}

@@ -11,6 +11,11 @@ using Kit.Sql.SqlServer;
 using Kit.WPF.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
 using Tabler.Docs.Models;
+using System.ComponentModel;
+using System.Drawing.Design;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Windows.Forms.Design;
 
 namespace Tabler.Docs.Data
 {
@@ -28,13 +33,15 @@ namespace Tabler.Docs.Data
         {
             Current = new AppData();
             SQL = new SQLServerConnection("DON_CUCO", ".\\SQLXEXPRESS", "1433", "sa", "12345678");
-            DirectoryInfo directory = new DirectoryInfo( $"{Environment.CurrentDirectory}\\Library");
+            DirectoryInfo directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Library");
             if (!directory.Exists)
             {
                 directory.Create();
             }
             Kit.WPF.Tools.Init(directory.FullName);
             Current.User = new User();
+
+            Reports.PrintTicket(new Sale());
         }
 
         public static async Task<string> Compress(IBrowserFile file)

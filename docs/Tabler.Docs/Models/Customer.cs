@@ -1,6 +1,7 @@
 ﻿using Kit.Sql.Readers;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -73,5 +74,7 @@ namespace Tabler.Docs.Models
         {
             return Customer.GetById(1);
         }
+
+      
     }
 }

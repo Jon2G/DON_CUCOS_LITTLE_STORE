@@ -33,7 +33,7 @@ namespace Tabler.Docs.Models
             }
         }
         public float Change => Payed - Total;
-
+        public string Letters => Kit.Extensions.Helpers.EnLetra((decimal)Total, "", true, "MXN");
         public Sale()
         {
             Parts = new List<SalePart>();
