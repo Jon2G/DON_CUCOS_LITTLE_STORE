@@ -1,0 +1,174 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.ViewModels
+@using Tabler.Docs.Models
+@inject BuyDetailViewModel Model
+
+
+<Table Item="BuyPart" Items="Model.Buy.Parts" PageSize="10"
+       OnItemDeleted="OnItemDelete">
+    <HeaderTemplate>
+        <strong>Movimientos</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="BuyPart" Property="e => e.Product.Id" Title="Codigo " Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Product.Id" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="BuyPart" Property="e => e.Product.Name" Title="Nombre" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Product.Name" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="BuyPart" Property="e => e.Quantity" Title="Cantidad" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.Quantity" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="BuyPart" Property="e => e.InitiallyStock" Title="Actual" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <input type="text" class="form-control" @bind-value="@context.InitiallyStock" />
+            </EditorTemplate>
+        </Column>
+        <Column Item="BuyPart" Property="e => e.NewStock" Title="Posterior" Sortable Searchable Groupable>
+            <EditorTemplate>
+                <label class="form-label">@context.NewStock</label>
+            </EditorTemplate>
+        </Column>
+    </ChildContent>
+</Table>
+<div class="row">
+    <div class="col-md-4">
+        <label class="form-label"> Articulo*:</label>
+        <div class="mb-3" style="display: flex;">
+            <Select Items="Model.Products" @bind-SelectedValue="@Model.SelectedProduct"
+                    TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+
+            <Button BackgroundColor="TablerColor.Green" OnClick="FindProduct">
+                <Icon class="icon" Elements="@InternalIcons.Search" />
+            </Button>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="mb-3">
+            <label class="form-label">Cantidad*:</label>
+            <input type="text" class="form-control" @bind="Model.SelectedQuantity">
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label"> Unidad*:</label>
+
+        <div class="row">
+            <div class="col-md-6" style="margin: auto">
+                <label class="form-label">@Model.SelectedProduct.Unit</label>
+            </div>
+            <div class="col-md-6">
+                <Button BackgroundColor="TablerColor.Green" OnClick="Seleccionar">
+                    Seleccionar
+                    <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
+                </Button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <label class="form-label"> Observaciones*:</label>
+        <textarea type="text" class="form-control" @bind="Model.Buy.Observations"></textarea>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label"> Proveedor*:</label>
+        <div style="margin: auto">
+            <label>@Model.SelectedProduct?.Supplier?.Name</label>
+        </div>
+    </div>
+    <div class="col-md-2" style="margin: auto">
+        <Checkbox Label="Imprimir comprobante" Changed="StateHasChanged" Switch />
+    </div>
+    <div class="col-md-2" style="margin: auto">
+        <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
+            Confirmar compra
+            <Icon class="icon" Elements="@InternalIcons.Arrow_right" />
+        </Button>
+    </div>
+
+</div>
+@inject IModalService ModalService
+@code
+
+{
+    [Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+
+
+
+    protected override Task OnInitializedAsync()
+    {
+        return Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
+
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
+    private async void Seleccionar()
+    {
+        if (Model.SelectedProduct.Id <= 0)
+        {
+            await Error("Seleccione un producto");
+            return;
+        }
+
+        Model.Agregar();
+    }
+    private async Task FindProduct()
+    {
+        var result = await ModalService.ShowAsync($"Busqueda de productos",
+            new RenderComponent<ProductFinder>(),
+            new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true, Size = ModalSize.Maximized });
+
+        if (!result.Cancelled)
+        {
+            Model.SelectedProduct = result.Data as Product;
+            StateHasChanged();
+        }
+    }
+    private async Task Finalizar()
+    {
+        if (Model.Buy.Parts.Count <= 0)
+        {
+            await Error("No puede confirmar una compra vacia");
+            return;
+        }
+
+        var result = await ModalService.ShowAsync("Compra",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, "¿Confirmar esta compra?"),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = false });
+
+        if (!result.Cancelled)
+        {
+            await Model.Buy.Save();
+            ModalService.Close(ModalResult.Ok());
+        }
+    }
+    private async Task OnItemDelete(BuyPart order)
+    {
+        await TablerService.ShowAlert($"Order deleted {order.Product.Id}");
+    }
+}

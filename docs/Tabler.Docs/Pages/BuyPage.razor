@@ -1,0 +1,117 @@
+﻿@page "/compras"
+@using Tabler.Docs.Components.Modals
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.Models
+@using Tabler.Docs.ViewModels
+@using Kit
+@inject BuyPageViewModel Model
+
+@if (!AppData.Current.User.Permissions.Sales)
+{
+    <Forbbiden />
+    return;
+}
+
+
+<Table Item="Buy" Items="Model.Buys" PageSize="10" OnItemSelected="OnselectedItem">
+    <HeaderTemplate>
+        <strong>Compras</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="Buy" Property="e => e.Date" Title="Fecha" Sortable Searchable Groupable />
+        <Column Item="Buy" Property="e => e.User.Name" Title="Usuario" Sortable Searchable Groupable />
+        <Column Item="Buy" Property="e => e.Observations" Title="Observaciones" Sortable Searchable Groupable />
+    </ChildContent>
+
+</Table>
+<Table Item="BuyPart" Items="Model.SelectedBuy.Parts" PageSize="10">
+    <HeaderTemplate>
+        <strong>Partidas de la compra</strong>
+    </HeaderTemplate>
+
+    <ChildContent>
+        <Column Item="BuyPart" Property="e => e.Product.Code" Title="Código" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e => e.Product.Name" Title="Producto" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e => e.Product.Supplier.Name" Title="Proveedor" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e =>e.Quantity" Title="Cantidad" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e => e.InitiallyStock" Title="Existencia inicial" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e => e.NewStockB" Title="Existencia actual" Sortable Searchable Groupable />
+        <Column Item="BuyPart" Property="e => e.Value" Title="Valor" Sortable Searchable Groupable />
+    </ChildContent>
+
+</Table>
+<Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
+    <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
+    Registrar
+</Button>
+
+@code
+{
+[Inject] IModalService ModalService { get; set; }
+[Inject] TabBlazor.Services.TablerService TablerService { get; set; }
+[Inject] NavigationManager NavManager { get; set; }
+
+
+
+protected override void OnAfterRender(bool firstrender)
+{
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+        {
+            NavManager.NavigateTo("login");
+        }}
+    protected async Task ShowModal()
+    {
+        var component = new RenderComponent<BuyDetailView>();
+        var result = await ModalService.ShowAsync("Nueva compra" ,component, new ModalOptions { Size = ModalSize.XLarge });
+
+        if (!result.Cancelled)
+        {
+            await Refresh();
+            StateHasChanged();
+        }
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+    }
+
+
+    private async Task OnselectedItem(Buy buy)
+    {
+        Model.SelectedBuy = buy;
+        await Model.SelectedBuy.Load();
+    }
+
+    public async Task Refresh()
+    {
+        try
+        {
+            if (Model.IsLoading)
+            {
+                return;
+            }
+            Model.IsLoading = true;
+            Model.Buys.Clear();
+            Model.Buys.AddRange(await Buy.GetAll());
+            //this.movementParts.AddRange(await MovementPart.GetAll());
+        }
+        catch (Exception e)
+        {
+            Log.Logger.Error(e, "Error");
+        }
+        finally
+        {
+            Model.IsLoading = false;
+        }
+
+    }
+}

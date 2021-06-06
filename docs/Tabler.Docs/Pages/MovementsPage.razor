@@ -63,7 +63,7 @@
         }}
     protected async Task ShowModal()
     {
-        var component = new RenderComponent<EntradasSalidas>().Set(x => x.Type, this.Model.Type);
+        var component = new RenderComponent<MovementsView>().Set(x => x.Type, this.Model.Type);
         var result = await ModalService.ShowAsync($"Registrar {(Model.Type == 'S' ? "Salida" : "Entrada")}", component, new ModalOptions { Size = ModalSize.XLarge });
 
         if (!result.Cancelled)
@@ -71,7 +71,6 @@
             await Model.Refresh();
             StateHasChanged();
         }
-
 
     }
 

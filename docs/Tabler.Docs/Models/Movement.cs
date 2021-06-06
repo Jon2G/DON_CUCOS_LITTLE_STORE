@@ -34,7 +34,7 @@ namespace Tabler.Docs.Models
                     new SqlParameter("MOVEMENT_CONCEPT_ID", Concept.Id),
                     new SqlParameter("TYPE", Concept.Type),
                     new SqlParameter("DATE_M", DateTime.Now),
-                    new SqlParameter("DESCRIPTION", Observations));
+                    new SqlParameter("DESCRIPTION", Observations ?? String.Empty));
             Parts.ForEach(x => x.Save(this));
         }
         public static async Task<List<Movement>> GetAll(char type)

@@ -1,4 +1,5 @@
 ﻿@using Tabler.Docs.ViewModels
+@using Tabler.Docs.Components.Modals
 @code {
     [Inject] MovementsPageViewModel Movements { get; set; }
     [Inject] NavigationManager NavigationManager { get; set; }
@@ -8,6 +9,7 @@
         NavigationManager.NavigateTo(type == 'E' ? "entrada" : "salida");
         await Movements.Refresh(type);
     }
+
 
 }
 <Navbar Darkmode>
@@ -75,18 +77,16 @@
 
         <NavbarMenuItem Text="Proveedores" Href="proveedores">
             <MenuItemIcon>
-                <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
+                <Icon class="icon" Elements="@DemoIcons.Truck" />
             </MenuItemIcon>
-
         </NavbarMenuItem>
 
-        @if (AppData.Current.User.Permissions.ReadReports)
+        @if (AppData.Current.User.Permissions.StockIn)
         {
-            <NavbarMenuItem Text="Reportes" Href="proveedores">
+            <NavbarMenuItem Text="Compras" Href="compras">
                 <MenuItemIcon>
                     <Icon class="icon" Elements="@DemoIcons.Truck_delivery" />
                 </MenuItemIcon>
-
             </NavbarMenuItem>
         }
 
