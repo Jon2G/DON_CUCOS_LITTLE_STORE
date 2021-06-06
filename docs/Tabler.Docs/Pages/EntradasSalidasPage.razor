@@ -11,61 +11,84 @@
 else
 {
 
-    @*<Table Item="User" Items="Model.Users" PageSize="10"
-               OnItemSelected="OnItemEdit" OnItemDeleted="OnItemDelete">
-            <HeaderTemplate>
-                <strong>Usuarios</strong>
-            </HeaderTemplate>
+    <Table Item="Movement" Items="Model.Movements" PageSize="10">
+        <HeaderTemplate>
+            <strong>Movimientos</strong>
+        </HeaderTemplate>
 
-            <ChildContent>
-                <Column Item="User" Property="e => e.Nickname" Title="NickName" Sortable Searchable Groupable>
-                    <EditorTemplate>
-                        <input type="text" class="form-control" @bind-value="@context.Nickname" />
-                    </EditorTemplate>
-                </Column>
-                <Column Item="User" Property="e => e.Name" Title="Nombre" Sortable Searchable Groupable>
-                    <EditorTemplate>
-                        <input type="text" class="form-control" @bind-value="@context.Name" />
-                    </EditorTemplate>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.StockOut" Title="Privilegio Salidas" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Privilegio Salidas" @bind-Value="context.Permissions.StockOut" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.StockIn" Title="Privilegio Entradas" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Privilegio Entradas" @bind-Value="context.Permissions.StockIn" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.UserManager" Title="Derechos sobre usuarios" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Derechos sobre usuarios" @bind-Value="context.Permissions.UserManager" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.ReadReports" Title="Privilegio Reporte" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Privilegio Reporte" @bind-Value="context.Permissions.ReadReports" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.ReadOnly" Title="Solo lectura" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Solo lectura" @bind-Value="context.Permissions.ReadOnly" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Permissions.Sales" Title="Privilegio Ventas" Sortable Searchable Groupable>
-                    <Template>
-                        <Checkbox Label="Privilegio Ventas" @bind-Value="context.Permissions.Sales" Disabled="true" Switch />
-                    </Template>
-                </Column>
-                <Column Item="User" Property="e => e.Name" Title="Imagen">
-                    <Template>
-                        <img src="@context.Picture" style="height: 100px;" />
-                    </Template>
-                </Column>
-            </ChildContent>
+        <ChildContent>
+            <Column Item="Movement" Property="e => e.Id" Title="Id" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Id" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Movement" Property="e => e.User.Id" Title="UserId" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.User.Id" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Movement" Property="e => e.Concept.Tag" Title="Concept" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Concept.Tag" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Movement" Property="e => e.Type" Title="Tipo" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Type" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Movement" Property="e => e.Date_m" Title="Fecha" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Date_m" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="Movement" Property="e => e.Observations" Title="Observaciones" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Observations" />
+                </EditorTemplate>
+            </Column>
+        </ChildContent>
 
-        </Table>*@
+    </Table>
+<Table Item="MovementPart" Items="Model.movementParts" PageSize="10">
+        <HeaderTemplate>
+            <strong>Partes del movimiento</strong>
+        </HeaderTemplate>
+
+        <ChildContent>
+            <Column Item="MovementPart" Property="e => e.Id" Title="Id" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Id" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="MovementPart" Property="e => e.IdMovement" Title="IdMovement" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.IdMovement" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="MovementPart" Property="e => e.Product.Id" Title="Id producto" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Product.Id" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="MovementPart" Property="e => e.Quantity" Title="Cantidad" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.Quantity" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="MovementPart" Property="e => e.InitiallyStock" Title="Existencia inicial" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.InitiallyStock" />
+                </EditorTemplate>
+            </Column>
+            <Column Item="MovementPart" Property="e => e.NewStockB" Title="Existencia actual" Sortable Searchable Groupable>
+                <EditorTemplate>
+                    <input type="text" class="form-control" @bind-value="@context.NewStockB" />
+                </EditorTemplate>
+            </Column>
+        </ChildContent>
+
+    </Table>
     <Button @onclick=@ShowModal BackgroundColor="TablerColor.Green">
         <Icon class="icon" Elements="@DemoIcons.Circle_plus" />
         Registrar
@@ -78,40 +101,40 @@ else
     [Inject] NavigationManager NavManager { get; set; }
     protected override void OnAfterRender(bool firstrender)
     {
-@if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
-{
-    NavManager.NavigateTo("login");
-}}
-        protected async Task ShowModal()
+        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
         {
+            NavManager.NavigateTo("login");
+        }}
+    protected async Task ShowModal()
+    {
 
 
-            var component = new RenderComponent<EntradasSalidas>();
-            var result = await ModalService.ShowAsync("Registrar Entrada", component, new ModalOptions { Size = ModalSize.XLarge });
+        var component = new RenderComponent<EntradasSalidas>();
+        var result = await ModalService.ShowAsync("Registrar Entrada", component, new ModalOptions { Size = ModalSize.XLarge });
 
-            if (!result.Cancelled)
-            {
-                await Model.Refresh();
-                StateHasChanged();
-            }
-
-
-        }
-
-        protected override async Task OnInitializedAsync()
+        if (!result.Cancelled)
         {
             await Model.Refresh();
-        }
-
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            Model.Refreshed += Refreshed;
-        }
-
-        private void Refreshed(object sender, EventArgs e)
-        {
-            (sender as IRefresh).Refreshed -= Refreshed;
             StateHasChanged();
         }
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Model.Refresh();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.Refreshed += Refreshed;
+    }
+
+    private void Refreshed(object sender, EventArgs e)
+    {
+        (sender as IRefresh).Refreshed -= Refreshed;
+        StateHasChanged();
+    }
 }
