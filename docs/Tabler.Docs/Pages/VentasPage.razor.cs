@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Tabler.Docs.Pages
+namespace CucoStore.Docs.Pages
 {
     public partial class StartPage : ComponentBase
     {

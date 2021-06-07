@@ -1,8 +1,8 @@
 ﻿@page "/compras"
-@using Tabler.Docs.Components.Modals
-@using Tabler.Docs.Interfaces
-@using Tabler.Docs.Models
-@using Tabler.Docs.ViewModels
+@using CucoStore.Docs.Components.Modals
+@using CucoStore.Docs.Interfaces
+@using CucoStore.Docs.Models
+@using CucoStore.Docs.ViewModels
 @using Kit
 @inject BuyPageViewModel Model
 
@@ -56,7 +56,7 @@
 
 protected override void OnAfterRender(bool firstrender)
 {
-        @if (Tabler.Docs.Data.AppData.Current.User.Id <= 0)
+        @if (CucoStore.Docs.Data.AppData.Current.User.Id <= 0)
         {
             NavManager.NavigateTo("login");
         }}

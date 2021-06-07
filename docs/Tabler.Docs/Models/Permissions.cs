@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Kit.Sql.Readers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Permissions
     {

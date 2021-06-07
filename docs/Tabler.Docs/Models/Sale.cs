@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Sale
     {
@@ -18,7 +18,7 @@ namespace Tabler.Docs.Models
         public List<SalePart> Parts { get; set; }
         public Payment Payment { get; set; }
         public float Total => Parts.Sum(x => x.Total);
-        public float DisccountTotal => Parts.Sum(x => x.DisccountTotal);
+        public float DisccountTotal => Parts.Where(x => x.HasDisscount).Sum(x => x.DisccountTotal) + Parts.Where(x => !x.HasDisscount).Sum(x => x.Total);
         public bool HasDisscount => Parts.Any(x => x.HasDisscount);
         public float Payed => Payment.Total;
 
@@ -101,7 +101,7 @@ namespace Tabler.Docs.Models
                 new SqlParameter("CUSTOMER_ID", this.Customer.Id),
                 new SqlParameter("USER_ID", this.User.Id),
                 new SqlParameter("CHANGE", this.Change),
-                new SqlParameter("TOTAL", this.Total));
+                new SqlParameter("TOTAL", this.HasDisscount ? this.DisccountTotal : this.Total));
         }
     }
 }

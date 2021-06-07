@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using Kit.Sql.Readers;
 using Stimulsoft.Report.Dictionary;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
   public  class User 
     {
@@ -20,7 +20,12 @@ namespace Tabler.Docs.Models
         public string Nickname { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public string Picture { get; set; }
+        private string _Picture;
+        public string Picture
+        {
+            get => string.IsNullOrEmpty(_Picture) ? "_content/CucoStore.Docs/img/LogoWhite.png" : _Picture;
+            set => _Picture = value;
+        }
         public bool Enabled { get; set; }
         public Permissions Permissions { get; set; }
 

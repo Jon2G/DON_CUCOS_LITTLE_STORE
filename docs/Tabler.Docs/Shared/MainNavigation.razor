@@ -1,16 +1,34 @@
-﻿@using Tabler.Docs.ViewModels
-@using Tabler.Docs.Components.Modals
+﻿@using CucoStore.Docs.ViewModels
+@using CucoStore.Docs.Components.Modals
 @using Kit.WPF.Controls.RangoFechas
+@using CucoStore.Docs.Models
 @code {
     [Inject] NavigationManager NavigationManager { get; set; }
     [Inject] IModalService ModalService { get; set; }
 
+    private void CerraSesion()
+    {
+        AppData.Current.User = new User();
+        NavigationManager.NavigateTo("login", true);
+    }
     private void GotoStockInOut(char type)
     {
         NavigationManager.NavigateTo(type == 'E' ? "entrada" : "salida", true);
     }
 
 
+    private async void ReporteRegistroMovimientos()
+    {
+        var component = new RenderComponent<DateFilter>();
+        var result = await ModalService.ShowAsync("Registro de movimientos por usuario", component, new ModalOptions { Size = ModalSize.XLarge, Scrollable = false });
+
+        if (!result.Cancelled)
+        {
+            Rango rango = result.Data as Rango;
+            if (rango is null) { return; }
+            Reports.MovementsRegister(rango);
+        }
+    }
     private async void ReporteVentas()
     {
         var component = new RenderComponent<DateFilter>();
@@ -28,9 +46,8 @@
 <Navbar Darkmode>
 
 
-    <a href="https://github.com/joadan/Blazor-Tabler" class="navbar-brand navbar-brand-autodark">
-        <img src="_content/Tabler.Docs/img/TabBlazorLogoWhite.png" alt="Tabler" class="navbar-brand-image me-2">
-        <h2 class="mt-2">TabBlazor</h2>
+    <a href="https://github.com/Jon2G/DON_CUCOS_LITTLE_STORE" class="navbar-brand navbar-brand-autodark">
+        <img src="_content/CucoStore.Docs/img/LogoDark.png" alt="Tabler" style="height: auto">
     </a>
 
     <Checkbox Switch Value="@DarkMode" ValueChanged="DarkModeUpdated" Label="DarkMode" />
@@ -59,6 +76,7 @@
                 </MenuItemIcon>
                 <SubMenu>
                     <NavbarMenuItem Text="Reporte de ventas" OnClick="()=>ReporteVentas()" />
+                    <NavbarMenuItem Text="Registro de movimientos" OnClick="()=>ReporteRegistroMovimientos()" />
                 </SubMenu>
             </NavbarMenuItem>
         }
@@ -122,7 +140,7 @@
                 </MenuItemIcon>
             </NavbarMenuItem>
         }
-        <NavbarMenuItem Text="Cerrar sesión" Href="login">
+        <NavbarMenuItem Text="Cerrar sesión" OnClick="CerraSesion">
             <MenuItemIcon>
                 <Icon class="icon" Elements="@DemoIcons.Login" />
             </MenuItemIcon>

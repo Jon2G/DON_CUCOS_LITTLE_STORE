@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\PrintService\PrintService.csproj" />
-    <ProjectReference Include="..\Tabler.Docs\Tabler.Docs.csproj" />
+    <ProjectReference Include="..\Tabler.Docs\CucoStore.Docs.csproj" />
   </ItemGroup>
 
   <ItemGroup>

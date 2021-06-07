@@ -10,14 +10,14 @@ using Kit.Extensions;
 using Kit.Sql.SqlServer;
 using Kit.WPF.Extensions;
 using Microsoft.AspNetCore.Components.Forms;
-using Tabler.Docs.Models;
+using CucoStore.Docs.Models;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace Tabler.Docs.Data
+namespace CucoStore.Docs.Data
 {
     public class AppData
     {

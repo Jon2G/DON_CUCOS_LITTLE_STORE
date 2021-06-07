@@ -1,4 +1,4 @@
-﻿namespace Tabler.Docs
+﻿namespace CucoStore.Docs
 {
     public static class DemoIcons
     {

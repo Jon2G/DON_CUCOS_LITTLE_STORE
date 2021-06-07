@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TabBlazor.Services;
 
-namespace Tabler.Docs.Components
+namespace CucoStore.Docs.Components
 {
    public partial class DocsExample : ComponentBase
     {

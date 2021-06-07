@@ -6,16 +6,21 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Customer
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Note { get; set; }
-        public string Picture { get; set; }
+        private string _Picture;
+        public string Picture
+        {
+            get => string.IsNullOrEmpty(_Picture) ? "_content/CucoStore.Docs/img/LogoWhite.png" : _Picture;
+            set => _Picture = value;
+        }
         public bool Enabled { get; set; }
 
         public void Save()

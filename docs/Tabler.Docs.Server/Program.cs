@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Tabler.Docs.Server
+namespace CucoStore.Docs.Server
 {
     public class Program
     {

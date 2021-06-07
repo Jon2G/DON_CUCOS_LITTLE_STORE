@@ -6,10 +6,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
-using Tabler.Docs.ViewModels;
+using CucoStore.Docs.Data;
+using CucoStore.Docs.ViewModels;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Buy
     {

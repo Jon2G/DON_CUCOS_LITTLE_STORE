@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Tabler.Docs.Server": {
+    "CucoStore.Docs.Server": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Interfaces;
-using Tabler.Docs.Models;
+using CucoStore.Docs.Interfaces;
+using CucoStore.Docs.Models;
 
-namespace Tabler.Docs.ViewModels
+namespace CucoStore.Docs.ViewModels
 {
     public class UserPageViewModel : IRefresh
     {

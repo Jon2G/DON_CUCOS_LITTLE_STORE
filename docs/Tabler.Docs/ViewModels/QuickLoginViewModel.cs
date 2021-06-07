@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
-using Tabler.Docs.Models;
+using CucoStore.Docs.Data;
+using CucoStore.Docs.Models;
 
-namespace Tabler.Docs.ViewModels
+namespace CucoStore.Docs.ViewModels
 {
     public class QuickLoginViewModel : LoginPageViewModel
     {

@@ -34,7 +34,7 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="1">
-      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_Tabler.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
+      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_CucoStore.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -375,7 +375,6 @@
         </PageFooterBand1>
         <DataBand1 Ref="29" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
-          <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,4.4,19,0.6</ClientRectangle>
           <Components isList="true" count="7">
             <Text1 Ref="30" type="Text" isKey="true">
@@ -496,7 +495,10 @@
           <Name>DataBand1</Name>
           <Page isRef="4" />
           <Parent isRef="4" />
-          <Sort isList="true" count="0" />
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>ID</value>
+          </Sort>
         </DataBand1>
       </Components>
       <Conditions isList="true" count="0" />
@@ -529,10 +531,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>6/6/2021 8:54:06 PM</ReportChanged>
+  <ReportChanged>6/7/2021 12:04:53 AM</ReportChanged>
   <ReportCreated>6/16/2011 12:31:24 AM</ReportCreated>
-  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\Tabler.Docs.Server\Library\mrt\Ventas.mrt</ReportFile>
-  <ReportGuid>6b90fb69a3f44ced85971b14c0c2e580</ReportGuid>
+  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\CucoStore.Docs.Server\Library\mrt\Ventas.mrt</ReportFile>
+  <ReportGuid>06e49cbbd24144a281797bd687c8e620</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.1.0</ReportVersion>

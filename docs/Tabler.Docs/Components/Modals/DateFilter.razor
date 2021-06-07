@@ -1,20 +1,19 @@
 ﻿@using Microsoft.AspNetCore.Components
-@using Tabler.Docs.Components.Icons
-@using Tabler.Docs.Interfaces
-@using Tabler.Docs.ViewModels
+@using CucoStore.Docs.Components.Icons
+@using CucoStore.Docs.Interfaces
+@using CucoStore.Docs.ViewModels
 
 <div class="row">
 
     <div class="col-lg-6" style="width: 50%">
-        <Datepicker Inline="true" SelectedDate="Rango.Inicio" Label="Desde" />
+        <Datepicker Inline="true" @bind-SelectedDate="Rango.Inicio" Label="Desde" />
     </div>
 
     <div class="col-lg-6" style="width: 50%">
-        <Datepicker Inline="true" SelectedDate="Rango.Fin" Label="Hasta" />
+        <Datepicker Inline="true" @bind-SelectedDate="Rango.Fin" Label="Hasta" />
     </div>
     <div>
-        <label>Todas las fechas:</label>
-        <Checkbox Switch="true" Value="Rango.TodasLasFechas"/>
+        <Checkbox Switch="true" @bind-value="Rango.TodasLasFechas" Label="Todas las fechas"/>
     </div>
 
 </div>
@@ -31,7 +30,7 @@
 @using Kit.Extensions
 @using Kit.WPF.Controls.RangoFechas
 @using Kit.WPF.Extensions
-@using Tabler.Docs.Models
+@using CucoStore.Docs.Models
 @inject IModalService ModalService
 @code {
     Rango Rango { get; set; }

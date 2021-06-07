@@ -12,7 +12,7 @@
     <Version>0.0.1-alpha</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <PackageIcon>TabBlazorLogo.png</PackageIcon>
+    <PackageIcon>LogoDark.png</PackageIcon>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="TabBlazorLogo.png">
+    <None Include="LogoDark.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="TabBlazorLogo.png">
+    <None Update="LogoDark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

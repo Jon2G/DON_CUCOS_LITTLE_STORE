@@ -16,12 +16,12 @@ using PrintService;
 using Stimulsoft.Base.Json;
 using Stimulsoft.Report.Painters;
 using Stimulsoft.Report.QuickButtons.Design;
-using Tabler.Docs.Models;
+using CucoStore.Docs.Models;
 using DateTime = System.DateTime;
 using Formatting = Newtonsoft.Json.Formatting;
 using JsonConvert = Newtonsoft.Json.JsonConvert;
 
-namespace Tabler.Docs.Data
+namespace CucoStore.Docs.Data
 {
     public static class Reports
     {
@@ -50,6 +50,31 @@ namespace Tabler.Docs.Data
                 sale.Payment.ToTable().SerializeObject(),
                 sale.Parts.ToTable().SerializeObject());
         }
+
+        public static void MovementsRegister(Rango rango)
+        {
+            DateTime inicio = (DateTime)rango.Inicio;
+            DateTime fin = (DateTime)rango.Fin;
+            rango.Inicio = new DateTime(inicio.Year, inicio.Month, inicio.Day);
+            rango.Fin = new DateTime(fin.Year, fin.Month, fin.Day);
+
+            DataTable register = AppData.SQL.DataTable("SP_MOVENTS_REGISTER", CommandType.StoredProcedure, "REGISTER",
+                new SqlParameter("BEGIN", rango.Inicio),
+                new SqlParameter("END", rango.Fin),
+                new SqlParameter("ALL", rango.TodasLasFechas));
+            DataTable data = new DataTable("Data")
+            {
+                Columns =
+                {
+                    new DataColumn("Today", typeof(DateTime)),
+                    new DataColumn("Fechas", typeof(string))
+                }
+            };
+            data.Rows.Add(DateTime.Now, $"{inicio:dd/MM/yyyy} al {fin:dd/MM/yyyy}");
+
+            Print("MovementsRegister", register.SerializeObject(),data.SerializeObject());
+
+        }
         public static void CorteZ()
         {
             DataTable sales = AppData.SQL.DataTable("SELECT *FROM VIEW_GETCORTEZ_SALES", CommandType.Text, "SALES");
@@ -57,6 +82,10 @@ namespace Tabler.Docs.Data
             float total = 0;
             int inicial = 0;
             int final = 0;
+            if (sales.Rows.Count <= 0)
+            {
+                return;
+            }
             foreach (DataRow row in sales.Rows)
             {
                 total += Convert.ToSingle(row[2]);

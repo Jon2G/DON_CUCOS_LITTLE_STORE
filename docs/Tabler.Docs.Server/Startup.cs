@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http.Headers;
 using TabBlazor;
-using Tabler.Docs.Data;
-using Tabler.Docs.Services;
-using Tabler.Docs.ViewModels;
+using CucoStore.Docs.Data;
+using CucoStore.Docs.Services;
+using CucoStore.Docs.ViewModels;
 
 
-namespace Tabler.Docs.Server
+namespace CucoStore.Docs.Server
 {
     public class Startup
     {

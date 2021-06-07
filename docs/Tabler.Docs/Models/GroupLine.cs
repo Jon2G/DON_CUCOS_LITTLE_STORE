@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Interfaces;
+using CucoStore.Docs.Interfaces;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class GroupLine
     {

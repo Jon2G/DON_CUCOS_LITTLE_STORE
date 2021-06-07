@@ -23,6 +23,12 @@ namespace PrintService
             string file = Reporteador.NuevoReporte("Ventas.mrt", false, true, FormatoReporte.PDF, variable);
             Process.Start(file);
         }
+
+        public static void MovementsRegister(Variable[] variable)
+        {
+            string file = Reporteador.NuevoReporte("MovementsRegister.mrt", false, true, FormatoReporte.PDF, variable);
+            Process.Start(file);
+        }
         public static void CorteZ(Variable[] variable)
         {
             string file = Reporteador.NuevoReporte("CorteZ.mrt", false, true, FormatoReporte.PDF, variable);

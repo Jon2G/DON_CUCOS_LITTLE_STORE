@@ -1,9 +1,9 @@
 ﻿@page "/"
 @page "/login"
-@using Tabler.Docs.Components.Modals
-@using Tabler.Docs.Interfaces
-@using Tabler.Docs.Models
-@using Tabler.Docs.ViewModels
+@using CucoStore.Docs.Components.Modals
+@using CucoStore.Docs.Interfaces
+@using CucoStore.Docs.Models
+@using CucoStore.Docs.ViewModels
 @inject LoginPageViewModel Model
 
 
@@ -222,15 +222,17 @@
         top: 25%;
         position: absolute;
     }
-</style>
+    .page {
+        background: #232e3c;
+    }
+    </style>
 
 <div class="login">
     <div class="heading">
-        <h2>Don Cuco's Market</h2>
         <form action="#">
             <div style="margin: 5px; display: inline-grid;width:100%">
                 <div style="margin: 5px;display: block;margin-left: auto;margin-right: auto;width: auto;">
-                    <img src="https://images.emojiterra.com/google/android-11/512px/1f6d2.png" style="vertical-align:middle;width:150px;height:150px;">
+                    <img src="_content/CucoStore.Docs/img/LogoDark.png" style="vertical-align:middle;height:300px;">
                 </div>
             </div>
             <div class="input-group input-group-lg">

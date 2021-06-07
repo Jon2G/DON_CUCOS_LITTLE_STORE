@@ -5,15 +5,31 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class SalePart
     {
         public int Id { get; set; }
         public Product Product { get; set; }
-        public float Quantity { get; set; }
+        private float _Quantity;
+
+        public float Quantity
+        {
+            get => _Quantity;
+            set
+            {
+                if (Product is not null && Product.Stock < value)
+                {
+                    _Quantity = Product.Stock;
+                    return;
+                }
+
+                _Quantity = value;
+            }
+        }
+
         public float Total => Product.Price * Quantity;
         public float DisccountTotal => Product.DisccountPrice * Quantity;
         public bool HasDisscount => Product.HasDisscount;

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tabler.Docs.Services;
+using CucoStore.Docs.Services;
 
-namespace Tabler.Docs.Components
+namespace CucoStore.Docs.Components
 {
     public partial class CodeSnippet : ComponentBase
     {

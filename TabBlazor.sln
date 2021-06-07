@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30615.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tabler.Docs.Server", "docs\Tabler.Docs.Server\Tabler.Docs.Server.csproj", "{AB9C8A88-E800-4A1E-917D-B15E5D7241C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CucoStore.Docs.Server", "docs\Tabler.Docs.Server\CucoStore.Docs.Server.csproj", "{AB9C8A88-E800-4A1E-917D-B15E5D7241C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tabler.Docs", "docs\Tabler.Docs\Tabler.Docs.csproj", "{ABA6934F-8630-4C75-A4A9-B8504B9AA629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CucoStore.Docs", "docs\Tabler.Docs\CucoStore.Docs.csproj", "{ABA6934F-8630-4C75-A4A9-B8504B9AA629}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabBlazor", "src\TabBlazor\TabBlazor.csproj", "{12670973-FFE5-4B66-A898-1689AA02BF77}"
 EndProject

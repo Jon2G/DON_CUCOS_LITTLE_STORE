@@ -13,9 +13,9 @@ using Kit.Sql.Helpers;
 using Kit.Sql.Readers;
 using Kit.WPF.Dialogs.ICustomMessageBox;
 using Kit.WPF.Extensions;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Product
     {
@@ -26,7 +26,11 @@ namespace Tabler.Docs.Models
         public Category Category { get; set; }
         public Supplier Supplier { get; set; }
         public string Unit { get; set; }
-        public string Picture { get; set; }
+        private string _Picture;
+        public string Picture { 
+            get=> string.IsNullOrEmpty(_Picture)? "_content/CucoStore.Docs/img/LogoWhite.png":_Picture;
+            set => _Picture = value;
+        }
         private int _Disccount;
 
         public int Disccount
@@ -182,7 +186,8 @@ namespace Tabler.Docs.Models
                 new SqlParameter("MINIMUM", Minimum),
                 new SqlParameter("MAXIMUM", Maximum),
                 new SqlParameter("PRICE", Price),
-                new SqlParameter("DISABLED", Disabled)
+                new SqlParameter("DISABLED", Disabled),
+                new SqlParameter("DISCCOUNT", Disccount)
                 );
         }
         public override bool Equals(object? obj)

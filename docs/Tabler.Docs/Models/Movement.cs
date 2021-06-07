@@ -6,10 +6,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tabler.Docs.Data;
-using Tabler.Docs.ViewModels;
+using CucoStore.Docs.Data;
+using CucoStore.Docs.ViewModels;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Movement
     {
@@ -60,8 +60,8 @@ namespace Tabler.Docs.Models
                     return new Movement()
                     {
                         Id = Convert.ToInt32(reader[0]),
-                        Concept = await MovementConcept.GetById(Convert.ToInt32(reader[1])),
-                        User = await User.GetById(Convert.ToInt32(reader[2])),
+                        User = await User.GetById(Convert.ToInt32(reader[1])),
+                        Concept = await MovementConcept.GetById(Convert.ToInt32(reader[2])),
                         Type = Convert.ToChar(reader[3]),
                         Date = Convert.ToDateTime(reader[4]),
                         Observations = Convert.ToString(reader[5])

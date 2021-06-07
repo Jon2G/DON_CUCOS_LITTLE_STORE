@@ -52,6 +52,9 @@ namespace PrintService
                         case "CorteZ":
                             Reports.CorteZ(tables.ToArray());
                             break;
+                        case "MovementsRegister":
+                            Reports.MovementsRegister(tables.ToArray());
+                            break;
                     }
                 }
                 Close();

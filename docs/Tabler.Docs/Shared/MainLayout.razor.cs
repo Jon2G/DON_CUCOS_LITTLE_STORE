@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tabler.Docs.Shared
+namespace CucoStore.Docs.Shared
 {
     public partial class MainLayout : LayoutComponentBase
     {

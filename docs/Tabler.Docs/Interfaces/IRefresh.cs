@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tabler.Docs.Interfaces
+namespace CucoStore.Docs.Interfaces
 {
     public interface IRefresh
     {

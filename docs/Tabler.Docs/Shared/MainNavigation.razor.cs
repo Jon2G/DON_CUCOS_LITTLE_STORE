@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Tabler.Docs.Shared
+namespace CucoStore.Docs.Shared
 {
     public partial class MainNavigation : ComponentBase
     {

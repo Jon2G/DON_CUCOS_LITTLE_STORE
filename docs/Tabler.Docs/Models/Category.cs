@@ -6,15 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kit.Sql.Readers;
-using Tabler.Docs.Data;
+using CucoStore.Docs.Data;
 
-namespace Tabler.Docs.Models
+namespace CucoStore.Docs.Models
 {
     public class Category
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public string Picture { get; set; }
+        private string _Picture;
+        public string Picture
+        {
+            get => string.IsNullOrEmpty(_Picture) ? "_content/CucoStore.Docs/img/LogoWhite.png" : _Picture;
+            set => _Picture = value;
+        }
 
         public static async Task<List<Category>> GetAll()
         {

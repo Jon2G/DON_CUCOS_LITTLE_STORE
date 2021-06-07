@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="2">
+      <REGISTER Ref="2" type="DataTableSource" isKey="true">
+        <Alias>REGISTER</Alias>
+        <Columns isList="true" count="4">
+          <value>ID,System.String</value>
+          <value>NAME,System.String</value>
+          <value>Fecha,System.DateTime</value>
+          <value>TYPE,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Name>REGISTER</Name>
+        <NameInSource>TABLAS.REGISTER</NameInSource>
+      </REGISTER>
+      <Data Ref="3" type="DataTableSource" isKey="true">
+        <Alias>Data</Alias>
+        <Columns isList="true" count="2">
+          <value>Today,System.DateTime</value>
+          <value>Fechas,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Name>Data</Name>
+        <NameInSource>TABLAS.Data</NameInSource>
+      </Data>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_CucoStore.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <PageHeaderBand1 Ref="5" type="PageHeaderBand" isKey="true">
+          <Border>None;Black;1;Solid;True;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,19,2</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text35 Ref="6" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.2,0,18.6,1.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,16,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Registro de movimientos por usuario
+{Data.Fechas}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text35>
+            <Image1 Ref="7" type="Image" isKey="true">
+              <AspectRatio>True</AspectRatio>
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,0.2,3.2,1.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <HorAlignment>Right</HorAlignment>
+              <ImageURL>{LogoEmpresa}</ImageURL>
+              <Name>Image1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Stretch>True</Stretch>
+              <VertAlignment>Center</VertAlignment>
+            </Image1>
+            <Text25 Ref="8" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,4.4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <Guid>13fbb2b0d14340cbaf8b510ab4dcdd3f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>{Format("{0:dd/MM/yyyy HH:mm}", Data.Today)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="9" type="DateFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Text25>
+            <Text3 Ref="10" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>3,1.6,6.6,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>5fc7c5454d284013a89e32de25f45866</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Usuario que realizo el movimiento</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+            <Text20 Ref="11" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>0,1.6,3,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>d00d113b67e2404c8603f590f1419993</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Fecha</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text20>
+            <Text6 Ref="12" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>9.6,1.6,4,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>b2254e81801646ab87649c4e0c090eba</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Operación</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text2 Ref="13" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>13.6,1.6,2,0.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>f5e9103942fe4536a8b4163baf2e4457</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Tipo</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>PageHeaderBand1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <PrintOn>OnlyFirstPage</PrintOn>
+        </PageHeaderBand1>
+        <DataBand1 Ref="14" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,3.2,19,0.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text5 Ref="15" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>b6701143b64045c79e5182e628631641</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="4" />
+              <Parent isRef="14" />
+              <Text>{Format("{0:dd/MM/yyyy HH:mm}", REGISTER.Fecha)}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text13 Ref="16" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,0,6.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="4" />
+              <Parent isRef="14" />
+              <Text>{REGISTER.NAME}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text13>
+            <Text1 Ref="17" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>9.6,0,4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>19cac76b589048e7aca481c692233373</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="4" />
+              <Parent isRef="14" />
+              <Text>{REGISTER.ID}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="18" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+            <Text7 Ref="19" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>13.6,0,2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>8d03bf35080a44eebe21124eca384f8b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="4" />
+              <Parent isRef="14" />
+              <Text>{REGISTER.TYPE}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="20" type="DateFormat" isKey="true">
+                <StringFormat>dd/MM/yyyy</StringFormat>
+              </TextFormat>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>REGISTER</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>558465f6a54e4c9cbcd6523984a5725f</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="21" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Enabled>False</Enabled>
+        <Font>Arial,100</Font>
+        <ImageStretch>True</ImageStretch>
+        <ImageTiling>True</ImageTiling>
+        <ShowImageBehind>False</ShowImageBehind>
+        <Text>VENTAS</Text>
+        <TextBrush>HatchBrush,BackwardDiagonal,White,Silver</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PrinterSettings Ref="22" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>6/7/2021 12:15:28 AM</ReportChanged>
+  <ReportCreated>6/16/2011 12:31:24 AM</ReportCreated>
+  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\CucoStore.Docs.Server\Library\mrt\MovementsRegister.mrt</ReportFile>
+  <ReportGuid>5a5474d6099f468ea2ecf7c6a9a11c4c</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2015.1.0</ReportVersion>
+  <Script>Imports System
+Imports System.Drawing
+Imports System.Windows.Forms
+Imports System.Data
+Imports Stimulsoft.Controls
+Imports Stimulsoft.Base.Drawing
+Imports Stimulsoft.Report
+Imports Stimulsoft.Report.Dialogs
+Imports Stimulsoft.Report.Components
+
+Namespace Reports
+    Public Class Report
+        Inherits Stimulsoft.Report.StiReport
+
+        Public Sub New()
+            MyBase.New
+            Me.InitializeComponent
+        End Sub
+
+        #Region "StiReport Designer generated code - do not modify"
+		#End Region 'StiReport Designer generated code - do not modify
+    End Class
+End Namespace
+</Script>
+  <ScriptLanguage>VB</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

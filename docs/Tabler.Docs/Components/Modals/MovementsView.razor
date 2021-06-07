@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Components
-@using Tabler.Docs.Components.Icons
-@using Tabler.Docs.Interfaces
-@using Tabler.Docs.ViewModels
-@using Tabler.Docs.Models
+@using CucoStore.Docs.Components.Icons
+@using CucoStore.Docs.Interfaces
+@using CucoStore.Docs.ViewModels
+@using CucoStore.Docs.Models
 @inject MovementViewModel Model
 
 <Table Item="MovementPart" Items="Model.Movement.Parts" PageSize="10"
@@ -85,10 +85,10 @@
                     TextExpression="e => e.ToString()" ValueExpression="e=>e" Clearable />
         </div>
     </div>
-    <div class="col-md-2" style="margin: auto">
+    @*<div class="col-md-2" style="margin: auto">
         <Checkbox Label="Imprimir movimiento" Changed="StateHasChanged" Switch />
-    </div>
-    <div class="col-md-2" style="margin: auto">
+    </div>*@
+    <div class="col-md-4" style="margin: auto">
         <Button BackgroundColor="TablerColor.Green" OnClick="Finalizar">
             Confirmar movimiento
             <Icon class="icon" Elements="@InternalIcons.Arrow_right" />

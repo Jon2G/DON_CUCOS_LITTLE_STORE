@@ -81,7 +81,7 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="1">
-      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_Tabler.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
+      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_CucoStore.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -340,7 +340,7 @@
               <Name>Text15</Name>
               <Page isRef="7" />
               <Parent isRef="25" />
-              <Text>{SalePart.Total}</Text>
+              <Text>{SalePart.HasDisscount ? SalePart.DisccountTotal : SalePart.Total}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="31" type="CurrencyFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -373,7 +373,7 @@
               <Name>Text19</Name>
               <Page isRef="7" />
               <Parent isRef="32" />
-              <Text>{Sale.Total/1.16}</Text>
+              <Text>{Sale.HasDisscount? Sale.DisccountTotal/1.16  : Sale.Total/1.16}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="34" type="CurrencyFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -417,7 +417,7 @@
               <Name>Text22</Name>
               <Page isRef="7" />
               <Parent isRef="32" />
-              <Text>{Sale.Total-(Sale.Total/1.16)}</Text>
+              <Text>{IIF(Sale.HasDisscount,Sale.DisccountTotal-Sale.DisccountTotal/1.16,Sale.Total-Sale.Total/1.16)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="38" type="CurrencyFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -467,7 +467,7 @@
               <Name>Text34</Name>
               <Page isRef="7" />
               <Parent isRef="32" />
-              <Text>{Sale.Total}</Text>
+              <Text>{IIF(Sale.HasDisscount,Sale.DisccountTotal,Sale.Total)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat Ref="42" type="CurrencyFormat" isKey="true">
                 <GroupSeparator>,</GroupSeparator>
@@ -688,10 +688,10 @@
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
   <ReportCacheMode>On</ReportCacheMode>
-  <ReportChanged>6/6/2021 7:26:26 PM</ReportChanged>
+  <ReportChanged>6/6/2021 11:59:55 PM</ReportChanged>
   <ReportCreated>6/10/2016 10:09:40 AM</ReportCreated>
-  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\Tabler.Docs.Server\Library\mrt\Ticket.mrt</ReportFile>
-  <ReportGuid>cb497e4ca1064485a414bf621af45810</ReportGuid>
+  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\CucoStore.Docs.Server\Library\mrt\Ticket.mrt</ReportFile>
+  <ReportGuid>f8d02165d0ed43ca8346bb50b673ecf5</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.1.0</ReportVersion>

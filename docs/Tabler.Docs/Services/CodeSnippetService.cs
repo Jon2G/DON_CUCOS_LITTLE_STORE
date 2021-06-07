@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tabler.Docs.Services
+namespace CucoStore.Docs.Services
 {
 
     public interface ICodeSnippetService
@@ -29,7 +29,7 @@ namespace Tabler.Docs.Services
         public async Task<string> GetCodeSnippet(string className)
         {
             var basePath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.Parent.FullName;
-            const string projectName = "Tabler.Docs";
+            const string projectName = "CucoStore.Docs";
             var classPath = projectName + className.Substring(projectName.Length).Replace(".", @"\");
             var codePath = Path.Combine(basePath, $"{classPath}.razor");
 
@@ -47,7 +47,7 @@ namespace Tabler.Docs.Services
     public class GitHubSnippetService : ICodeSnippetService
     {
         const string repo = "joadan/Blazor-Tabler";
-        const string baseUrl = "https://raw.githubusercontent.com/joadan/TabBlazor/master/docs/Tabler.Docs";
+        const string baseUrl = "https://raw.githubusercontent.com/joadan/TabBlazor/master/docs/CucoStore.Docs";
         private readonly IHttpClientFactory httpClientFactory;
 
         private Dictionary<string, string> cachedCode = new Dictionary<string, string>();
@@ -64,7 +64,7 @@ namespace Tabler.Docs.Services
             {
                 if (!cachedCode.ContainsKey(className))
                 {
-                    var baseName = "Tabler.Docs.";
+                    var baseName = "CucoStore.Docs.";
                     var path = baseUrl + "/" + className.Replace(baseName, "").Replace(".", "/") + ".razor";
 
                     using var httpClient = httpClientFactory.CreateClient("GitHub");
