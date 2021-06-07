@@ -34,7 +34,7 @@
     <Relations isList="true" count="0" />
     <Report isRef="0" />
     <Variables isList="true" count="1">
-      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_CucoStore.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
+      <value>,LogoEmpresa,LogoEmpresa,System.String,C:_x005C_Users_x005C_jonyj_x005C_source_x005C_repos_x005C_DON_CUCOS_LITTLE_STORE_x005C_docs_x005C_Tabler.Docs.Server_x005C_Library_x005C_Logo.png,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -159,37 +159,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text27>
-            <Text3 Ref="14" type="Text" isKey="true">
-              <Brush>White</Brush>
-              <ClientRectangle>3.8,2.6,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,8,Bold</Font>
-              <Guid>1142cbecfc8046d79dd57971696f89a9</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text3</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>Cliente</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text3>
-            <Text6 Ref="15" type="Text" isKey="true">
-              <Brush>White</Brush>
-              <ClientRectangle>7.2,2.6,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,8,Bold</Font>
-              <Guid>705c1da0f350443381ea8f4104d35008</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text6</Name>
-              <Page isRef="4" />
-              <Parent isRef="5" />
-              <Text>Vendedor</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text6>
-            <Text8 Ref="16" type="Text" isKey="true">
+            <Text8 Ref="14" type="Text" isKey="true">
               <Brush>White</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>17,2.6,1.8,0.6</ClientRectangle>
@@ -207,7 +177,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
-            <Image1 Ref="17" type="Image" isKey="true">
+            <Image1 Ref="15" type="Image" isKey="true">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <CanShrink>True</CanShrink>
@@ -221,7 +191,7 @@
               <Stretch>True</Stretch>
               <VertAlignment>Center</VertAlignment>
             </Image1>
-            <Text10 Ref="18" type="Text" isKey="true">
+            <Text10 Ref="16" type="Text" isKey="true">
               <Brush>[165:213:226]</Brush>
               <ClientRectangle>7.8,1.6,3.4,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -235,7 +205,7 @@
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
-            <Text25 Ref="19" type="Text" isKey="true">
+            <Text25 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,4.4,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -247,9 +217,39 @@
               <Parent isRef="5" />
               <Text>{Data.Today}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="20" type="DateFormat" isKey="true" />
+              <TextFormat Ref="18" type="DateFormat" isKey="true" />
               <Type>DataColumn</Type>
             </Text25>
+            <Text6 Ref="19" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>3.8,2.6,4.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>705c1da0f350443381ea8f4104d35008</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Vendedor</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text3 Ref="20" type="Text" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>8.4,2.6,4.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>1142cbecfc8046d79dd57971696f89a9</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Text>Cliente</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
           </Components>
           <Conditions isList="true" count="0" />
           <Name>PageHeaderBand1</Name>
@@ -409,37 +409,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
-            <Text5 Ref="33" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>3.8,0,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,8,Bold</Font>
-              <Guid>b6701143b64045c79e5182e628631641</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text5</Name>
-              <Page isRef="4" />
-              <Parent isRef="29" />
-              <Text>{SALES.User}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text5>
-            <Text7 Ref="34" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>7.2,0,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>Arial,8,Bold</Font>
-              <Guid>e8d5d32fafa14033b60960d96b27a58b</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text7</Name>
-              <Page isRef="4" />
-              <Parent isRef="29" />
-              <Text>{SALES.Customers}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text7>
-            <Text9 Ref="35" type="Text" isKey="true">
+            <Text9 Ref="33" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,0,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -455,7 +425,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
-            <Text11 Ref="36" type="Text" isKey="true">
+            <Text11 Ref="34" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>15,0,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -471,7 +441,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
-            <Text14 Ref="37" type="Text" isKey="true">
+            <Text14 Ref="35" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>17,0,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -487,6 +457,36 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
+            <Text5 Ref="36" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.8,0,4.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>b6701143b64045c79e5182e628631641</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="4" />
+              <Parent isRef="29" />
+              <Text>{SALES.User}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text7 Ref="37" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>8.4,0,4.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>e8d5d32fafa14033b60960d96b27a58b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="4" />
+              <Parent isRef="29" />
+              <Text>{SALES.Customers}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
           </Components>
           <Conditions isList="true" count="0" />
           <DataRelationName isNull="true" />
@@ -531,10 +531,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>6/7/2021 12:04:53 AM</ReportChanged>
+  <ReportChanged>6/7/2021 5:10:08 PM</ReportChanged>
   <ReportCreated>6/16/2011 12:31:24 AM</ReportCreated>
-  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\CucoStore.Docs.Server\Library\mrt\Ventas.mrt</ReportFile>
-  <ReportGuid>06e49cbbd24144a281797bd687c8e620</ReportGuid>
+  <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\Tabler.Docs.Server\Library\mrt\Ventas.mrt</ReportFile>
+  <ReportGuid>1fbf637574d4425ca1eaa21cab226209</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.1.0</ReportVersion>

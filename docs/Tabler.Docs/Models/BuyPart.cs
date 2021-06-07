@@ -32,9 +32,9 @@ namespace CucoStore.Docs.Models
         }
 
         public float InitiallyStock { get; set; }
-        public float Price { get; set; }
+        
         public float NewStock => InitiallyStock + Quantity;
-        public float Value => Price * Quantity;
+        public float Value => Product.Price * Quantity;
 
         public float NewStockB { get; set; }
         public char Type { get; set; }

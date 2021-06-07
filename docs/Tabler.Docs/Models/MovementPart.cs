@@ -55,10 +55,7 @@ namespace CucoStore.Docs.Models
         }
         public float NewStockB { get; set; }
         public char Type { get; set; }
-        public MovementPart()
-        {
-
-        }
+       
         public MovementPart(char Type)
         {
             this.Type = Type;
@@ -71,19 +68,18 @@ namespace CucoStore.Docs.Models
             {
                 if (reader.Read())
                 {
-                    return new MovementPart()
+                    return new MovementPart(type)
                     {
                         Id = Convert.ToInt32(reader[0]),
                         IdMovement = Convert.ToInt32(reader[1]),
                         Product = await Product.GetById(Convert.ToInt32(reader[2])),
                         Quantity = Convert.ToSingle(reader[3]),
                         InitiallyStock = Convert.ToSingle(reader[4]),
-                        NewStockB = Convert.ToSingle(reader[5]),
-                        Type = type
+                        NewStockB = Convert.ToSingle(reader[5])
                     };
                 }
             }
-            return new MovementPart();
+            return new MovementPart(type);
         }
 
         public void Save(Movement movement)

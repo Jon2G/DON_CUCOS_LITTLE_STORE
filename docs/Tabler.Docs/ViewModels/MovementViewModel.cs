@@ -53,7 +53,7 @@ namespace CucoStore.Docs.ViewModels
                 SelectedQuantity = 0;
                 return;
             }
-            this.Movement.Parts.Add(new MovementPart(this.Movement.Type)
+            this.Movement.Parts.Add(new MovementPart(this.Type)
             {
                 Product = this.SelectedProduct,
                 Quantity = this.SelectedQuantity,

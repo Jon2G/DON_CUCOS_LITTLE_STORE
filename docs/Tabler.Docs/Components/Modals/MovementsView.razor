@@ -12,9 +12,9 @@
     </HeaderTemplate>
 
     <ChildContent>
-        <Column Item="MovementPart" Property="e => e.Product.Id" Title="Codigo " Sortable Searchable Groupable>
+        <Column Item="MovementPart" Property="e => e.Product.Code" Title="Codigo " Sortable Searchable Groupable>
             <EditorTemplate>
-                <input type="text" class="form-control" @bind-value="@context.Product.Id" />
+                <input type="text" class="form-control" @bind-value="@context.Product.Code" />
             </EditorTemplate>
         </Column>
         <Column Item="MovementPart" Property="e => e.Product.Name" Title="Nombre" Sortable Searchable Groupable>
@@ -200,6 +200,6 @@
     }
     private async Task OnItemDelete(MovementPart order)
     {
-        await TablerService.ShowAlert($"Order deleted {order.Product.Id}");
+        //await TablerService.ShowAlert($"Order deleted {order.Product.Id}");
     }
 }
