@@ -82,10 +82,12 @@
     }
 
 
-
-
-
-
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
 
     private async Task Confirm()
     {
@@ -101,8 +103,17 @@
 
         if (!result.Cancelled)
         {
-            Model.Supplier.Save();
-            ModalService.Close(ModalResult.Ok());
+            if (Model.Supplier.Name == null || Model.Supplier.Picture== null)
+            {
+                await Error("Ningun campo debe estar vacio");
+                return;
+            }
+            else
+            {
+                Model.Supplier.Save();
+                ModalService.Close(ModalResult.Ok());
+            }
+
         }
     }
 
