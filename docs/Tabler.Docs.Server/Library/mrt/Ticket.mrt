@@ -6,10 +6,12 @@
     <DataSources isList="true" count="5">
       <Sale Ref="2" type="DataTableSource" isKey="true">
         <Alias>Sale</Alias>
-        <Columns isList="true" count="7">
+        <Columns isList="true" count="9">
           <value>Id,System.Int32</value>
           <value>Date,System.DateTime</value>
           <value>Total,System.Single</value>
+          <value>DisccountTotal,System.Single</value>
+          <value>HasDisscount,System.Boolean</value>
           <value>Payed,System.Single</value>
           <value>ToPay,System.Single</value>
           <value>Change,System.Single</value>
@@ -62,12 +64,14 @@
       </Payment>
       <SalePart Ref="6" type="DataTableSource" isKey="true">
         <Alias>SalePart</Alias>
-        <Columns isList="true" count="5">
+        <Columns isList="true" count="7">
           <value>Id,System.Int32</value>
           <value>Quantity,System.Single</value>
-          <value>Price,System.Single</value>
           <value>Total,System.Single</value>
+          <value>DisccountTotal,System.Single</value>
+          <value>HasDisscount,System.Boolean</value>
           <value>ProductName,System.String</value>
+          <value>Price,System.Single</value>
         </Columns>
         <Dictionary isRef="1" />
         <Name>SalePart</Name>
@@ -323,7 +327,7 @@
                 <NegativePattern>1</NegativePattern>
                 <PositivePattern>0</PositivePattern>
               </TextFormat>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
             </Text14>
             <Text15 Ref="30" type="Text" isKey="true">
               <Brush>Transparent</Brush>
@@ -361,7 +365,7 @@
           <Components isList="true" count="18">
             <Text19 Ref="33" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.2,0.4,1.8,0.4</ClientRectangle>
+              <ClientRectangle>5.2,0.8,1.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,7,Bold</Font>
               <HorAlignment>Right</HorAlignment>
@@ -405,7 +409,7 @@
             </Text21>
             <Text22 Ref="37" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.2,0.8,1.8,0.4</ClientRectangle>
+              <ClientRectangle>5.2,0.4,1.8,0.4</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,7,Bold</Font>
               <HorAlignment>Right</HorAlignment>
@@ -684,10 +688,10 @@
   </ReferencedAssemblies>
   <ReportAlias>Report</ReportAlias>
   <ReportCacheMode>On</ReportCacheMode>
-  <ReportChanged>6/5/2021 8:38:50 PM</ReportChanged>
+  <ReportChanged>6/6/2021 7:26:26 PM</ReportChanged>
   <ReportCreated>6/10/2016 10:09:40 AM</ReportCreated>
   <ReportFile>C:\Users\jonyj\source\repos\DON_CUCOS_LITTLE_STORE\docs\Tabler.Docs.Server\Library\mrt\Ticket.mrt</ReportFile>
-  <ReportGuid>c573d8efe7734bd7b890bac2a5b7e7b6</ReportGuid>
+  <ReportGuid>cb497e4ca1064485a414bf621af45810</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.1.0</ReportVersion>

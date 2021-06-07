@@ -34,6 +34,29 @@ namespace Tabler.Docs.Models
                     new SqlParameter("DATE", DateTime.Now),
                     new SqlParameter("DESCRIPTION", Observations??String.Empty));
             Parts.ForEach(x => x.Save(this));
+            await SaveMovement();
+        }
+        private async Task SaveMovement()
+        {
+            Movement movement = new Movement
+            {
+                Concept = await MovementConcept.GetById(1),
+                Date = DateTime.Now,
+                Id = 0,
+                Observations = $"Compra #{this.Id}",
+                Type = 'E',
+                Parts = new List<MovementPart>(Parts.Select(x => new MovementPart('E')
+                {
+                    Id = 0,
+                    IdMovement = 0,
+                    InitiallyStock = x.Product.Stock,
+                    NewStockB = x.Product.Stock + x.Quantity,
+                    Type = 'E',
+                    Quantity = x.Quantity,
+                    Product = x.Product
+                }))
+            };
+            await movement.Save();
         }
         public static async Task<List<Buy>> GetAll()
         {

@@ -39,20 +39,20 @@ namespace Tabler.Docs.Data
                 directory.Create();
             }
             Kit.WPF.Tools.Init(directory.FullName);
-            Current.User = new User()
-            {
-                Id = 1,
-                Nickname = "CUCO",
-                Permissions = new Permissions()
-                {
-                    UserManager = true,
-                    ReadOnly = false,
-                    ReadReports = true,
-                    Sales = true,
-                    StockIn = true,
-                    StockOut = true
-                }
-            };
+            Current.User = new User();
+            //{
+            //    Id = 1,
+            //    Nickname = "CUCO",
+            //    Permissions = new Permissions()
+            //    {
+            //        UserManager = true,
+            //        ReadOnly = false,
+            //        ReadReports = true,
+            //        Sales = true,
+            //        StockIn = true,
+            //        StockOut = true
+            //    }
+            //};
         }
 
         public static async Task<string> Compress(IBrowserFile file)

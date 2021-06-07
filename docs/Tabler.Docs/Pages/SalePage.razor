@@ -102,6 +102,12 @@
                                                             <Icon class="icon" Elements="@DemoIcons.Alert_triangle" />
 
                                                         }
+                                                        @if (product.HasDisscount)
+                                                        {
+                                                            <div class="col-md-4">
+                                                                <label style="color:darkred">@string.Concat(product.Disccount,'%'," Off")</label>
+                                                            </div>
+                                                        }
                                                     </p>
                                                 </div>
                                             </div>
@@ -142,7 +148,7 @@
                             <div style="display: flex">
 
                                 <Select Items="Model.Customers" @bind-SelectedValue="@Model.Sale.Customer"
-                                        TextExpression="e => e.Name" ValueExpression="e=>e" Clearable />
+                                        TextExpression="e => e?.Name" ValueExpression="e=>e" Clearable />
 
                                 <Button BackgroundColor="TablerColor.Green" OnClick="CustomerSearch">
                                     <Icon class="icon" Elements="@InternalIcons.Search" />
@@ -167,6 +173,10 @@
                                 <Button BackgroundColor="TablerColor.Green" OnClick="ChangeUser">
                                     <Icon class="icon" Elements="@DemoIcons.Login" />
                                 </Button>
+                                <Button BackgroundColor="TablerColor.Info" OnClick="CorteZ">
+                                    <label>Corte Z</label>
+                                    <Icon class="icon" Elements="@DemoIcons.Ticket"/>
+                                </Button>
                             </div>
 
                         </div>
@@ -186,9 +196,17 @@
                         </Column>
                         <Column Item="SalePart" Property="e => e.Product.Name" Title="Nombre" Sortable Searchable Groupable />
 
-                        <Column Item="SalePart" Property="e => e.Price" Title="Precio" Sortable Searchable Groupable>
+                        <Column Item="SalePart" Property="e => e.Product.Price" Title="Precio" Sortable Searchable Groupable>
                             <Template>
-                                <b>@context.Price.ToString("C2")</b>
+                                @if (context.Product.HasDisscount)
+                                {
+                                    <p>@context.Product.DisccountPrice.ToString("C2")</p>
+                                    <b style="text-decoration: line-through;color:darkred">@context.Product.Price.ToString("C2")</b>
+                                }
+                                else
+                                {
+                                    <b>@context.Product.Price.ToString("C2")</b>
+                                }
                             </Template>
                         </Column>
                         <Column Item="SalePart" Property="e => e.Quantity" Title="Qty." Sortable Searchable Groupable>
@@ -208,7 +226,16 @@
                         </Column>
                         <Column Item="SalePart" Property="e => e.Total" Title="Total" Sortable Searchable Groupable>
                             <Template>
-                                <b>@context.Total.ToString("C2")</b>
+                                @if (context.Product.HasDisscount)
+                                {
+                                    <p>@context.DisccountTotal.ToString("C2")</p>
+                                    <b style="text-decoration: line-through;color:darkred">@context.Total.ToString("C2")</b>
+                                }
+                                else
+                                {
+                                    <b>@context.Total.ToString("C2")</b>
+                                }
+
                             </Template>
                         </Column>
                     </ChildContent>
@@ -217,7 +244,15 @@
 
                     <div style="display: block;">
                         <b style="font-size: 18px">Total:</b>
-                        <b>@Model.Sale.Total.ToString("C2")</b>
+                        @if (Model.Sale.HasDisscount)
+                        {
+                            <b >@Model.Sale.DisccountTotal.ToString("C2")</b>
+                            <b style="text-decoration: line-through;color:darkred">@Model.Sale.Total.ToString("C2")</b>
+                        }
+                        else
+                        {
+                            <b>@Model.Sale.Total.ToString("C2")</b>
+                        }
                     </div>
                     <div>
                         <Button style="align-self: flex-end; margin: 3px;" class="col-md-4" @onclick="() => EndSale()" BackgroundColor="TablerColor.Green">
@@ -352,6 +387,10 @@
     }
 
 
+    private  void CorteZ()
+    {
+        Reports.CorteZ();
+    }
     private async void ChangeUser()
     {
         var component = new RenderComponent<QuickLogin>();

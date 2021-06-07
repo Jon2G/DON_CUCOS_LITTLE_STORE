@@ -17,7 +17,7 @@ namespace Tabler.Docs.Models
         public User User { get; set; }
         public MovementConcept Concept { get; set; }
         public char Type { get; set; }
-        public DateTime Date_m { get; set; }
+        public DateTime Date { get; set; }
         public string Observations { get; set; }
 
         public List<MovementPart> Parts { get; set; }
@@ -63,7 +63,7 @@ namespace Tabler.Docs.Models
                         Concept = await MovementConcept.GetById(Convert.ToInt32(reader[1])),
                         User = await User.GetById(Convert.ToInt32(reader[2])),
                         Type = Convert.ToChar(reader[3]),
-                        Date_m = Convert.ToDateTime(reader[4]),
+                        Date = Convert.ToDateTime(reader[4]),
                         Observations = Convert.ToString(reader[5])
                     };
                 }

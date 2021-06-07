@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Tabler.Docs.Components.Icons
+@using Tabler.Docs.Interfaces
+@using Tabler.Docs.ViewModels
+
+<div class="row">
+
+    <div class="col-lg-6" style="width: 50%">
+        <Datepicker Inline="true" SelectedDate="Rango.Inicio" Label="Desde" />
+    </div>
+
+    <div class="col-lg-6" style="width: 50%">
+        <Datepicker Inline="true" SelectedDate="Rango.Fin" Label="Hasta" />
+    </div>
+    <div>
+        <label>Todas las fechas:</label>
+        <Checkbox Switch="true" Value="Rango.TodasLasFechas"/>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <a @onclick="Cancel" class="btn btn-link link-secondary" data-dismiss="modal">
+        Cancelar
+    </a>
+    <a @onclick="Confirm" class="btn btn-primary ms-auto" data-dismiss="modal">
+        <Icon class="icon" Elements="@DemoIcons.Message_report" />
+        Confirmar
+    </a>
+</div>
+@using System.IO
+@using Kit.Extensions
+@using Kit.WPF.Controls.RangoFechas
+@using Kit.WPF.Extensions
+@using Tabler.Docs.Models
+@inject IModalService ModalService
+@code {
+    Rango Rango { get; set; }
+
+    public DateFilter()
+    {
+        Rango = new Rango();
+        Rango.Fin=DateTime.Now.AddDays(7);
+    }
+
+    private void Confirm()
+    {
+        ModalService.Close(ModalResult.Ok(Rango));
+    }
+
+    private void Cancel()
+    {
+        ModalService.Close(ModalResult.Cancel());
+    }
+
+}
