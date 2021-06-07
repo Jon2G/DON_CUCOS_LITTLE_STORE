@@ -73,7 +73,12 @@
         (sender as IRefresh).Refreshed -= Refreshed;
         StateHasChanged();
     }
-
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
     [Parameter] public int CustomerId { get; set; }
     private async Task Confirm()
     {
@@ -89,9 +94,17 @@
 
         if (!result.Cancelled)
         {
-            Model.Customer.Save();
+            if (Model.Customer.Name == null || Model.Customer.Picture == null)
+            {
+                await Error("Ningun campo debe estar vacio");
+                return;
+            }
+            else
+            {
+                Model.Customer.Save();
 
-            ModalService.Close(ModalResult.Ok());
+                ModalService.Close(ModalResult.Ok());
+            }
         }
     }
 

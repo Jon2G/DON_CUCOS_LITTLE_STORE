@@ -96,9 +96,16 @@
         (sender as IRefresh).Refreshed -= Refreshed;
         StateHasChanged();
     }
+    private Task Error(string error)
+    {
+        return ModalService.ShowAsync($"Alerta",
+            new RenderComponent<DialogTest>().Set(x => x.Line1, error),
+            new ModalOptions { StatusColor = TablerColor.Danger, BlurBackground = true });
+    }
     [Parameter] public int UserId { get; set; }
     private async Task Confirm()
     {
+
         string message = "¿Dar de alta este usuario?";
         if (this.Model.Usuario.Id > 0)
         {
@@ -111,8 +118,16 @@
 
         if (!result.Cancelled)
         {
-            await Model.Usuario.Save();
-            ModalService.Close(ModalResult.Ok());
+            if (Model.Usuario.Nickname==null|| Model.Usuario.Name== null||Model.Usuario.Password== null || Model.Usuario.Picture== null)
+            {
+                await Error("Ningun campo debe estar vacio");
+                return;
+            }else
+            {
+                await Model.Usuario.Save();
+                ModalService.Close(ModalResult.Ok());
+            }
+
         }
     }
 
