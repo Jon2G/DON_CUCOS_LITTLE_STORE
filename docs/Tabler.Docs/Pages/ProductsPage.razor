@@ -88,24 +88,30 @@ else
                                         @if (!AppData.Current.User.Permissions.ReadOnly)
                                         {
 
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <Button @onclick="() => ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
-                                                        <Icon class="icon" Elements="@DemoIcons.Pencil" />
-                                                    </Button>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <Button @onclick="() => Delete(product.Id)" BackgroundColor="TablerColor.Danger">
-                                                        <Icon class="icon" Elements="@DemoIcons.Trash" />
-                                                    </Button>
-                                                </div>
-                                                @if (!product.HasStock)
-                                                {
-                                                    <div class="col-md-4">
-                                                        <Icon class="icon" Elements="@DemoIcons.Alert_triangle" />
-                                                    </div>
-                                                }
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <Button @onclick="() => ShowModal(product.Id)" BackgroundColor="TablerColor.Green">
+                                                <Icon class="icon" Elements="@DemoIcons.Pencil" />
+                                            </Button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <Button @onclick="() => Delete(product.Id)" BackgroundColor="TablerColor.Danger">
+                                                <Icon class="icon" Elements="@DemoIcons.Trash" />
+                                            </Button>
+                                        </div>
+                                        @if (!product.HasStock)
+                                        {
+                                            <div class="col-md-4">
+                                                <Icon class="icon" Elements="@DemoIcons.Alert_triangle" />
                                             </div>
+                                        }
+                                        @if (product.HasDisscount)
+                                        {
+                                            <div class="col-md-4">
+                                                <label style="color:darkred">@string.Concat(product.Disccount,'%'," Off")</label>
+                                            </div>
+                                        }
+                                    </div>
 
 
 

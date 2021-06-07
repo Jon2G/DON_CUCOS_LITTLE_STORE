@@ -36,13 +36,21 @@ namespace PrintService
                     xml_tables.RemoveAt(0);
                     foreach (string file in xml_tables)
                     {
-                        string xml = File.ReadAllText($"{Tools.Instance.LibraryPath}\\{file}");
+                        string path = $"{Tools.Instance.LibraryPath}\\{file}";
+                        string xml = File.ReadAllText(path);
+                        File.Delete(path);
                         tables.Add(new Variable(xml.XmlDeserializeFromString<DataTable>()));
                     }
                     switch (args[1])
                     {
                         case "PrintTicket":
                             Reports.PrintTicket(tables.ToArray());
+                            break;
+                        case "SalesReport":
+                            Reports.SalesReport(tables.ToArray());
+                            break;
+                        case "CorteZ":
+                            Reports.CorteZ(tables.ToArray());
                             break;
                     }
                 }

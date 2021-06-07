@@ -69,6 +69,7 @@ namespace Tabler.Docs.Models
 
         public bool Disabled { get; set; }
         public bool HasStock => Stock > 0;
+        public bool HasDisscount => Disccount > 0;
 
         public Product() { }
 

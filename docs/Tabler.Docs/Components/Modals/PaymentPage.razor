@@ -7,7 +7,7 @@
 
     <div class="col-sm-12" style="text-align: end; font-size: 20px; font-weight: 600;">
         <label>Total</label>
-        <label>@Model.Sale.Total.ToString("C2")</label>
+        <label>@((Model.Sale.HasDisscount? Model.Sale.DisccountTotal: Model.Sale.Total).ToString("C2"))</label>
     </div>
 </div>
 <div class="row" style="margin: 5px;">
@@ -94,7 +94,7 @@
                  new ModalOptions { StatusColor = TablerColor.Info, BlurBackground = true });
             return;
         }
-        Model.Sale.Confirm();
+        await Model.Sale.Confirm();
         if (Model.Sale.Change > 0)
         {
             await ToastService.AddToastAsync(new ToastModel

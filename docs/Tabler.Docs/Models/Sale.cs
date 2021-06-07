@@ -18,13 +18,15 @@ namespace Tabler.Docs.Models
         public List<SalePart> Parts { get; set; }
         public Payment Payment { get; set; }
         public float Total => Parts.Sum(x => x.Total);
+        public float DisccountTotal => Parts.Sum(x => x.DisccountTotal);
+        public bool HasDisscount => Parts.Any(x => x.HasDisscount);
         public float Payed => Payment.Total;
 
         public float ToPay
         {
             get
             {
-                var topay = Total - Payment.Total;
+                var topay = HasDisscount ? DisccountTotal - Payment.Total : Total - Payment.Total;
                 if (topay < 0)
                 {
                     topay = 0;
@@ -32,8 +34,8 @@ namespace Tabler.Docs.Models
                 return topay;
             }
         }
-        public float Change => Payed - Total;
-        public string Letters => Kit.Extensions.Helpers.EnLetra((decimal)Total, "", true, "MXN");
+        public float Change => Payed - (HasDisscount ? DisccountTotal : Total);
+        public string Letters => Kit.Extensions.Helpers.EnLetra((decimal)(HasDisscount ? DisccountTotal : Total), "", true, "MXN");
         public Sale()
         {
             Parts = new List<SalePart>();
@@ -54,14 +56,39 @@ namespace Tabler.Docs.Models
             }
         }
 
-        public void Confirm()
+        public async Task Confirm()
         {
+            this.Date = DateTime.Now;
             this.Save();
             this.Payment.Save(this);
             foreach (var part in Parts)
             {
                 part.Save(this);
             }
+            await SaveMovement();
+        }
+
+        private async Task SaveMovement()
+        {
+            Movement movement = new Movement
+            {
+                Concept = await MovementConcept.GetById(4),
+                Date = DateTime.Now,
+                Id = 0,
+                Observations = $"Ticket #{this.Id}",
+                Type = 'S',
+                Parts = new List<MovementPart>(Parts.Select(x => new MovementPart('S')
+                {
+                    Id = 0,
+                    IdMovement = 0,
+                    InitiallyStock = x.Product.Stock,
+                    NewStockB = x.Product.Stock - x.Quantity,
+                    Type = 'S',
+                    Quantity = x.Quantity,
+                    Product = x.Product
+                }))
+            };
+            await movement.Save();
         }
 
         private void Save()
@@ -73,6 +100,7 @@ namespace Tabler.Docs.Models
             this.Id = AppData.SQL.Single<int>("SP_SAVE_SALE", CommandType.StoredProcedure,
                 new SqlParameter("CUSTOMER_ID", this.Customer.Id),
                 new SqlParameter("USER_ID", this.User.Id),
+                new SqlParameter("CHANGE", this.Change),
                 new SqlParameter("TOTAL", this.Total));
         }
     }
