@@ -150,6 +150,10 @@
                                 <Button BackgroundColor="TablerColor.Green" OnClick="AddCustomer">
                                     <Icon class="icon" Elements="@InternalIcons.Circle_plus" />
                                 </Button>
+                                <Button class="col-md-2" BackgroundColor="TablerColor.Blue" OnClick="AddCustomer">
+                                    Reporte de  semanal
+                                    <Icon class="icon" Elements="@InternalIcons.Calendar" />
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -199,8 +203,6 @@
                                         <Icon class="icon" Elements="@DemoIcons.Plus" />
                                     </Button>
                                     <input style="margin-left: 5px; width: 70px;" class="col-md-4" @bind="context.Quantity" />
-
-
                                 </div>
                             </Template>
                         </Column>
