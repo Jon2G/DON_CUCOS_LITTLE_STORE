@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CucoStore.Docs.Data;
 using CucoStore.Docs.Interfaces;
 using CucoStore.Docs.Models;
+using Customer = CucoStore.Docs.Models.Customer;
 
 namespace CucoStore.Docs.ViewModels
 {
@@ -38,7 +40,10 @@ namespace CucoStore.Docs.ViewModels
             this.GroupLine = new GroupLine(new Category());
             this.Customers = new List<Customer>();
             this.Lines = new List<GroupLine>();
-            this.Sale = new Sale();
+            this.Sale = new Sale()
+            {
+                User = AppData.Current.User
+            };
         }
 
 

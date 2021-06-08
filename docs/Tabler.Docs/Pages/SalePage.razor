@@ -393,6 +393,7 @@
         var result = await ModalService.ShowAsync("Cambio de usuario", component, new ModalOptions { Size = ModalSize.Small });
         if (!result.Cancelled)
         {
+            Model.Sale.User = AppData.Current.User;
             await Refresh();
             StateHasChanged();
         }
