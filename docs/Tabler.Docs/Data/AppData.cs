@@ -32,7 +32,8 @@ namespace CucoStore.Docs.Data
         public static void Init()
         {
             Current = new AppData();
-            SQL = new SQLServerConnection("DON_CUCO", ".\\SQLXEXPRESS", "1433", "sa", "12345678");
+            SQL = new SQLServerConnection("DON_CUCO", ".\\SQLXEXPRESS",
+                "1433", "sa", "12345678");
             DirectoryInfo directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Library");
             if (!directory.Exists)
             {
