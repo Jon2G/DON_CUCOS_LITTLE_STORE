@@ -43,6 +43,7 @@
     </a>
 </div>
 @using System.IO
+@using CucoStore.Docs.Models
 @using Kit.Extensions
 @using Kit.WPF.Extensions
 @inject IModalService ModalService
@@ -55,6 +56,7 @@
         {
             ModalService.Close(ModalResult.Ok());
         }
+        Model.User = new User();
     }
     private void Cancel()
     {
