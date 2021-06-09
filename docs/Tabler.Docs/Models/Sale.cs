@@ -35,7 +35,7 @@ namespace CucoStore.Docs.Models
             }
         }
         public float Change => Payed - (HasDisscount ? DisccountTotal : Total);
-        public string Letters => Kit.Extensions.Helpers.EnLetra((decimal)(HasDisscount ? DisccountTotal : Total), "", true, "MXN");
+        public string Letters =>Kit.Helpers.EnLetra((decimal)(HasDisscount ? DisccountTotal : Total), "", true, "MXN");
         public Sale()
         {
             Parts = new List<SalePart>();
