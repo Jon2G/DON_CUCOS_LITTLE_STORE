@@ -241,6 +241,7 @@ GO
 INSERT INTO PAY_WAYS (NAME) VALUES('Cash');
 INSERT INTO PAY_WAYS (NAME) VALUES('Vale');
 INSERT INTO PAY_WAYS (NAME) VALUES('Card');
+--Loguea al usuario pidiendo como parametros Nickname y Password y desencriptando a su vez la contraseña para validarla 
 GO
 CREATE PROCEDURE SP_LOGIN (@NICKNAME VARCHAR(100), @PASSWORD NVARCHAR(50))
 AS
@@ -266,6 +267,8 @@ BEGIN
 			SELECT 0 AS 'LOGIN_STATUS';
 	END;
 GO
+--Registra y/o Actualiza al usuario pidiendo como parametros nickname,contraseña,Nobre y una imagen. 
+--- Encripta la contraseña por seguridad del ususario
 CREATE PROCEDURE SP_REGISTER(@NICKNAME VARCHAR(100), @PASSWORD NVARCHAR(50),@NAME VARCHAR(100),@PICTURE VARCHAR(MAX),@ENABLED BIT,@ID INT)
 AS
 BEGIN
@@ -302,55 +305,64 @@ GO
 
 -------PRODUCTS--------
 GO
+--Obtiene la existencia de un producto mendante su Id
 CREATE PROCEDURE SP_GETSTOCK(@ID INT)
 AS
 BEGIN
 SELECT STOCK FROM PRODUCTS WHERE ID=@ID
 END;
 GO
+---Obtiene los productos donde DISABLED sea igual a cero y ordnandolos por su nombre
 CREATE PROCEDURE SP_GET_PRODUCTS
 AS
 BEGIN
 	SELECT * FROM PRODUCTS WHERE DISABLED=0 ORDER BY NAME
 END;
 GO
+---Obtiene los productos por su codigo,donde DISABLED sea igual a cero y ordnandolos por su nombre
 CREATE PROCEDURE SP_FIND_PRODUCT(@CODE VARCHAR(100))
 AS
 BEGIN
 	SELECT * FROM PRODUCTS WHERE DISABLED=0 AND CODE=@CODE ORDER BY NAME
 END;
 GO
+---Obtiene todos los productos de la tabla Products
 CREATE PROCEDURE SP_GET_PRODUCT_BY_ID (@ID INT)
 AS
 BEGIN
 	SELECT *FROM PRODUCTS WHERE ID=@ID
 END
 GO
+---Procedure para la busqueda de un producto donde el patrón del codigo o del nombre coincida
 CREATE PROCEDURE SP_SEARCH_PRODUCT(@SEARCH VARCHAR(200))
 AS
 BEGIN
 	SELECT * FROM PRODUCTS WHERE DISABLED=0 AND CODE LIKE '%'+@SEARCH+'%' OR NAME LIKE '%'+@SEARCH+'%' ORDER BY NAME
 END;
 GO
+---Obtiene los productos de una categoria 
 CREATE PROCEDURE SP_GET_PRODUCTS_BY_CATEGORY(@CATEGORY_ID INT)
 AS
 BEGIN
 SELECT * FROM PRODUCTS WHERE DISABLED=0 AND CATEGORY_ID=@CATEGORY_ID ORDER BY NAME
 END;
 GO
+---Obtiene los productos por la categoria buscada 
 CREATE PROCEDURE SP_GET_PRODUCTS_BY_CATEGORY_FIND(@CATEGORY_ID INT,@SEARCH VARCHAR(MAX))
 AS
 BEGIN
 SELECT * FROM PRODUCTS WHERE DISABLED=0 AND CATEGORY_ID=@CATEGORY_ID AND NAME LIKE '%'+@SEARCH+'%' ORDER BY NAME
 END;
 GO
+--Obtiene las categorias y las ordena por su descripcion
 CREATE PROCEDURE SP_GET_CATEGORIES
 AS
 BEGIN
 	SELECT *FROM CATEGORIES order by DESCRIPTION
 END;
 GO
-CREATE PROCEDURE SP_FIND_CATEGORIES (@SEARCH VARCHAR(MAX))
+--Busca las categorias donde el patrón de la descripción categoria o de la descripción del producto coincida ordenandolos por su descripción
+CREATE PROCEDURE SP_FIND_CATEGORIES (@SEARCH VARCHAR(MAX)) 
 AS
 BEGIN
 	SELECT DISTINCT CATEGORIES.ID,CATEGORIES.DESCRIPTION FROM CATEGORIES 
@@ -358,24 +370,28 @@ BEGIN
 	WHERE CATEGORIES.DESCRIPTION LIKE '%'+@SEARCH+'%' OR PRODUCTS.DESCRIPTION LIKE '%'+@SEARCH+'%' order by CATEGORIES.DESCRIPTION,CATEGORIES.ID
 END;
 GO
+---Obtiene los categoria por la descripción 
 CREATE PROCEDURE SP_GET_CATEGORY_BY_NAME (@NAME VARCHAR(100))
 AS
 BEGIN
 	SELECT *FROM CATEGORIES WHERE DESCRIPTION=@NAME
 END;
 GO
+---Obtiene los categoria por el Id 
 CREATE PROCEDURE SP_GET_CATEGORY_BY_ID (@ID INT)
 AS
 BEGIN
 	SELECT *FROM CATEGORIES WHERE ID=@ID
 END;
 GO
+---Obtiene todos los provedores de la tabla SUPPLIERS
 CREATE PROCEDURE SP_GET_SUPPLIERS
 AS
 BEGIN
 	SELECT *FROM SUPPLIERS
 END;
 GO
+---Registra y actualizacion de productos con los paramentros de id en caso de actulizar,codigo,nombre,etc...
 CREATE PROCEDURE SP_ABC_PRODUCT (@ID INT,@CODE VARCHAR(100),@NAME VARCHAR(100),@DESCRIPTION VARCHAR(MAX),
 @CATEGORY_ID INT,@SUPPLIER_ID INT,@UNIT VARCHAR(100),@IMAGE VARCHAR(MAX),@STOCK REAL,@MINIMUM REAL,@MAXIMUM REAL,
 @PRICE REAL,@DISABLED BIT,@DISCCOUNT REAL)
@@ -393,6 +409,7 @@ BEGIN
 	END
 END;
 GO
+---Registra y actualizacion de categosrias con los paramentros de id en caso de actulizar,descripción e imagen
 CREATE PROCEDURE SP_ABC_CATEGORY (@ID INT,@DESCRIPTION VARCHAR(100),@PICTURE VARCHAR(MAX))
 AS
 BEGIN
@@ -420,48 +437,56 @@ SELECT * FROM PRODUCTS WHERE STOCK >= MAXIMUM OR STOCK <= MINIMUM;
 GO
 -----MOVEMENTS-----
 GO
+---Obtiene todos las compras de la tabla BUYS mediante su Id
 CREATE PROCEDURE SP_GET_BUY_BY_ID(@ID INT)
 AS
 BEGIN
 SELECT * FROM BUYS WHERE ID =@ID;
 END;
 GO
+---Obtiene todos los movimientos de la tabla MOVEMENTS
 CREATE PROCEDURE SP_GET_MOVEMENT(@ID INT)
 AS
 BEGIN
 SELECT * FROM MOVEMENTS WHERE ID =@ID;
 END;
 GO
+---Obtiene todos las partes de los movimientos de la tabla MOVEMENT_PARTS
 CREATE PROCEDURE SP_GET_MOVEMENTPART_BY_ID(@ID INT)
 AS
 BEGIN
 SELECT * FROM MOVEMENT_PARTS WHERE ID=@ID;
 END;
 GO
+---Obtiene todos las partes de las compras de la tabla BUY_PARTS
 CREATE PROCEDURE SP_GET_BUY_PART_BY_ID(@ID INT)
 AS
 BEGIN
 SELECT * FROM BUY_PARTS WHERE ID=@ID;
 END;
 GO
+---Obtiene todos las partes de las compras de la tabla BUY_PARTS ????????? Esta repetido?
 CREATE PROCEDURE SP_GET_BUY_PARTS_BY_ID(@ID INT)
 AS
 BEGIN
 SELECT * FROM BUY_PARTS WHERE BUY_ID=@ID;
 END;
 GO
+-----????????? Esta repetido?
 CREATE PROCEDURE SP_GET_MOVEMENTPART(@ID INT)
 AS
 BEGIN
 SELECT * FROM MOVEMENT_PARTS WHERE MOVEMENT_ID=@ID;
 END;
 GO
+---Obtiene todos los conceptos de la tabla MOVEMENT_CONCEPT 
 CREATE PROCEDURE SP_GET_MOVEMENTCONCEPT(@ID INT)
 AS
 BEGIN
 SELECT * FROM MOVEMENT_CONCEPT WHERE ID =@ID;
 END;
 GO
+---Registra las compras con los paramentros de id del usuario,fecha y descripción
 CREATE PROCEDURE SP_ADD_BUY(
 @USER_ID INT,
 @DATE DATETIME,
@@ -473,6 +498,8 @@ BEGIN
 	SELECT SCOPE_IDENTITY();
 END;
 GO
+---Registra las partes de las compras con los paramentros de id del movimeinto,id del producto y cantidad
+--ademas de que ajusta la existencia de los productos que s even afectados por los movimientos 
 CREATE PROCEDURE SP_ADD_BUY_PARTS(
 @BUY_ID INT,
 @PRODUCT_ID INT,
@@ -488,6 +515,7 @@ BEGIN
 	SELECT SCOPE_IDENTITY();
 END;
 GO
+---Registra los movimentos con los paramentros de id del usuario,id del concepto,tipo,fecha y descripción
 CREATE PROCEDURE SP_ADD_MOVEMENT(
 @USER_ID INT,
 @MOVEMENT_CONCEPT_ID INT,
@@ -501,6 +529,8 @@ BEGIN
 	SELECT SCOPE_IDENTITY();
 END;
 GO
+---Registra las partes de los  movimentos con los paramentros de id del movimeinto,id del producto y cantidad
+--ademas de que ajusta la existencia de los productos que s even afectados por los movimientos 
 CREATE PROCEDURE SP_ADD_MOVENT_PARTS(
 @MOVEMENT_ID INT,
 @PRODUCT_ID INT,
@@ -522,6 +552,7 @@ BEGIN
 	SELECT SCOPE_IDENTITY();
 END;
 GO
+---Registra los conceptos de movimientos con los paramentros de tag,descripción y tipo
 CREATE PROCEDURE SP_ADD_MOVEMENTCONCEPT(
 @TAG VARCHAR(10),
 @DESCRIPTION VARCHAR(100),
@@ -532,24 +563,29 @@ INSERT INTO MOVEMENT_CONCEPT (TAG,DESCRIPTION,TYPE)
 	VALUES(@TAG,@DESCRIPTION,@TYPE);
 END;
 GO
+---Obtiene todos las compras de la tabla BUYS
 CREATE VIEW VIEW_GET_ALL_BUYS
 AS
 SELECT * FROM BUYS ;
 GO
+---Obtiene todos los movimientos de la tabla MOVEMENTS
 CREATE VIEW VIEW_GETALLMOVEMENTS
 AS
 SELECT * FROM MOVEMENTS ;
 GO
+---Obtiene todos los conceptos de movimientos de la tabla MOVEMENT_CONCEPT
 CREATE VIEW VIEW_GETALLMOVEMENTCONCEPT
 AS
 SELECT * FROM MOVEMENT_CONCEPT ;
 GO
 GO
+---Obtiene todos las partes de los movimientos de la tabla MOVEMENT_PARTS
 CREATE VIEW VIEW_GETALLMOVEMENTPART
 AS
 SELECT * FROM MOVEMENT_PARTS ;
 -----CUSTOMER-----
 GO
+---Registra y actualizacion de categosrias con los paramentros de id en caso de actulizar,notas e imagen ademas de enabled para eliminar al cliente
 CREATE PROCEDURE SP_ABC_CUSTOMER (@ID INT, @NAME VARCHAR(100),@NOTES VARCHAR(MAX),@PICTURE VARCHAR(MAX),@ENABLED BIT)
 AS
 BEGIN
@@ -562,6 +598,7 @@ BEGIN
 	END
 END;
 GO
+---Obtiene los clientes de la tabla CUSTOMERS mediante su id
 CREATE PROCEDURE SP_SEARCHCUSTOMER(@ID INT)
 AS
 BEGIN
@@ -569,6 +606,7 @@ SELECT * FROM CUSTOMERS WHERE ID= @ID;
 END;
 
 GO
+---Obtiene todos los clientes de la tabla CUSTOMERS que no esten eliminados
 CREATE VIEW VIEW_GETALL
 AS
 SELECT * FROM CUSTOMERS WHERE ENABLED= 0;
@@ -576,6 +614,7 @@ SELECT * FROM CUSTOMERS WHERE ENABLED= 0;
 
 -----Supplier----
 GO
+------Registra y actualizacion de proveedores con los paramentros de id en caso de actulizar,nombre,telefono,etc...
 CREATE PROCEDURE SP_ABC_SUPPLIERS(@ID INT,@NAME VARCHAR(100),@CELLPHONE VARCHAR(100),@NOTES VARCHAR(MAX),@PICTURE VARCHAR(MAX),@ENABLED BIT)
 AS
 BEGIN
@@ -588,10 +627,12 @@ BEGIN
 	END
 END;
 GO
+---Obtiene a todos los proveedores de la tabla SUPPLIERS
 CREATE VIEW VIEW_GETALLSUPPLIERS
 AS
 SELECT * FROM SUPPLIERS WHERE ENABLED=0;
 GO
+---Obtiene a  los proveedores de la tabla SUPPLIERS mediante su Id
 CREATE PROCEDURE SP_GETIDSUPPLIERS(@ID INT)
 AS
 SELECT * FROM SUPPLIERS WHERE ID=@ID;
