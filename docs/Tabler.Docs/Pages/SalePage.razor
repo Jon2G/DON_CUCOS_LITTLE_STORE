@@ -169,10 +169,10 @@
                                 <Button BackgroundColor="TablerColor.Green" OnClick="ChangeUser">
                                     <Icon class="icon" Elements="@DemoIcons.Login" />
                                 </Button>
-                                <Button BackgroundColor="TablerColor.Info" OnClick="CorteZ">
+                                @*<Button BackgroundColor="TablerColor.Info" OnClick="CorteZ">
                                     <label>Corte Z</label>
                                     <Icon class="icon" Elements="@DemoIcons.Ticket"/>
-                                </Button>
+                                </Button>*@
                             </div>
 
                         </div>
@@ -383,10 +383,10 @@
     }
 
 
-    private  void CorteZ()
-    {
-        Reports.CorteZ();
-    }
+    //private  void CorteZ()
+    //{
+    //    Reports.CorteZ();
+    //}
     private async void ChangeUser()
     {
         var component = new RenderComponent<QuickLogin>();

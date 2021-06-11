@@ -17,30 +17,30 @@
     }
 
 
-    private async void ReporteRegistroMovimientos()
-    {
-        var component = new RenderComponent<DateFilter>();
-        var result = await ModalService.ShowAsync("Registro de movimientos por usuario", component, new ModalOptions { Size = ModalSize.XLarge, Scrollable = false });
+    //private async void ReporteRegistroMovimientos()
+    //{
+    //    var component = new RenderComponent<DateFilter>();
+    //    var result = await ModalService.ShowAsync("Registro de movimientos por usuario", component, new ModalOptions { Size = ModalSize.XLarge, Scrollable = false });
 
-        if (!result.Cancelled)
-        {
-            Rango rango = result.Data as Rango;
-            if (rango is null) { return; }
-            Reports.MovementsRegister(rango);
-        }
-    }
-    private async void ReporteVentas()
-    {
-        var component = new RenderComponent<DateFilter>();
-        var result = await ModalService.ShowAsync("Reporte de ventas", component, new ModalOptions { Size = ModalSize.XLarge, Scrollable = false });
+    //    if (!result.Cancelled)
+    //    {
+    //        Rango rango = result.Data as Rango;
+    //        if (rango is null) { return; }
+    //        Reports.MovementsRegister(rango);
+    //    }
+    //}
+    //private async void ReporteVentas()
+    //{
+    //    var component = new RenderComponent<DateFilter>();
+    //    var result = await ModalService.ShowAsync("Reporte de ventas", component, new ModalOptions { Size = ModalSize.XLarge, Scrollable = false });
 
-        if (!result.Cancelled)
-        {
-            Rango rango = result.Data as Rango;
-            if (rango is null) { return; }
-            Reports.SalesReport(rango);
-        }
-    }
+    //    if (!result.Cancelled)
+    //    {
+    //        Rango rango = result.Data as Rango;
+    //        if (rango is null) { return; }
+    //        //Reports.SalesReport(rango);
+    //    }
+    //}
 
 }
 <Navbar Darkmode>
@@ -74,10 +74,10 @@
                 <MenuItemIcon>
                     <Icon class="icon" Elements="@DemoIcons.Shopping_cart" />
                 </MenuItemIcon>
-                <SubMenu>
+                @*<SubMenu>
                     <NavbarMenuItem Text="Reporte de ventas" OnClick="()=>ReporteVentas()" />
                     <NavbarMenuItem Text="Registro de movimientos" OnClick="()=>ReporteRegistroMovimientos()" />
-                </SubMenu>
+                </SubMenu>*@
             </NavbarMenuItem>
         }
 

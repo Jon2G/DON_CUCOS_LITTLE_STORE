@@ -93,7 +93,8 @@ namespace CucoStore.Docs.Models
             if (Id <= 0) { return await Task.FromResult(new Product()); }
             await Task.Yield();
             Product producto = null;
-            using (IReader reader = AppData.SQL.Read("SP_GET_PRODUCT_BY_ID", CommandType.StoredProcedure, new SqlParameter("ID", Id)))
+            using (IReader reader = AppData.SQL.Read("SP_GET_PRODUCT_BY_ID", CommandType.StoredProcedure, 
+                new SqlParameter("ID", Id)))
             {
                 if (reader.Read())
                 {

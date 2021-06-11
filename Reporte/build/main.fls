@@ -1,0 +1,209 @@
+PWD c:\Users\jonyj\Desktop\New folder
+INPUT C:\Users\jonyj\AppData\Local\MiKTeX\2.9\miktex\data\le\xetex\xelatex.fmt
+INPUT c:\Users\jonyj\Desktop\New folder\main.tex
+OUTPUT c:\Users\jonyj\Desktop\New folder\build\main.log
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrreprt.cls
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrreprt.cls
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrkbase.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrkbase.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrbase.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrbase.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrlfile.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\tocbasic.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\tocbasic.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrsize11pt.clo
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\scrsize11pt.clo
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\typearea.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\koma-script\typearea.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\underscore\underscore.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\underscore\underscore.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\iftex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\iftex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\pdftexcmds\pdftexcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\pdftexcmds\pdftexcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifluatex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifluatex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdfescape.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdfescape.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\hycolor.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\hycolor.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\xcolor-patch.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\xcolor-patch.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\hopatch.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\hopatch.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\letltxmacro.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\letltxmacro.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\intcalc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\intcalc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\url.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\url.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\adobe\zapfding\pzdr.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\bitset.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\bitset.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\bigintcalc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\bigintcalc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\atbegshi.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\atbegshi.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifpdf.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifpdf.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\hxetex.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\hxetex.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\puenc.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\puenc.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\stringenc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\stringenc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\atveryend.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\atveryend.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\uniquecounter.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\uniquecounter.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\babel.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\babel.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\switch.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\arabi\bblopts.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\arabi\bblopts.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\babel-english\english.ldf
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\babel-english\english.ldf
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\babel.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\xebabel.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\babel\txtbabel.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\xetex.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\xetex.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\multirow\multirow.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\multirow\multirow.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\caption\caption.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\caption\caption.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\caption\caption3.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\caption\caption3.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\se-ascii-print.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\se-ascii-print.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\se-ascii-print.def
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.aux
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.aux
+OUTPUT c:\Users\jonyj\Desktop\New folder\build\main.aux
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\refcount.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\refcount.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+OUTPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\bookmark.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\bookmark.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifxetex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifxetex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifvtex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\generic\iftex\ifvtex.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\bkm-dvipdfm.def
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\bkm-dvipdfm.def
+OUTPUT c:\Users\jonyj\Desktop\New folder\build\main.xdv
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.toc
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.toc
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmr10.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmr8.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmr6.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmmi10.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmmi8.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmmi6.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmsy10.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmsy8.tfm
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\fonts\tfm\public\cm\cmsy6.tfm
+OUTPUT c:\Users\jonyj\Desktop\New folder\build\main.toc
+INPUT Dislogico.jpeg
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT C:\Users\jonyj\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.sty
+INPUT Version 1 tabla.PNG
+INPUT boceto 1.jpg
+INPUT boceto 2.jpg
+INPUT boceto 3.jpg
+INPUT Login.PNG
+INPUT VENTAS.PNG
+INPUT TEMAOSCURO.PNG
+INPUT VENTAS.PNG
+INPUT VENTAS1.PNG
+INPUT VENTAS2.PNG
+INPUT VENTAS3.PNG
+INPUT VENTAS4.PNG
+INPUT VENTAS8.PNG
+INPUT VENTAS9.PNG
+INPUT ALTACATEGORIA.PNG
+INPUT CATEGORIAS.PNG
+INPUT PRODUCTOS1.PNG
+INPUT CLIENTES.PNG
+INPUT REGISTRARCLIENTE.PNG
+INPUT ALTAUSUARIO.PNG
+INPUT USUARIOPS.PNG
+INPUT ALTAPROVEEDOR.PNG
+INPUT PROVEEDORES.PNG
+INPUT COMPRAS.PNG
+INPUT CONFIRMAR.PNG
+INPUT NUEVACOMPRA.PNG
+INPUT CORTECAJA.PNG
+INPUT ENTRADA.PNG
+INPUT SALIDAS.PNG
+INPUT FILTROREPORTES.PNG
+INPUT REPORTEEXISTENCIA.PNG
+INPUT REPORTEMOVIMIENTOS1.PNG
+INPUT REPORTEVENTAS.PNG
+INPUT MOVIMIENTOS1.PNG
+INPUT MOVIMIENTOS2.PNG
+INPUT logico.png
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.aux
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
+INPUT c:\Users\jonyj\Desktop\New folder\build\main.out
